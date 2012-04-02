@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>allowPluginLinks</key>
+	<true/>
+	<key>bdToBookmarkAliasUpgrade</key>
+	<true/>
+	<key>createSpotlightIndex</key>
+	<true/>
+	<key>dbVersion</key>
+	<string>7</string>
+	<key>localWebAccess</key>
+	<false/>
+	<key>openWindows</key>
+	<array>
+		<dict>
+			<key>displayUUID</key>
+			<string>9de9103a-d8ee-454a-a7ee-f66245b2ad0e</string>
+			<key>drawerOpen</key>
+			<false/>
+			<key>openUUIDProperties</key>
+			<array>
+				<dict>
+					<key>itemUUID</key>
+					<string>9de9103a-d8ee-454a-a7ee-f66245b2ad0e</string>
+					<key>rulerVisible</key>
+					<false/>
+					<key>selectedRange</key>
+					<string>{0, 0}</string>
+					<key>visibleGlyphs</key>
+					<string>{0, 635}</string>
+					<key>zoomScale</key>
+					<real>1</real>
+				</dict>
+			</array>
+			<key>windowFrame</key>
+			<string>{{910, 343}, {1068, 731}}</string>
+		</dict>
+	</array>
+	<key>skIndexVersion</key>
+	<integer>6</integer>
+	<key>updatedFMPageToRealUTIs</key>
+	<true/>
+	<key>updatedSpecialPages3</key>
+	<true/>
+	<key>uuid</key>
+	<string>94a633ee-3d2b-47ed-b960-99a0e98f82bd</string>
+</dict>
+</plist>

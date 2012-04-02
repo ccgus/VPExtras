@@ -1,0 +1,77 @@
+/*
+    This is a sample VPWebExportScript which will spit out an RSS feed for all the pages
+*/
+
+var rss = "";
+var timeFormat = "%Y.%m.%d %I:%m %p"
+
+var baseURL = "http://flyingmeat.com/voodoopad/extras/rsswebexport/";
+
+function webExportWillBegin(contextDictionary) {
+    rss = rss + '<?xml version="1.0" encoding="UTF-8"?>\n'+ 
+'<rss version="2.0"\n' + 
+'  xmlns:content="http://purl.org/rss/1.0/modules/content/"\n' + 
+'  xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"\n' + 
+'  xmlns:dc="http://purl.org/dc/elements/1.1/"\n' + 
+'  xmlns:atom="http://www.w3.org/2005/Atom">\n' + 
+'  <channel>\n' + 
+'    <title>Sample Title</title>\n' + 
+'    <link>" + baseURL + "</link>\n' + 
+'    <atom:link href="' + baseURL + 'rss.xml" rel="self" type="application/rss+xml" />\n' + 
+'    <pubDate>" + formatDateForRSS(NSDate.date()) + "</pubDate>\n' + 
+'    <description>Sample Description.</description>\n';
+
+}
+
+function webExportWillMarkupAttributedStringForItem(contextDictionary, item, attributedString) {
+    return attributedString;
+}
+
+function webExportWillWriteHTMLForItem(contextDictionary, item, fileName, mutableHTMLString) {
+    
+    rss = rss + "  <item>\n" + 
+"    <title>" + escapeForXML(item.displayName()) + "</title>\n" + 
+"    <link>" + baseURL + escape(escapeForXML(fileName)) + "</link>\n" + 
+"    <description>" + escapeForXML(item.stringData()) + "</description>\n" +
+"    <guid>" + baseURL + escape(escapeForXML(fileName)) + "</guid>\n" + 
+"    <pubDate>" + formatDateForRSS(item.createdDate()) + "</pubDate>\n" + 
+"  </item>\n";
+    
+    if (item.key().isEqualToString("index")) {
+        
+        // let's add the rss link to our index page.
+        var searchRange = NSMakeRange(0, mutableHTMLString.length());
+        var headAddition = '<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml" />';
+        mutableHTMLString.replaceOccurrencesOfString_withString_options_range_("</head>", headAddition + "\n</head>", 0, searchRange);
+    }
+    
+    return mutableHTMLString;
+}
+
+function webExportDidEnd(contextDictionary) {
+
+    rss = rss + "  </channel>\n</rss>";
+    
+    var s = NSString.stringWithString(rss);
+    
+    var outputDirectoryURL = contextDictionary.outputDirectoryURL;
+    var urlToSaveTo = outputDirectoryURL.URLByAppendingPathComponent_("rss.xml");
+    s.writeToURL_atomically_encoding_error_(urlToSaveTo, true, NSUTF8StringEncoding, null);
+    
+
+}
+
+function escapeForXML(s) {
+    s = s.stringByReplacingOccurrencesOfString_withString_("&", "&amp;");
+    s = s.stringByReplacingOccurrencesOfString_withString_(">", "&gt;");
+    s = s.stringByReplacingOccurrencesOfString_withString_("<", "&lt;");
+    
+    return s;
+}
+
+
+function formatDateForRSS(d) {
+    var df = NSDateFormatter.alloc().init().autorelease();
+    df.setDateFormat("EE, dd MMM yyyy HH:mm:ss Z");
+    return df.stringFromDate(NSDate.date());
+}

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>aliases</key>
+	<array/>
+	<key>attributes</key>
+	<dict>
+		<key>documentBackgroundColor</key>
+		<data>
+		BAtzdHJlYW10eXBlZIHoA4QBQISEhAdOU0NvbG9yAISECE5TT2JqZWN0AIWE
+		AWMDhAJmZgEBhg==
+		</data>
+		<key>lastEditingComputerName</key>
+		<string>srv</string>
+		<key>lastEditingUserName</key>
+		<string>August Mueller</string>
+	</dict>
+	<key>categories</key>
+	<array/>
+	<key>createdDate</key>
+	<date>2012-01-22T18:06:31Z</date>
+	<key>dataHash</key>
+	<string>869dcb7e31d7c215bff55f3d67ba0670eb6c5efb</string>
+	<key>displayName</key>
+	<string>Sample Page Two</string>
+	<key>encrypted</key>
+	<string>No</string>
+	<key>key</key>
+	<string>sample page two</string>
+	<key>metaValues</key>
+	<dict/>
+	<key>modifiedDate</key>
+	<date>2012-01-22T18:06:43Z</date>
+	<key>shouldHighlightLinks</key>
+	<string>Yes</string>
+	<key>skipOnExport</key>
+	<string>No</string>
+	<key>uti</key>
+	<string>com.apple.rtfd</string>
+	<key>uuid</key>
+	<string>a2657b30-7e14-430f-8944-49e293717296</string>
+	<key>version</key>
+	<integer>1</integer>
+</dict>
+</plist>
