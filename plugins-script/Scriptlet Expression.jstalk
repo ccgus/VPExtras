@@ -1,0 +1,11 @@
+/*
+VPScriptMenuTitle = Insert Expression
+VPScriptSuperMenuTitle = Scriptlet
+*/
+
+    
+function main(windowController, document) {
+    var textView = [windowController textView];
+    [textView insertText:@"<%= <# #> %>"];
+    [textView selectNextTextPlaceholder:null];
+}

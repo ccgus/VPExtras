@@ -1,0 +1,19 @@
+
+function main(windowController, document) {
+    
+    var keys = document.nonAliasDisplayNames();
+    keys = keys.mutableCopy().autorelease();
+    
+    var textView = [windowController textView]
+    
+    var s = "";
+    
+    for (idx = 0; idx < keys.length(); idx++) {
+        var pageKey = keys[idx];
+        
+        s = s + pageKey + "\n";
+    }
+    
+    [textView insertText:s];
+    
+}

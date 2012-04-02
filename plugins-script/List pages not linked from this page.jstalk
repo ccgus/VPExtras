@@ -1,0 +1,24 @@
+
+function main(windowController, document) {
+    var keys = document.nonAliasDisplayNames();
+    
+    keys = keys.mutableCopy().autorelease();
+    
+    var textView = [windowController textView]
+    var pageKeys = document.linkedPageNamesInAttributedString(textView.textStorage());
+    
+    for (idx = 0; idx < pageKeys.length(); idx++) {
+        var pageKey = pageKeys[idx];
+        keys.removeObject(pageKey);
+    }
+    
+    var s = "";
+    
+    for (idx = 0; idx < keys.length(); idx++) {
+        var pageKey = keys[idx];
+        s = s + pageKey + "\n";
+    }
+    
+    [textView insertText:s];
+    
+}

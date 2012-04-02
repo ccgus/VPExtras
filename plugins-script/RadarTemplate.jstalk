@@ -1,0 +1,27 @@
+/*
+VPScriptMenuTitle = Insert Radar Bug Template
+*/
+function main(windowController, document) {
+    
+    var textView = [windowController textView];
+    var template = """Summary: 
+<# Provide a descriptive summary of the issue. #>
+
+Steps to Reproduce:
+<# In numbered format, detail the exact steps taken to produce the bug. #>
+
+Expected Results:
+<# Describe what you expected to happen when you executed the steps above. #>
+
+Actual Results:
+<# Explain what actually occurred when steps above were executed. #>
+
+Regression:
+<# Describe circumstances where the problem occurs or does not occur, such as software versions and/or hardware configurations. #>
+
+Notes:
+<# Provide additional information, such as references to related problems, workarounds and relevant attachments. #>""";
+
+    [textView insertText:template];
+    [textView selectNextTextPlaceholder:null];
+}

@@ -1,0 +1,8 @@
+/*
+VPScriptMenuTitle = Run Page as Scriptlet
+VPScriptSuperMenuTitle = Scriptlet
+*/
+
+function main(windowController, document) {
+    [windowController runScriptletsInCurrentPageAction:null];
+}

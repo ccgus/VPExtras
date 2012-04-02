@@ -1,0 +1,9 @@
+/*
+VPScriptMenuTitle = Insert PDF Page Break
+VPScriptSuperMenuTitle = Scriptlet
+*/
+
+function main(windowController, document) {
+    var textView = [windowController textView];
+    [textView insertText:@"<% writer.startNewPage() %>"];
+}
