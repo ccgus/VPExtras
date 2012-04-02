@@ -1,0 +1,290 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CC0F5556152A4D5900824A57 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC0F5555152A4D5900824A57 /* Cocoa.framework */; };
+		CC0F5560152A4D5900824A57 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CC0F555E152A4D5900824A57 /* InfoPlist.strings */; };
+		CC0F556E152A4F8E00824A57 /* VPBlogPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = CC0F556D152A4F8E00824A57 /* VPBlogPlugin.m */; };
+		CC0F5575152A511100824A57 /* VPBPaletteController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC0F5573152A511100824A57 /* VPBPaletteController.m */; };
+		CC0F5576152A511100824A57 /* VPBPaletteController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CC0F5574152A511100824A57 /* VPBPaletteController.xib */; };
+		CC0F5582152A5A8F00824A57 /* VPPlugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC0F5581152A5A8F00824A57 /* VPPlugin.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		CC0F5552152A4D5900824A57 /* VPBlog.vpplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VPBlog.vpplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC0F5555152A4D5900824A57 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		CC0F5558152A4D5900824A57 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		CC0F5559152A4D5900824A57 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		CC0F555A152A4D5900824A57 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		CC0F555D152A4D5900824A57 /* VPBlog-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "VPBlog-Info.plist"; sourceTree = "<group>"; };
+		CC0F555F152A4D5900824A57 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CC0F5561152A4D5900824A57 /* VPBlog-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VPBlog-Prefix.pch"; sourceTree = "<group>"; };
+		CC0F556C152A4F8E00824A57 /* VPBlogPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPBlogPlugin.h; sourceTree = "<group>"; };
+		CC0F556D152A4F8E00824A57 /* VPBlogPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VPBlogPlugin.m; sourceTree = "<group>"; };
+		CC0F5572152A511100824A57 /* VPBPaletteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPBPaletteController.h; sourceTree = "<group>"; };
+		CC0F5573152A511100824A57 /* VPBPaletteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VPBPaletteController.m; sourceTree = "<group>"; };
+		CC0F5574152A511100824A57 /* VPBPaletteController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VPBPaletteController.xib; sourceTree = "<group>"; };
+		CC0F5581152A5A8F00824A57 /* VPPlugin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VPPlugin.framework; path = ../VPPlugin.framework; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CC0F554F152A4D5900824A57 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CC0F5556152A4D5900824A57 /* Cocoa.framework in Frameworks */,
+				CC0F5582152A5A8F00824A57 /* VPPlugin.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CC0F5547152A4D5900824A57 = {
+			isa = PBXGroup;
+			children = (
+				CC0F555B152A4D5900824A57 /* VPBlog */,
+				CC0F5554152A4D5900824A57 /* Frameworks */,
+				CC0F5553152A4D5900824A57 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CC0F5553152A4D5900824A57 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CC0F5552152A4D5900824A57 /* VPBlog.vpplugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CC0F5554152A4D5900824A57 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CC0F5581152A5A8F00824A57 /* VPPlugin.framework */,
+				CC0F5555152A4D5900824A57 /* Cocoa.framework */,
+				CC0F5557152A4D5900824A57 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CC0F5557152A4D5900824A57 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CC0F5558152A4D5900824A57 /* AppKit.framework */,
+				CC0F5559152A4D5900824A57 /* CoreData.framework */,
+				CC0F555A152A4D5900824A57 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		CC0F555B152A4D5900824A57 /* VPBlog */ = {
+			isa = PBXGroup;
+			children = (
+				CC0F555C152A4D5900824A57 /* Supporting Files */,
+				CC0F556C152A4F8E00824A57 /* VPBlogPlugin.h */,
+				CC0F556D152A4F8E00824A57 /* VPBlogPlugin.m */,
+				CC0F5572152A511100824A57 /* VPBPaletteController.h */,
+				CC0F5573152A511100824A57 /* VPBPaletteController.m */,
+				CC0F5574152A511100824A57 /* VPBPaletteController.xib */,
+				CC0F5561152A4D5900824A57 /* VPBlog-Prefix.pch */,
+			);
+			path = VPBlog;
+			sourceTree = "<group>";
+		};
+		CC0F555C152A4D5900824A57 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CC0F555D152A4D5900824A57 /* VPBlog-Info.plist */,
+				CC0F555E152A4D5900824A57 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CC0F5551152A4D5900824A57 /* VPBlog */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CC0F5564152A4D5900824A57 /* Build configuration list for PBXNativeTarget "VPBlog" */;
+			buildPhases = (
+				CC0F554E152A4D5900824A57 /* Sources */,
+				CC0F554F152A4D5900824A57 /* Frameworks */,
+				CC0F5550152A4D5900824A57 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VPBlog;
+			productName = VPBlog;
+			productReference = CC0F5552152A4D5900824A57 /* VPBlog.vpplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CC0F5549152A4D5900824A57 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = "Flying Meat";
+			};
+			buildConfigurationList = CC0F554C152A4D5900824A57 /* Build configuration list for PBXProject "VPBlog" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = CC0F5547152A4D5900824A57;
+			productRefGroup = CC0F5553152A4D5900824A57 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CC0F5551152A4D5900824A57 /* VPBlog */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CC0F5550152A4D5900824A57 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CC0F5560152A4D5900824A57 /* InfoPlist.strings in Resources */,
+				CC0F5576152A511100824A57 /* VPBPaletteController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CC0F554E152A4D5900824A57 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CC0F556E152A4F8E00824A57 /* VPBlogPlugin.m in Sources */,
+				CC0F5575152A511100824A57 /* VPBPaletteController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		CC0F555E152A4D5900824A57 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CC0F555F152A4D5900824A57 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CC0F5562152A4D5900824A57 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		CC0F5563152A4D5900824A57 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		CC0F5565152A4D5900824A57 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/..\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "VPBlog/VPBlog-Prefix.pch";
+				INFOPLIST_FILE = "VPBlog/VPBlog-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = vpplugin;
+			};
+			name = Debug;
+		};
+		CC0F5566152A4D5900824A57 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/..\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "VPBlog/VPBlog-Prefix.pch";
+				INFOPLIST_FILE = "VPBlog/VPBlog-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = vpplugin;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CC0F554C152A4D5900824A57 /* Build configuration list for PBXProject "VPBlog" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CC0F5562152A4D5900824A57 /* Debug */,
+				CC0F5563152A4D5900824A57 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CC0F5564152A4D5900824A57 /* Build configuration list for PBXNativeTarget "VPBlog" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CC0F5565152A4D5900824A57 /* Debug */,
+				CC0F5566152A4D5900824A57 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CC0F5549152A4D5900824A57 /* Project object */;
+}
