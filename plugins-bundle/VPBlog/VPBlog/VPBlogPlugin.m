@@ -9,11 +9,16 @@
 #import "VPBlogPlugin.h"
 #import "VPBPaletteController.h"
 
+@interface NSObject (VPPluginManagerCurrentlyPrivate)
+
+- (void)registerPaletteViewController:(Class)pvc;
+
+@end
+
 @implementation VPBlogPlugin
 
-+ (void)load {
-    id class = NSClassFromString(@"VPUPaletteController");
-    [class registerContentViewControllerClass:[VPBPaletteController class]];
+- (void)didRegister {
+    [(id)[self pluginManager] registerPaletteViewController:[VPBPaletteController class]];
 }
 
 @end

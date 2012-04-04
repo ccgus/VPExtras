@@ -9,8 +9,18 @@
 #import <Cocoa/Cocoa.h>
 #import <VPPlugin/VPPlugin.h>
 
-@interface VPBPaletteController : VPUPaletteViewController {
-    
+@interface VPBPaletteController : NSViewController {
+
 }
+
+@property (strong) IBOutlet NSButton *ibPagePublishCheckbox;
+@property (strong) IBOutlet NSTextField *ibFrontPageCountField;
+@property (strong) IBOutlet NSTextField *ibWeblogBaseURL;
+@property (strong) IBOutlet NSPathControl *ibOutputFolder;
+
+- (IBAction)togglePublishPageAction:(id)sender;
+- (IBAction)chooseOutputFolderAction:(id)sender;
+- (IBAction)publishShortAction:(id)sender;
+- (IBAction)publishAction:(id)sender;
 
 @end
