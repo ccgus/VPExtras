@@ -13,6 +13,10 @@
 		CC0F5575152A511100824A57 /* VPBPaletteController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC0F5573152A511100824A57 /* VPBPaletteController.m */; };
 		CC0F5576152A511100824A57 /* VPBPaletteController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CC0F5574152A511100824A57 /* VPBPaletteController.xib */; };
 		CC0F5582152A5A8F00824A57 /* VPPlugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC0F5581152A5A8F00824A57 /* VPPlugin.framework */; };
+		CCAE9356152E449400CA10DE /* VPBlogExportScript.jstalk in Resources */ = {isa = PBXBuildFile; fileRef = CCAE9355152E449400CA10DE /* VPBlogExportScript.jstalk */; };
+		CCEEA1A3152E3FC4008374AD /* VPBWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = CCEEA1A2152E3FC4008374AD /* VPBWriter.m */; };
+		CCFD083E152E47FF004EEB62 /* VPWebExportPageTemplate.html in Resources */ = {isa = PBXBuildFile; fileRef = CCFD083D152E47FF004EEB62 /* VPWebExportPageTemplate.html */; };
+		CCFD0841152E492E004EEB62 /* VPBlogPageEntryTemplate.html in Resources */ = {isa = PBXBuildFile; fileRef = CCFD0840152E492E004EEB62 /* VPBlogPageEntryTemplate.html */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +34,12 @@
 		CC0F5573152A511100824A57 /* VPBPaletteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VPBPaletteController.m; sourceTree = "<group>"; };
 		CC0F5574152A511100824A57 /* VPBPaletteController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VPBPaletteController.xib; sourceTree = "<group>"; };
 		CC0F5581152A5A8F00824A57 /* VPPlugin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VPPlugin.framework; path = ../VPPlugin.framework; sourceTree = "<group>"; };
+		CCAE9355152E449400CA10DE /* VPBlogExportScript.jstalk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VPBlogExportScript.jstalk; sourceTree = "<group>"; };
+		CCEEA1A1152E3FC4008374AD /* VPBWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPBWriter.h; sourceTree = "<group>"; };
+		CCEEA1A2152E3FC4008374AD /* VPBWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VPBWriter.m; sourceTree = "<group>"; };
+		CCEEA1A4152E3FE6008374AD /* VPPrivateStuff.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VPPrivateStuff.h; sourceTree = "<group>"; };
+		CCFD083D152E47FF004EEB62 /* VPWebExportPageTemplate.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = VPWebExportPageTemplate.html; sourceTree = "<group>"; };
+		CCFD0840152E492E004EEB62 /* VPBlogPageEntryTemplate.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = VPBlogPageEntryTemplate.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,24 +95,30 @@
 		CC0F555B152A4D5900824A57 /* VPBlog */ = {
 			isa = PBXGroup;
 			children = (
-				CC0F555C152A4D5900824A57 /* Supporting Files */,
+				CC0F555C152A4D5900824A57 /* Resources */,
 				CC0F556C152A4F8E00824A57 /* VPBlogPlugin.h */,
 				CC0F556D152A4F8E00824A57 /* VPBlogPlugin.m */,
 				CC0F5572152A511100824A57 /* VPBPaletteController.h */,
 				CC0F5573152A511100824A57 /* VPBPaletteController.m */,
-				CC0F5574152A511100824A57 /* VPBPaletteController.xib */,
 				CC0F5561152A4D5900824A57 /* VPBlog-Prefix.pch */,
+				CCEEA1A1152E3FC4008374AD /* VPBWriter.h */,
+				CCEEA1A2152E3FC4008374AD /* VPBWriter.m */,
+				CCEEA1A4152E3FE6008374AD /* VPPrivateStuff.h */,
 			);
 			path = VPBlog;
 			sourceTree = "<group>";
 		};
-		CC0F555C152A4D5900824A57 /* Supporting Files */ = {
+		CC0F555C152A4D5900824A57 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CCAE9355152E449400CA10DE /* VPBlogExportScript.jstalk */,
+				CCFD083D152E47FF004EEB62 /* VPWebExportPageTemplate.html */,
+				CCFD0840152E492E004EEB62 /* VPBlogPageEntryTemplate.html */,
+				CC0F5574152A511100824A57 /* VPBPaletteController.xib */,
 				CC0F555D152A4D5900824A57 /* VPBlog-Info.plist */,
 				CC0F555E152A4D5900824A57 /* InfoPlist.strings */,
 			);
-			name = "Supporting Files";
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -158,6 +174,9 @@
 			files = (
 				CC0F5560152A4D5900824A57 /* InfoPlist.strings in Resources */,
 				CC0F5576152A511100824A57 /* VPBPaletteController.xib in Resources */,
+				CCAE9356152E449400CA10DE /* VPBlogExportScript.jstalk in Resources */,
+				CCFD083E152E47FF004EEB62 /* VPWebExportPageTemplate.html in Resources */,
+				CCFD0841152E492E004EEB62 /* VPBlogPageEntryTemplate.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,6 +189,7 @@
 			files = (
 				CC0F556E152A4F8E00824A57 /* VPBlogPlugin.m in Sources */,
 				CC0F5575152A511100824A57 /* VPBPaletteController.m in Sources */,
+				CCEEA1A3152E3FC4008374AD /* VPBWriter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,6 +303,7 @@
 				CC0F5566152A4D5900824A57 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

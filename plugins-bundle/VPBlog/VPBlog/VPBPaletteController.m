@@ -7,27 +7,11 @@
 //
 
 #import "VPBPaletteController.h"
-#import "JSTalk.h"
+#import "VPPrivateStuff.h"
+#import "VPBWriter.h"
 
 NSString *VPBPUTTypeMarkdownSource = @"net.daringfireball.markdown";
-
-
-@interface NSObject (ThingsINeedToOpenUpInVPOrMakeBetter)
-- (id)topWindowController;
-- (void)setMetaValue:(NSString*)value forKey:(NSString*)aKey;
-- (id)store;
-- (void)setAttributesForItem:(id)item;
-
-- (id)webExportController;
-- (void)resetCache;
-- (void)resetAction:(id)sender;
-- (NSDictionary*)renderItem:(id<VPData>)item options:(NSDictionary*)options;
-
-- (JSTalk*)jstalk;
-- (BOOL)hasFunction:(NSString*)f;
-- (NSString*)renderScriptletsInHTMLString:(NSString*)str withJSTalk:(JSTalk*)jstalk item:(id<VPData>)item usingVariables:(NSDictionary*)vars;
-
-@end
+NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
 
 @interface VPBPaletteController ()
 
@@ -115,6 +99,14 @@ NSString *VPBPUTTypeMarkdownSource = @"net.daringfireball.markdown";
     return 320;
 }
 
+- (NSTextView*)currentTextView {
+    
+    id <VPPluginDocument>doc = [[NSDocumentController sharedDocumentController] currentDocument];
+    id wc  = [(id)doc topWindowController];
+    
+    return [wc textView];
+}
+
 - (id<VPData>)currentItem {
     
     id <VPPluginDocument>doc = [[NSDocumentController sharedDocumentController] currentDocument];
@@ -183,177 +175,121 @@ NSString *VPBPUTTypeMarkdownSource = @"net.daringfireball.markdown";
 }
 
 - (IBAction)publishShortAction:(id)sender {
-    [self exportAndLimitToCount:10];
+    
+    VPBWriter *writer = [[[VPBWriter alloc] init] autorelease];
+    
+    [writer exportAndLimitToCount:10];
 }
 
 - (IBAction)publishAction:(id)sender {
-    [self exportAndLimitToCount:-1];
+    VPBWriter *writer = [[[VPBWriter alloc] init] autorelease];
+    
+    [writer exportAndLimitToCount:-1];
 }
 
-- (NSString*)askForArchivePathForItem:(id<VPData>)item fileName:(NSString*)fn document:(id<VPPluginDocument>)doc baseOutputURL:(NSURL*)baseOutputURL context:(NSMutableDictionary*)exportContext jstalk:(JSTalk*)jstalk {
+- (void)insertBlockquoteAction:(id)sender {
     
+    NSTextView *tv = [self currentTextView];
     
-    if ([[jstalk jsController] hasFunction:@"blogExportArchivePathForItem"]) {
-        
-        NSString *newPath = [jstalk callFunctionNamed:@"blogExportArchivePathForItem" withArguments:[NSArray arrayWithObjects:doc, item, fn, exportContext, nil]];
-        
-        if (newPath) {
-            
-            NSURL *parentDir = [baseOutputURL URLByAppendingPathComponent:[newPath stringByDeletingLastPathComponent]];
-            
-            NSError *err = nil;
-            if (![[NSFileManager defaultManager] createDirectoryAtURL:parentDir withIntermediateDirectories:YES attributes:nil error:&err]) {
-                NSBeep();
-                NSLog(@"Could not make the directory %@", parentDir);
-                NSLog(@"%@", err);
-                return fn;
-            }
-            
-            return newPath;
-        }
+    if (!tv) {
+        return;
     }
     
-    return fn;
-    
-}
-
-- (NSString*)escapeArchivePageName:(NSString*)name {
-    
-    NSArray *replaceChars = [NSArray arrayWithObjects:@" ", @"/", @"\\", @"\"", @",", @"'", @"?", @"[", @"]", @"&", @"%", nil];
-    
-    for (NSString *r in replaceChars) {
-        name = [name stringByReplacingOccurrencesOfString:r withString:@"_"];
+    NSRange r = [tv selectedRange];
+        
+    if (r.length == 0) {
+        
+        [tv insertText:@"<blockquote><# #></blockquote>"];
+        [tv setSelectedRange:r]; // move back so we grab the right placeholder.
+        [tv selectNextTextPlaceholder:sender];
+        return;
     }
     
-    return name;
+    NSString *s = [[[tv textStorage] mutableString] substringWithRange:r];
+    
+    NSString *repace = [NSString stringWithFormat:@"<blockquote>%@</blockquote>", s];
+    [tv insertText:repace];
 }
 
-- (void)exportAndLimitToCount:(NSInteger)postCount {
+- (void)pasteHREFAction:(id)sender {
+    
+    NSTextView *tv = [self currentTextView];
+    
+    if (!tv) {
+        return;
+    }
+    
+    NSRange r = [tv selectedRange];
+    
+    if (r.length == 0) {
+        
+        [tv insertText:@"<a href=\"<# Earl #>\"><# #></a>"];
+        [tv setSelectedRange:r]; // move back so we grab the right placeholder.
+        [tv selectNextTextPlaceholder:sender];
+        return;
+    }
+    
+    NSString *s = [[[tv textStorage] mutableString] substringWithRange:r];
+    
+    NSString *repace = [NSString stringWithFormat:@"<a href=\"<# Earl #>\">%@</a>", s];
+    [tv insertText:repace];
+    
+    r.length = 0;
+    [tv setSelectedRange:r]; // move back so we grab the right placeholder.
+    [tv selectNextTextPlaceholder:sender];
+}
+
+- (id<VPData>)loadResourceAsPage:(NSString*)name uti:(NSString*)uti {
+    
+    NSString *extension = @"html";
+    if ([uti isEqualToString:VPBPUTTypeJSTalkSource]) {
+        extension = @"jstalk";
+    }
+    
+    NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:name ofType:extension];
+    
+    NSError *err;
+    NSString *script = [NSString stringWithContentsOfURL:[NSURL fileURLWithPath:path] encoding:NSUTF8StringEncoding error:&err];
+    
+    if (!script) {
+        NSLog(@"error reading %@", path);
+        NSLog(@"%@", err);
+        return nil;
+    }
+    
+    NSMutableDictionary *d = [NSMutableDictionary dictionary];
+    [d setObject:name forKey:@"displayName"];
+    [d setObject:uti forKey:@"uti"];
+    [d setObject:[NSNumber numberWithBool:YES] forKey:@"skipOnExport"];
+    
+    [d setObject:[script dataUsingEncoding:NSUTF8StringEncoding] forKey:@"data"];
+    
+    id <VPPluginDocument>doc = [[NSDocumentController sharedDocumentController] currentDocument];
+    id item = [(id)doc makeItemWithDefaultValues:d];
+    
+    return item;
+}
+
+- (void)initDocumentAction:(id)sender {
+    
     id <VPPluginDocument>doc = [[NSDocumentController sharedDocumentController] currentDocument];
     
-    
-    if (!doc) {
-        return;
+    if (![doc pageForKey:@"VPBlogExportScript"]) {
+        id<VPData>item = [self loadResourceAsPage:@"VPBlogExportScript" uti:VPBPUTTypeJSTalkSource];
+        [doc openPageWithTitle:[item displayName]];
     }
     
-    NSString *outputPath = [doc extraObjectForKey:@"vpblog.outputPath"];
-    if (!outputPath) {
-        NSLog(@"No output folder set, or it doesn't exist");
-        return;
+    if (![doc pageForKey:@"VPWebExportPageTemplate"]) {
+        id<VPData>item = [self loadResourceAsPage:@"VPWebExportPageTemplate" uti:(id)kUTTypeUTF8PlainText];
+        [doc openPageWithTitle:[item displayName]];
     }
     
-    NSURL *baseOutputURL = [NSURL fileURLWithPath:outputPath];
-    
-    if (![[NSFileManager defaultManager] fileExistsAtPath:outputPath]) {
-        NSError *err = nil;
-        if (![[NSFileManager defaultManager] createDirectoryAtURL:baseOutputURL withIntermediateDirectories:YES attributes:nil error:&err]) {
-            NSBeep();
-            NSLog(@"Could not make the directory %@", outputPath);
-            NSLog(@"%@", err);
-            return;
-        }
+    if (![doc pageForKey:@"VPBlogPageEntryTemplate"]) {
+        id<VPData>item = [self loadResourceAsPage:@"VPBlogPageEntryTemplate" uti:(id)kUTTypeUTF8PlainText];
+        [doc openPageWithTitle:[item displayName]];
     }
     
-    JSTalk *jstalk = [(id)doc jstalk];;
-    NSMutableDictionary *exportContext = [NSMutableDictionary dictionary];
-    
-    id <VPData>scriptPage = [doc pageForKey:@"vpblogexportscript"];
-    
-    if (scriptPage) {
-        [jstalk executeString:[scriptPage stringData]];
-    }
-    
-    
-    if ([[jstalk jsController] hasFunction:@"blogExportWillBegin"]) {
-        [jstalk callFunctionNamed:@"blogExportWillBegin" withArguments:[NSArray arrayWithObjects:doc, exportContext, nil]];
-    }
-    
-    NSString *entryPageTemplate = [[doc pageForKey:@"VPBlogFrontPageEntryTemplate"] stringData];
-    if (!entryPageTemplate) {
-        entryPageTemplate = @"$entry$";
-    }
-    
-    
-    NSMutableString *indexPage = [NSMutableString string];
-    
-    id webExportController = [(id)doc webExportController];
-    NSArray *orderedByDate = [doc orderedPageKeysByCreateDate];
-    
-    for (NSString *key in [orderedByDate reverseObjectEnumerator]) {
-        
-        @autoreleasepool {
-            
-            id <VPData>item = [doc pageForKey:key];
-            
-            if (![item isText]) {
-                continue;
-            }
-            
-            BOOL shouldPublish = [[item metaValueForKey:@"vpblog.publish"] boolValue];
-            if (!shouldPublish) {
-                continue;
-            }
-            
-            
-            
-            // let's find out where they want us to write the file:
-            
-            NSString *archiveFileName = [self escapeArchivePageName:[[item key] stringByAppendingPathExtension:@"html"]];
-            NSString *outRelativePath = [self askForArchivePathForItem:item fileName:archiveFileName document:doc baseOutputURL:baseOutputURL context:exportContext jstalk:jstalk];
-            NSURL *outURL             = [baseOutputURL URLByAppendingPathComponent:outRelativePath];
-            
-            
-            
-            
-            NSDictionary *renderOptions = [NSDictionary dictionaryWithObjectsAndKeys:nil];
-            
-            NSDictionary *d = [webExportController renderItem:item options:renderOptions];
-            NSString *output = [d objectForKey:@"output"];
-            NSString *unwrappedOutput = [d objectForKey:@"unwrappedOutput"];
-            
-            if ([[jstalk jsController] hasFunction:@"blogExportWillAppendItemToFrontPage"]) {
-                [jstalk callFunctionNamed:@"blogExportWillAppendItemToFrontPage" withArguments:[NSArray arrayWithObjects:doc, item, indexPage, exportContext, nil]];
-            }
-            
-            [exportContext setObject:outRelativePath forKey:@"pageArchivePath"];
-            [exportContext setObject:unwrappedOutput forKey:@"pageEntry"];
-            
-            NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:doc, @"document", item, @"page", exportContext, @"context", nil];
-            NSString *entry    = [(id)doc renderScriptletsInHTMLString:entryPageTemplate withJSTalk:jstalk item:item usingVariables:args];
-            
-            [indexPage appendString:entry];
-            
-            if ([[jstalk jsController] hasFunction:@"blogExportDidAppendItemToFrontPage"]) {
-                [jstalk callFunctionNamed:@"blogExportDidAppendItemToFrontPage" withArguments:[NSArray arrayWithObjects:doc, item, indexPage, exportContext, nil]];
-            }
-            
-            NSData *data = [output dataUsingEncoding:NSUTF8StringEncoding];
-            
-            NSError *writeError = nil;
-            if (![data writeToURL:outURL options:NSDataWritingAtomic error:&writeError]) {
-                NSLog(@"Could not write to %@", outURL);
-                NSLog(@"%@", writeError);
-            }
-            
-        }
-    }
-    
-    NSString *pageTemplate = [[doc pageForKey:@"VPWebExportPageTemplate"] stringData];
-    NSString *rIndexPage   = [pageTemplate stringByReplacingOccurrencesOfString:@"$page$" withString:indexPage];
-    
-    NSData *indexPageData = [rIndexPage dataUsingEncoding:NSUTF8StringEncoding];
-    NSURL *outURL         = [baseOutputURL URLByAppendingPathComponent:@"index.html"];
-    
-    NSError *writeError = nil;
-    if (![indexPageData writeToURL:outURL options:NSDataWritingAtomic error:&writeError]) {
-        NSLog(@"Could not write to %@", outURL);
-        NSLog(@"%@", writeError);
-    }
-    
-    
-    if ([[jstalk jsController] hasFunction:@"blogExportDidEnd"]) {
-        [jstalk callFunctionNamed:@"blogExportDidEnd" withArguments:[NSArray arrayWithObjects:doc, exportContext, nil]];
-    }
+    [(id)doc setDefaultNewPageUTI:VPBPUTTypeMarkdownSource];
 }
 
 @end

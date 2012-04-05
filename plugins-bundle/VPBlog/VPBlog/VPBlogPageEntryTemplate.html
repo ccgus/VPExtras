@@ -1,0 +1,18 @@
+<%
+    /*
+    Variables for this page include:
+        "page" - this var represents the given entry, it's a VPData object.
+        "pageContext" - this is a dictionary, which currently has the keys pageArchivePath (relative path for this file) and pageEntry (the rendered HTML for the page)
+    */
+    
+    // setup some fancy formatting for this guy's publish date.
+    var formatter = [[[NSDateFormatter alloc] init] autorelease];
+    [formatter setDateStyle:NSDateFormatterMediumStyle];
+    var pubDate = [formatter stringFromDate:[page createdDate]];
+%>
+
+<div class="post">
+    <div class="postTitle"><a href="<%= pageContext.pageArchivePath %>"><%= page.displayName() %></a></strong></div>
+    <div class="date">Published <%= pubDate %></div>
+    <%= pageContext.pageEntry %>
+</div>

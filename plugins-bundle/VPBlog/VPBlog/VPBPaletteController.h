@@ -10,7 +10,7 @@
 #import <VPPlugin/VPPlugin.h>
 
 @interface VPBPaletteController : NSViewController {
-
+    
 }
 
 @property (strong) IBOutlet NSButton *ibPagePublishCheckbox;
@@ -22,5 +22,8 @@
 - (IBAction)chooseOutputFolderAction:(id)sender;
 - (IBAction)publishShortAction:(id)sender;
 - (IBAction)publishAction:(id)sender;
+- (IBAction)insertBlockquoteAction:(id)sender;
+- (IBAction)pasteHREFAction:(id)sender;
+- (IBAction)initDocumentAction:(id)sender;
 
 @end

@@ -1,0 +1,127 @@
+<% 
+    // grab the site name from our blogSetupConfiguration in VPBlogExportScript
+    var siteName = vpbSetup.siteName;
+    var title = siteName; 
+    
+    if (typeof page != "undefined") {
+        title = title + ": " + page.displayName();
+    }
+%>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="generator" content="VoodooPad Blog" />
+        
+        <title><%= title %></title>
+        
+        <style type="text/css">
+            body {
+                margin-top:         0px;
+                margin-left:        0px;
+                margin-right:       0px;
+                background-color:   #fff;
+                font-size:          15px;
+                font-family:        "HelveticaNeue",  "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+                text-rendering:     optimizeLegibility;
+            }
+            
+            .main {
+                margin-left: auto;
+                margin-right: auto;
+                max-width: 800px;
+            }
+            
+            .header {
+                font-weight: bold;
+                font-size: 2em;
+                padding: 0px;
+                padding-top: 20px;
+                padding-bottom: 40px;
+            }
+            
+            .header a {
+                color: #000;
+            }
+            
+            .headerFoot {
+                font-weight: normal;
+                font-size: 13px;
+                color: #999;
+            }
+            
+            .date {
+                color: #999;
+                font-size: .8em;
+            }
+            
+            .post {
+                font-size: 15px;
+            }
+            
+            .postTitle {
+                font-size: 19px;
+                font-weight: bold;
+                padding-bottom: 0px;
+            }
+            
+            .postTitle a {
+                color: #000;
+                text-decoration: none;
+            }
+            .postTitle a:hover {
+                color: #253253;
+                text-decoration: underline;
+            }
+            
+            #copyright {
+                font-size: 9pt;
+                color: #555;
+            }
+            
+            .quote, blockquote {
+                color: #444;
+                background: #fafafa;
+                border-left: solid 1px #ddd;
+                padding: 5px;
+                padding-left: 15px;
+                margin-bottom: -1.5em;
+                margin: 0px;
+            }
+            
+            .post {
+                padding-bottom: 40px;
+                color: #000;
+                font-size: 15px;
+                width: 660px;
+            }
+            
+            .main a {
+                color: #253253;
+                text-decoration: solid;
+            }
+            
+            
+            </style>
+        
+    </head>
+    <body>
+        
+        <div class="main">
+            
+            <div class="header"><a href="/" style="text-decoration: none;"><%= siteName %></a><br/>
+                <span class="headerFoot">Put your catchy phrase here</span>
+            </div>
+            
+            $page$
+            
+            <div id="copyright">
+                <center>
+                    &copy; <%= vpbSetup.copyright %>.
+                </center>
+            </div>
+            
+        </div>
+    </body>
+</html>
