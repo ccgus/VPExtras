@@ -237,7 +237,7 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
     
     if (r.length == 0) {
         
-        [tv insertText:@"<a href=\"<# Earl #>\"><# #></a>"];
+        [tv insertText:@"[<# link text #>](<# Earl #>)"];
         [tv setSelectedRange:r]; // move back so we grab the right placeholder.
         [tv selectNextTextPlaceholder:sender];
         return;
@@ -245,7 +245,7 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
     
     NSString *s = [[[tv textStorage] mutableString] substringWithRange:r];
     
-    NSString *repace = [NSString stringWithFormat:@"<a href=\"<# Earl #>\">%@</a>", s];
+    NSString *repace = [NSString stringWithFormat:@"[%@](<# Earl #>)", s];
     [tv insertText:repace];
     
     r.length = 0;
