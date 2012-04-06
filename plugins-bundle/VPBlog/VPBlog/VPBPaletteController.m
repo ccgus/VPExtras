@@ -20,9 +20,8 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
 @implementation VPBPaletteController
 
 @synthesize ibPagePublishCheckbox=_ibPagePublishCheckbox;
-@synthesize ibFrontPageCountField=_ibFrontPageCountField;
-@synthesize ibWeblogBaseURL=_ibWeblogBaseURL;
-@synthesize ibOutputFolder=_ibOutputFolder;
+@synthesize ibOutputFolderLabel=_ibOutputFolderLabel;
+@synthesize ibChooseOutputFolderButton=_ibChooseOutputFolderButton;
 
 + (NSViewController*)makeContentViewController {
     return [[[self alloc] initWithNibName:@"VPBPaletteController" bundle:[NSBundle bundleForClass:self]] autorelease];
@@ -41,7 +40,7 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
 
 - (NSURL*)defaultOutputFolderURL {
     
-    NSDocument *doc = [[NSDocumentController sharedDocumentController] currentDocument];
+    NSDocument *doc = (id)[self currentDocument];
     
     NSString *sitesFolder = [@"~/Sites/" stringByExpandingTildeInPath];
     
@@ -57,22 +56,21 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
 
 - (void)documentDidChange {
     
-    id doc = [[NSDocumentController sharedDocumentController] currentDocument];
+    id doc = [self currentDocument];
     
-    if (!doc) {
-        #pragma message "FIXME: disable some of the controls, etc."
-        return;
-    }
+    [_ibPagePublishCheckbox setEnabled:doc != nil];
+    [_ibChooseOutputFolderButton setEnabled:doc != nil];
     
     NSString *outputPath = [doc extraObjectForKey:@"vpblog.outputPath"];
     
-    [_ibOutputFolder setEnabled:doc != nil];
-    
     if (outputPath) {
-        [_ibOutputFolder setURL:[NSURL fileURLWithPath:outputPath]];
+        
+        outputPath = [outputPath stringByAbbreviatingWithTildeInPath];
+    
+        [_ibOutputFolderLabel setStringValue:outputPath];
     }
     else {
-        [_ibOutputFolder setURL:[self defaultOutputFolderURL]];
+        [_ibOutputFolderLabel setStringValue:@""];
     }
 }
 
@@ -99,18 +97,34 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
     return 320;
 }
 
+- (id <VPPluginDocument>)currentDocument {
+    id <VPPluginDocument>doc = [[NSDocumentController sharedDocumentController] currentDocument];
+    
+    if (!doc && [[[NSDocumentController sharedDocumentController] documents] count]) {
+        // wtf, appkit is holding out on us.
+        doc = [[[NSDocumentController sharedDocumentController] documents] objectAtIndex:0];
+        
+        // sanity check.
+        if (![(id)doc respondsToSelector:@selector(orderedPageKeysByCreateDate)]) {
+            doc = nil;
+        }
+    }
+    
+    return doc;
+    
+}
+
 - (NSTextView*)currentTextView {
     
-    id <VPPluginDocument>doc = [[NSDocumentController sharedDocumentController] currentDocument];
-    id wc  = [(id)doc topWindowController];
+    
+    id wc  = [(id)[self currentDocument] topWindowController];
     
     return [wc textView];
 }
 
 - (id<VPData>)currentItem {
     
-    id <VPPluginDocument>doc = [[NSDocumentController sharedDocumentController] currentDocument];
-    id wc  = [(id)doc topWindowController];
+    id wc  = [(id)[self currentDocument] topWindowController];
     
     id item = [wc item];
     
@@ -138,7 +152,7 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
 
 - (IBAction)chooseOutputFolderAction:(id)sender {
     
-    id <VPPluginDocument>doc = [[NSDocumentController sharedDocumentController] currentDocument];
+    id <VPPluginDocument>doc = [self currentDocument];
     
     if (!doc) {
         return;
@@ -245,26 +259,41 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
     if ([uti isEqualToString:VPBPUTTypeJSTalkSource]) {
         extension = @"jstalk";
     }
+    else if ([uti isEqualToString:(id)kUTTypeFlatRTFD]) {
+        extension = @"rtfd";
+    }
     
     NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:name ofType:extension];
     
-    NSError *err;
-    NSString *script = [NSString stringWithContentsOfURL:[NSURL fileURLWithPath:path] encoding:NSUTF8StringEncoding error:&err];
+    NSData *pageData = nil;
     
-    if (!script) {
-        NSLog(@"error reading %@", path);
-        NSLog(@"%@", err);
-        return nil;
+    if ([uti isEqualToString:(id)kUTTypeFlatRTFD]) {
+        NSAttributedString *as = [[NSAttributedString alloc] initWithPath:path documentAttributes:nil];
+        pageData = [as RTFDFromRange:NSMakeRange(0, [as length]) documentAttributes:nil];
     }
+    else {
+        
+        NSError *err;
+        NSString *script = [NSString stringWithContentsOfURL:[NSURL fileURLWithPath:path] encoding:NSUTF8StringEncoding error:&err];
+        
+        if (!script) {
+            NSLog(@"error reading %@", path);
+            NSLog(@"%@", err);
+            return nil;
+        }
+        
+        pageData = [script dataUsingEncoding:NSUTF8StringEncoding];
+    }
+    
     
     NSMutableDictionary *d = [NSMutableDictionary dictionary];
     [d setObject:name forKey:@"displayName"];
     [d setObject:uti forKey:@"uti"];
     [d setObject:[NSNumber numberWithBool:YES] forKey:@"skipOnExport"];
     
-    [d setObject:[script dataUsingEncoding:NSUTF8StringEncoding] forKey:@"data"];
+    [d setObject:pageData forKey:@"data"];
     
-    id <VPPluginDocument>doc = [[NSDocumentController sharedDocumentController] currentDocument];
+    id <VPPluginDocument>doc = [self currentDocument];
     id item = [(id)doc makeItemWithDefaultValues:d];
     
     return item;
@@ -272,24 +301,50 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
 
 - (void)initDocumentAction:(id)sender {
     
-    id <VPPluginDocument>doc = [[NSDocumentController sharedDocumentController] currentDocument];
-    
-    if (![doc pageForKey:@"VPBlogExportScript"]) {
-        id<VPData>item = [self loadResourceAsPage:@"VPBlogExportScript" uti:VPBPUTTypeJSTalkSource];
-        [doc openPageWithTitle:[item displayName]];
+    if (![[self currentDocument] pageForKey:@"VPBlogExportScript"]) {
+        [self loadResourceAsPage:@"VPBlogExportScript" uti:VPBPUTTypeJSTalkSource];
     }
     
-    if (![doc pageForKey:@"VPWebExportPageTemplate"]) {
-        id<VPData>item = [self loadResourceAsPage:@"VPWebExportPageTemplate" uti:(id)kUTTypeUTF8PlainText];
-        [doc openPageWithTitle:[item displayName]];
+    if (![[self currentDocument] pageForKey:@"VPWebExportPageTemplate"]) {
+        [self loadResourceAsPage:@"VPWebExportPageTemplate" uti:(id)kUTTypeUTF8PlainText];
     }
     
-    if (![doc pageForKey:@"VPBlogPageEntryTemplate"]) {
-        id<VPData>item = [self loadResourceAsPage:@"VPBlogPageEntryTemplate" uti:(id)kUTTypeUTF8PlainText];
-        [doc openPageWithTitle:[item displayName]];
+    if (![[self currentDocument] pageForKey:@"VPBlogPageEntryTemplate"]) {
+        [self loadResourceAsPage:@"VPBlogPageEntryTemplate" uti:(id)kUTTypeUTF8PlainText];
     }
     
-    [(id)doc setDefaultNewPageUTI:VPBPUTTypeMarkdownSource];
+    [(id)[self currentDocument] setDefaultNewPageUTI:VPBPUTTypeMarkdownSource];
+}
+
+- (IBAction)openHelpAction:(id)sender {
+    
+    if (![[self currentDocument] pageForKey:@"VPBlogHelp"]) {
+        [self loadResourceAsPage:@"VPBlogHelp" uti:(id)kUTTypeFlatRTFD];
+    }
+    
+    [[self currentDocument] openPageWithTitle:@"VPBlogHelp"];
+}
+
+- (IBAction)openSiteTemplateAction:(id)sender {
+    
+    [self initDocumentAction:nil];
+    
+    [[self currentDocument] openPageWithTitle:@"VPWebExportPageTemplate"];
+
+}
+
+- (IBAction)openEntryTemplateAction:(id)sender {
+    
+    [self initDocumentAction:nil];
+    
+    [[self currentDocument] openPageWithTitle:@"VPBlogPageEntryTemplate"];
+}
+
+- (IBAction)openEventScriptAction:(id)sender {
+    
+    [self initDocumentAction:nil];
+    
+    [[self currentDocument] openPageWithTitle:@"VPBlogExportScript"];
 }
 
 @end

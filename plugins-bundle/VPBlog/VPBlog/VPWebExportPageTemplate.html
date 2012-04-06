@@ -1,6 +1,13 @@
 <% 
-    // grab the site name from our blogSetupConfiguration in VPBlogExportScript
-    var siteName = vpbSetup.siteName;
+    var siteName = "HTML Preview";
+    var copyright = "2012 VoodooPad User";
+    
+    // the vpbSetup isn't around for HTML preview, so we make sure it's around before grabing values from it.
+    if (typeof vpbSetup != "undefined") {
+        siteName = vpbSetup.siteName;
+        copyright = vpbSetup.copyright;
+    }
+        
     var title = siteName; 
     
     if (typeof page != "undefined") {

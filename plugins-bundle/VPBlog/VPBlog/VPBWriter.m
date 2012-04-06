@@ -99,6 +99,11 @@
     NSString *outputPath = [doc extraObjectForKey:@"vpblog.outputPath"];
     if (!outputPath) {
         NSLog(@"No output folder set, or it doesn't exist");
+        
+        NSAlert *alert = [NSAlert alertWithMessageText:@"No publish folder set" defaultButton:nil alternateButton:nil otherButton:nil informativeTextWithFormat:@"Make sure to select a folder to publish to."];
+        
+        [alert runModal];
+        
         return;
     }
     

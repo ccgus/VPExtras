@@ -15,6 +15,7 @@
 		CC0F5582152A5A8F00824A57 /* VPPlugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC0F5581152A5A8F00824A57 /* VPPlugin.framework */; };
 		CCAE9356152E449400CA10DE /* VPBlogExportScript.jstalk in Resources */ = {isa = PBXBuildFile; fileRef = CCAE9355152E449400CA10DE /* VPBlogExportScript.jstalk */; };
 		CCEEA1A3152E3FC4008374AD /* VPBWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = CCEEA1A2152E3FC4008374AD /* VPBWriter.m */; };
+		CCF348CD152F81E300D7E329 /* VPBlogHelp.rtfd in Resources */ = {isa = PBXBuildFile; fileRef = CCF348CC152F81E300D7E329 /* VPBlogHelp.rtfd */; };
 		CCFD083E152E47FF004EEB62 /* VPWebExportPageTemplate.html in Resources */ = {isa = PBXBuildFile; fileRef = CCFD083D152E47FF004EEB62 /* VPWebExportPageTemplate.html */; };
 		CCFD0841152E492E004EEB62 /* VPBlogPageEntryTemplate.html in Resources */ = {isa = PBXBuildFile; fileRef = CCFD0840152E492E004EEB62 /* VPBlogPageEntryTemplate.html */; };
 /* End PBXBuildFile section */
@@ -38,6 +39,7 @@
 		CCEEA1A1152E3FC4008374AD /* VPBWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPBWriter.h; sourceTree = "<group>"; };
 		CCEEA1A2152E3FC4008374AD /* VPBWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VPBWriter.m; sourceTree = "<group>"; };
 		CCEEA1A4152E3FE6008374AD /* VPPrivateStuff.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VPPrivateStuff.h; sourceTree = "<group>"; };
+		CCF348CC152F81E300D7E329 /* VPBlogHelp.rtfd */ = {isa = PBXFileReference; lastKnownFileType = wrapper.rtfd; path = VPBlogHelp.rtfd; sourceTree = "<group>"; };
 		CCFD083D152E47FF004EEB62 /* VPWebExportPageTemplate.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = VPWebExportPageTemplate.html; sourceTree = "<group>"; };
 		CCFD0840152E492E004EEB62 /* VPBlogPageEntryTemplate.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = VPBlogPageEntryTemplate.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -111,6 +113,7 @@
 		CC0F555C152A4D5900824A57 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CCF348CC152F81E300D7E329 /* VPBlogHelp.rtfd */,
 				CCAE9355152E449400CA10DE /* VPBlogExportScript.jstalk */,
 				CCFD083D152E47FF004EEB62 /* VPWebExportPageTemplate.html */,
 				CCFD0840152E492E004EEB62 /* VPBlogPageEntryTemplate.html */,
@@ -177,6 +180,7 @@
 				CCAE9356152E449400CA10DE /* VPBlogExportScript.jstalk in Resources */,
 				CCFD083E152E47FF004EEB62 /* VPWebExportPageTemplate.html in Resources */,
 				CCFD0841152E492E004EEB62 /* VPBlogPageEntryTemplate.html in Resources */,
+				CCF348CD152F81E300D7E329 /* VPBlogHelp.rtfd in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

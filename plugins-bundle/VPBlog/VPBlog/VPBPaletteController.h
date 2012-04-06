@@ -14,9 +14,8 @@
 }
 
 @property (strong) IBOutlet NSButton *ibPagePublishCheckbox;
-@property (strong) IBOutlet NSTextField *ibFrontPageCountField;
-@property (strong) IBOutlet NSTextField *ibWeblogBaseURL;
-@property (strong) IBOutlet NSPathControl *ibOutputFolder;
+@property (strong) IBOutlet NSTextField *ibOutputFolderLabel;
+@property (strong) IBOutlet NSButton *ibChooseOutputFolderButton;
 
 - (IBAction)togglePublishPageAction:(id)sender;
 - (IBAction)chooseOutputFolderAction:(id)sender;
@@ -25,5 +24,12 @@
 - (IBAction)insertBlockquoteAction:(id)sender;
 - (IBAction)pasteHREFAction:(id)sender;
 - (IBAction)initDocumentAction:(id)sender;
+- (IBAction)openHelpAction:(id)sender;
+
+- (IBAction)openSiteTemplateAction:(id)sender;
+- (IBAction)openEntryTemplateAction:(id)sender;
+- (IBAction)openEventScriptAction:(id)sender;
+
+
 
 @end

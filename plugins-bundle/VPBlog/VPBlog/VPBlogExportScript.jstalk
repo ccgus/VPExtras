@@ -10,6 +10,7 @@ function blogSetupConfiguration(document, vpbSetup) {
     vpbSetup['frontPageCount']  = "4";
     vpbSetup['copyright']       = "2012 Your Name Here";
     vpbSetup['rssSiteDescription'] = "This is my blog, there are many like it but this one is mine.";
+    vpbSetup['viewLocalWhenFinished'] = true;
 }
 
 function blogExportWillBegin(document, vpbSetup) {
