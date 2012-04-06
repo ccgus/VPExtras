@@ -145,8 +145,12 @@
     
     [self makeRSSHeader];
     
+    debug(@"_vpbSetup: %@", _vpbSetup);
+    
     NSInteger currentPageCount = 0;
     NSInteger maxPageCount     = [[_vpbSetup objectForKey:@"frontPageCount"] integerValue];
+    
+    debug(@"maxPageCount: %ld", maxPageCount);
     
     id webExportController = [(id)doc webExportController];
     NSArray *orderedByDate = [doc orderedPageKeysByCreateDate];
@@ -157,7 +161,6 @@
             break;
         }
         
-        currentPageCount++;
         
         @autoreleasepool {
             
@@ -172,6 +175,7 @@
                 continue;
             }
             
+            currentPageCount++;
             
             // let's find out where they want us to write the file:
             
