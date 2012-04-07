@@ -89,8 +89,8 @@
 }
 
 - (void)exportAndLimitToCount:(NSInteger)postCount {
-    id <VPPluginDocument>doc = [[NSDocumentController sharedDocumentController] currentDocument];
     
+    id <VPPluginDocument>doc = [[NSDocumentController sharedDocumentController] currentDocument];
     
     if (!doc) {
         return;
@@ -149,8 +149,6 @@
     }
     
     [self makeRSSHeader];
-    
-    debug(@"_vpbSetup: %@", _vpbSetup);
     
     NSInteger currentPageCount = 0;
     NSInteger maxPageCount     = [[_vpbSetup objectForKey:@"frontPageCount"] integerValue];
@@ -235,6 +233,8 @@
         NSLog(@"%@", writeError);
     }
     
+    [jstalk deleteObjectWithName:@"page"];
+    
     NSString *rIndexPage   = [pageTemplate stringByReplacingOccurrencesOfString:@"$page$" withString:_indexPage];
     NSDictionary *args  = [NSDictionary dictionaryWithObjectsAndKeys:doc, @"document", exportContext, @"pageContext", _vpbSetup, @"vpbSetup", nil];
     rIndexPage = [(id)doc renderScriptletsInHTMLString:rIndexPage withJSTalk:jstalk usingVariables:args];
@@ -285,7 +285,7 @@
             "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
             "<rss version=\"2.0\"\n"
             "  xmlns:content=\"http://purl.org/rss/1.0/modules/content/\"\n"
-            "  xmlns:dc=\"http://purl.org/dc/elements/1.1/\"\n"
+            "  xmlns:dc=\"http://purl.org/dc/elements/1.1/\">\n"
             "  <channel>\n"
             "    <title>%@</title>\n"
             "    <link>%@</link>\n"
