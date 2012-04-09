@@ -9,7 +9,11 @@
 #import <Cocoa/Cocoa.h>
 #import <VPPlugin/VPPlugin.h>
 
-@interface VPBlogPlugin : VPPlugin
+@interface VPBlogPlugin : VPPlugin {
+    NSMutableArray *_observers;
+}
+
++ (id <VPPluginDocument>)currentDocument;
 
 @end
 

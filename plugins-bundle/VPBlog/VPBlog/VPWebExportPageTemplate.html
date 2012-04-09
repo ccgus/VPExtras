@@ -1,14 +1,5 @@
 <% 
-    var siteName = "HTML Preview";
-    var copyright = "2012 VoodooPad User";
-    
-    // the vpbSetup isn't around for HTML preview, so we make sure it's around before grabing values from it.
-    if (typeof vpbSetup != "undefined") {
-        siteName = vpbSetup.siteName;
-        copyright = vpbSetup.copyright;
-    }
-        
-    var title = siteName; 
+    var title = vpbSetup.siteName; 
     
     if (typeof page != "undefined") {
         title = title + ": " + page.displayName();
@@ -117,7 +108,7 @@
         
         <div class="main">
             
-            <div class="header"><a href="/" style="text-decoration: none;"><%= siteName %></a><br/>
+            <div class="header"><a href="/" style="text-decoration: none;"><%= vpbSetup.siteName %></a><br/>
                 <span class="headerFoot">Put your catchy phrase here</span>
             </div>
             

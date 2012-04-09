@@ -9,6 +9,7 @@
 #import "VPBPaletteController.h"
 #import "VPPrivateStuff.h"
 #import "VPBWriter.h"
+#import "VPBlogPlugin.h"
 
 NSString *VPBPUTTypeMarkdownSource = @"net.daringfireball.markdown";
 NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
@@ -30,9 +31,11 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
 - (void)dealloc {
     
     [_ibPagePublishCheckbox release];
+    [_ibOutputFolderLabel release];
+    [_ibChooseOutputFolderButton release];
+    
     [super dealloc];
 }
-
 
 - (NSString*)displayName {
     return @"VPBlog";
@@ -40,7 +43,7 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
 
 - (NSURL*)defaultOutputFolderURL {
     
-    NSDocument *doc = (id)[self currentDocument];
+    NSDocument *doc = (id)[VPBlogPlugin currentDocument];
     
     NSString *sitesFolder = [@"~/Sites/" stringByExpandingTildeInPath];
     
@@ -56,7 +59,7 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
 
 - (void)documentDidChange {
     
-    id doc = [self currentDocument];
+    id doc = [VPBlogPlugin currentDocument];
     
     [_ibPagePublishCheckbox setEnabled:doc != nil];
     [_ibChooseOutputFolderButton setEnabled:doc != nil];
@@ -97,34 +100,16 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
     return 320;
 }
 
-- (id <VPPluginDocument>)currentDocument {
-    id <VPPluginDocument>doc = [[NSDocumentController sharedDocumentController] currentDocument];
-    
-    if (!doc && [[[NSDocumentController sharedDocumentController] documents] count]) {
-        // wtf, appkit is holding out on us.
-        doc = [[[NSDocumentController sharedDocumentController] documents] objectAtIndex:0];
-        
-        // sanity check.
-        if (![(id)doc respondsToSelector:@selector(orderedPageKeysByCreateDate)]) {
-            doc = nil;
-        }
-    }
-    
-    return doc;
-    
-}
-
 - (NSTextView*)currentTextView {
     
-    
-    id wc  = [(id)[self currentDocument] topWindowController];
+    id wc  = [(id)[VPBlogPlugin currentDocument] topWindowController];
     
     return [wc textView];
 }
 
 - (id<VPData>)currentItem {
     
-    id wc  = [(id)[self currentDocument] topWindowController];
+    id wc  = [(id)[VPBlogPlugin currentDocument] topWindowController];
     
     id item = [wc item];
     
@@ -152,7 +137,7 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
 
 - (IBAction)chooseOutputFolderAction:(id)sender {
     
-    id <VPPluginDocument>doc = [self currentDocument];
+    id <VPPluginDocument>doc = [VPBlogPlugin currentDocument];
     
     if (!doc) {
         return;
@@ -293,7 +278,7 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
     
     [d setObject:pageData forKey:@"data"];
     
-    id <VPPluginDocument>doc = [self currentDocument];
+    id <VPPluginDocument>doc = [VPBlogPlugin currentDocument];
     id item = [(id)doc makeItemWithDefaultValues:d];
     
     return item;
@@ -301,35 +286,39 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
 
 - (void)initDocumentAction:(id)sender {
     
-    if (![[self currentDocument] pageForKey:@"VPBlogExportScript"]) {
+    if (![[VPBlogPlugin currentDocument] pageForKey:@"VPBlogExportScript"]) {
         [self loadResourceAsPage:@"VPBlogExportScript" uti:VPBPUTTypeJSTalkSource];
     }
     
-    if (![[self currentDocument] pageForKey:@"VPWebExportPageTemplate"]) {
+    if (![[VPBlogPlugin currentDocument] pageForKey:@"VPWebExportPageTemplate"]) {
         [self loadResourceAsPage:@"VPWebExportPageTemplate" uti:(id)kUTTypeUTF8PlainText];
     }
     
-    if (![[self currentDocument] pageForKey:@"VPBlogPageEntryTemplate"]) {
+    if (![[VPBlogPlugin currentDocument] pageForKey:@"VPBlogPageEntryTemplate"]) {
         [self loadResourceAsPage:@"VPBlogPageEntryTemplate" uti:(id)kUTTypeUTF8PlainText];
     }
     
-    [(id)[self currentDocument] setDefaultNewPageUTI:VPBPUTTypeMarkdownSource];
+    [(id)[VPBlogPlugin currentDocument] setDefaultNewPageUTI:VPBPUTTypeMarkdownSource];
 }
+
+
+
+
 
 - (IBAction)openHelpAction:(id)sender {
     
-    if (![[self currentDocument] pageForKey:@"VPBlogHelp"]) {
+    if (![[VPBlogPlugin currentDocument] pageForKey:@"VPBlogHelp"]) {
         [self loadResourceAsPage:@"VPBlogHelp" uti:(id)kUTTypeFlatRTFD];
     }
     
-    [[self currentDocument] openPageWithTitle:@"VPBlogHelp"];
+    [[VPBlogPlugin currentDocument] openPageWithTitle:@"VPBlogHelp"];
 }
 
 - (IBAction)openSiteTemplateAction:(id)sender {
     
     [self initDocumentAction:nil];
     
-    [[self currentDocument] openPageWithTitle:@"VPWebExportPageTemplate"];
+    [[VPBlogPlugin currentDocument] openPageWithTitle:@"VPWebExportPageTemplate"];
 
 }
 
@@ -337,14 +326,14 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
     
     [self initDocumentAction:nil];
     
-    [[self currentDocument] openPageWithTitle:@"VPBlogPageEntryTemplate"];
+    [[VPBlogPlugin currentDocument] openPageWithTitle:@"VPBlogPageEntryTemplate"];
 }
 
 - (IBAction)openEventScriptAction:(id)sender {
     
     [self initDocumentAction:nil];
     
-    [[self currentDocument] openPageWithTitle:@"VPBlogExportScript"];
+    [[VPBlogPlugin currentDocument] openPageWithTitle:@"VPBlogExportScript"];
 }
 
 @end
