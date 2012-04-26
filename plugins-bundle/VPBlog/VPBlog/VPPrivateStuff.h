@@ -10,7 +10,6 @@
 #import "JSTalk.h"
 
 @interface NSObject (ThingsINeedToOpenUpInVPOrMakeBetter)
-- (id)topWindowController;
 - (void)setMetaValue:(NSString*)value forKey:(NSString*)aKey;
 - (id)store;
 - (void)setAttributesForItem:(id)item;

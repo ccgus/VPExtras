@@ -1,0 +1,19 @@
+/*
+VPScriptMenuTitle = Insert Link
+VPScriptSuperMenuTitle = Markdown
+*/
+
+function main(windowController, document) {
+    var textView = [windowController textView];
+    
+    var selection = [textView selectedRange];
+    
+    var title = "<# title #>";
+    
+    if (selection.length) {
+        title = [[textView string] substringWithRange:selection];
+    }
+    
+    [textView insertText:@"[" + title + "](<# URL #>)"];
+    [textView selectNextTextPlaceholder:null];
+}

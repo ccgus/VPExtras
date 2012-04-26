@@ -102,18 +102,16 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
 
 - (NSTextView*)currentTextView {
     
-    id wc  = [(id)[VPBlogPlugin currentDocument] topWindowController];
+    id <VPPluginWindowController>wc  = [[VPBlogPlugin currentDocument] mainWindowController];
     
     return [wc textView];
 }
 
 - (id<VPData>)currentItem {
     
-    id wc  = [(id)[VPBlogPlugin currentDocument] topWindowController];
+    id <VPPluginWindowController>wc  = [[VPBlogPlugin currentDocument] mainWindowController];
     
-    id item = [wc item];
-    
-    return item;
+    return [wc visibleItem];
 }
 
 - (void)togglePublishPageAction:(id)sender {
@@ -198,7 +196,7 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
         
     if (r.length == 0) {
         
-        [tv insertText:@"<blockquote><# #></blockquote>"];
+        [tv fmReplaceCharactersInRange:r withString:@"<blockquote><# #></blockquote>"];
         [tv setSelectedRange:r]; // move back so we grab the right placeholder.
         [tv selectNextTextPlaceholder:sender];
         return;
@@ -206,8 +204,8 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
     
     NSString *s = [[[tv textStorage] mutableString] substringWithRange:r];
     
-    NSString *repace = [NSString stringWithFormat:@"<blockquote>%@</blockquote>", s];
-    [tv insertText:repace];
+    NSString *replace = [NSString stringWithFormat:@"<blockquote>%@</blockquote>", s];
+    [tv fmReplaceCharactersInRange:r withString:replace];
 }
 
 - (void)pasteHREFAction:(id)sender {
@@ -221,8 +219,7 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
     NSRange r = [tv selectedRange];
     
     if (r.length == 0) {
-        
-        [tv insertText:@"[<# link text #>](<# Earl #>)"];
+        [tv fmReplaceCharactersInRange:r withString:@"[<# link text #>](<# Earl #>)"];
         [tv setSelectedRange:r]; // move back so we grab the right placeholder.
         [tv selectNextTextPlaceholder:sender];
         return;
@@ -230,8 +227,8 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
     
     NSString *s = [[[tv textStorage] mutableString] substringWithRange:r];
     
-    NSString *repace = [NSString stringWithFormat:@"[%@](<# Earl #>)", s];
-    [tv insertText:repace];
+    NSString *replace = [NSString stringWithFormat:@"[%@](<# Earl #>)", s];
+    [tv fmReplaceCharactersInRange:r withString:replace];
     
     r.length = 0;
     [tv setSelectedRange:r]; // move back so we grab the right placeholder.

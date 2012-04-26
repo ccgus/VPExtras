@@ -1,0 +1,11 @@
+/*
+VPScriptMenuTitle = Insert Image Tag
+VPScriptSuperMenuTitle = Markdown
+*/
+
+
+function main(windowController, document) {
+    var textView = [windowController textView];
+    [textView insertText:@'![<# alt text #>](<# /path/img.jpg #> "<# Title #>")'];
+    [textView selectNextTextPlaceholder:null];
+}
