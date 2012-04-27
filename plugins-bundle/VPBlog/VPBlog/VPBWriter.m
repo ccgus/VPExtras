@@ -186,10 +186,10 @@
             NSString *outRelativePath = [self askForArchivePathForItem:item fileName:archiveFileName document:doc baseOutputURL:baseOutputURL context:exportContext jstalk:jstalk];
             NSURL *outURL             = [baseOutputURL URLByAppendingPathComponent:outRelativePath];
             
-            NSDictionary *renderOptions = [NSDictionary dictionaryWithObjectsAndKeys:jstalk, @"jstalk", nil];
+            NSDictionary *renderOptions = [NSDictionary dictionaryWithObjectsAndKeys:jstalk, @"jstalk", [NSNumber numberWithBool:YES], @"ignoreTemplateWrapping", nil];
             
             NSDictionary *d = [webExportController renderItem:item options:renderOptions];
-            NSString *unwrappedOutput = [d objectForKey:@"unwrappedOutput"];
+            NSString *unwrappedOutput = [d objectForKey:@"output"];
             
             if ([[jstalk jsController] hasFunction:@"blogExportWillAppendItemToFrontPage"]) {
                 [jstalk callFunctionNamed:@"blogExportWillAppendItemToFrontPage" withArguments:[NSArray arrayWithObjects:doc, item, _indexPage, exportContext, nil]];
