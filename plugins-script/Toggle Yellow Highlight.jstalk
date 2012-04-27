@@ -1,0 +1,17 @@
+function main(windowController, document) {
+    
+    var color = [NSColor yellowColor];
+    var textView = [windowController textView];
+    var selectedRange = [textView selectedRange];
+    
+    var textStorage = [textView textStorage];
+    
+    var atts = [textStorage attributesAtIndex:selectedRange.location effectiveRange:null];
+    
+    if ([atts objectForKey:NSBackgroundColorAttributeName]) {
+        [textStorage removeAttribute:NSBackgroundColorAttributeName range:selectedRange];
+    }
+    else {
+        [textStorage addAttribute:NSBackgroundColorAttributeName value:color range:selectedRange];
+    }
+}
