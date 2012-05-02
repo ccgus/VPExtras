@@ -1,0 +1,32 @@
+/*
+VPScriptMenuTitle = Remove Markdown Extensiosn from Pages
+VPScriptSuperMenuTitle = Markdown
+*/
+
+function main(windowController, document) {
+    var uuids = [document pageUUIDs];
+    
+    for (idx = 0; idx < uuids.length(); idx++) {
+        var uuid = uuids[idx];
+        var page = [document pageForUUID:uuid];
+        
+        if ([page uti] != "net.daringfireball.markdown") {
+            continue;
+        }
+        
+        var ext = [[page displayName] pathExtension];
+        
+        if (ext == "md" || ext == "markdown" || ext == "mdown") {
+            
+            var newName = [[page displayName] stringByDeletingPathExtension];
+            
+            
+            if ([document renameItemWithUUID:uuid to:newName]) {
+                // success!
+            }
+            else {
+                print("Failure renaming " + [page displayName] + " to " + newName);
+            }
+        }
+    }
+}
