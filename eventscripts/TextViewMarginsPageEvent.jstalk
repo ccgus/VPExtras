@@ -1,0 +1,13 @@
+
+/* This is an example which shows how to set custom margins for text pages.
+   add the contents of the pageWasOpened event to your VPPageEventScript */
+
+function pageWasOpened(document, page) {
+    
+    if ([page isText]) {
+        // custom insets per document!
+        var wc = [document mainWindowController];
+        var tv = [wc textView];
+        [tv setTextContainerInset:NSMakeSize(30, 0)];
+    }
+}
