@@ -1,0 +1,12 @@
+function main(windowController, document) {
+    
+    var textView = [windowController textView];
+    var pageName = [[[textView textStorage] string] substringWithRange:[textView selectedRange]];
+    
+    if ([pageName length] <= 0) {
+        NSBeep();
+        return;
+    }
+    
+    [document createNewPageWithName:pageName];
+}
