@@ -1,0 +1,14 @@
+function main(windowController, document) {
+    
+    var itemUUID = [[windowController visibleItem] uuid];
+    
+    var pageFolder = [itemUUID substringWithRange:NSMakeRange(0, 1)];
+    
+    var docFolder = [[document fileURL] path];
+    
+    var fullPath = docFolder + "/pages/" + pageFolder + "/" + itemUUID;
+    
+    [[NSWorkspace sharedWorkspace] selectFile:fullPath inFileViewerRootedAtPath:nil];
+    
+    print(fullPath);
+}
