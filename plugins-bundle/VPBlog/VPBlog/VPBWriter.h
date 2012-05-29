@@ -8,7 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface VPBWriter : NSObject
+@interface VPBWriter : NSObject {
+
+}
 
 - (void)exportAndLimitToCount:(NSInteger)postCount;
 

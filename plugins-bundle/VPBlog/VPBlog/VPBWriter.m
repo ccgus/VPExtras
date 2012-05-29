@@ -14,6 +14,7 @@
 @property (strong) NSMutableString *rssFeed;
 @property (strong) NSMutableString *indexPage;
 @property (strong) NSMutableDictionary *vpbSetup;
+@property (strong) NSString *currentArchiveMonth;
 @end
 
 @implementation VPBWriter
@@ -21,6 +22,7 @@
 @synthesize rssFeed=_rssFeed;
 @synthesize indexPage=_indexPage;
 @synthesize vpbSetup=_vpbSetup;
+@synthesize currentArchiveMonth=_currentArchiveMonth;
 
 - (id)init
 {
@@ -43,6 +45,7 @@
     [_rssFeed release];
     [_indexPage release];
     [_vpbSetup release];
+    [_currentArchiveMonth release];
     
     [super dealloc];
 }
@@ -86,6 +89,26 @@
     
     return fn;
     
+}
+
+- (void)appendItem:(id<VPData>)item toArchiveString:(NSMutableString*)archive usingRelativePath:(NSString*)outRelativePath {
+    
+    NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
+    [formatter setDateFormat:@"MMMM yyyy"];
+    
+    NSString *thisGuysMonth = [formatter stringFromDate:[item createdDate]]; 
+    
+    if (![thisGuysMonth isEqualToString:_currentArchiveMonth]) {
+    
+        if (_currentArchiveMonth) {
+            [archive appendString:@"</div>\n"];
+        }
+    
+        [self setCurrentArchiveMonth:thisGuysMonth];
+        [archive appendFormat:@"<div class=\"archiveMonthEntry\"><p class=\"archiveMonthHeader\">%@</p>\n", _currentArchiveMonth];
+    }
+    
+    [archive appendFormat:@"<p class=\"archiveEntry\"><a href=\"%@\">%@</a></p>\n", outRelativePath, [self escapeForXML:[item displayName]]];
 }
 
 - (void)exportAndLimitToCount:(NSInteger)postCount {
@@ -153,17 +176,14 @@
     NSInteger currentPageCount = 0;
     NSInteger maxPageCount     = [[_vpbSetup objectForKey:@"frontPageCount"] integerValue];
     
-    debug(@"maxPageCount: %ld", maxPageCount);
+    
+    NSMutableString *archivePage = [NSMutableString string];
+    
     
     id webExportController = [(id)doc webExportController];
     NSArray *orderedByDate = [doc orderedPageKeysByCreateDate];
     
     for (NSString *key in [orderedByDate reverseObjectEnumerator]) {
-        
-        if (currentPageCount >= maxPageCount) {
-            break;
-        }
-        
         
         @autoreleasepool {
             
@@ -178,13 +198,24 @@
                 continue;
             }
             
-            currentPageCount++;
+            
             
             // let's find out where they want us to write the file:
             
             NSString *archiveFileName = [self escapeArchivePageName:[[item key] stringByAppendingPathExtension:@"html"]];
             NSString *outRelativePath = [self askForArchivePathForItem:item fileName:archiveFileName document:doc baseOutputURL:baseOutputURL context:exportContext jstalk:jstalk];
             NSURL *outURL             = [baseOutputURL URLByAppendingPathComponent:outRelativePath];
+            
+            [self appendItem:item toArchiveString:archivePage usingRelativePath:outRelativePath];
+            
+            
+            if (currentPageCount >= maxPageCount) {
+                continue;
+            }
+            
+            currentPageCount++;
+            
+            
             
             NSDictionary *renderOptions = [NSDictionary dictionaryWithObjectsAndKeys:jstalk, @"jstalk", [NSNumber numberWithBool:YES], @"ignoreTemplateWrapping", nil];
             
@@ -235,24 +266,52 @@
     
     [jstalk deleteObjectWithName:@"page"];
     
-    NSString *rIndexPage   = [pageTemplate stringByReplacingOccurrencesOfString:@"$page$" withString:_indexPage];
-    NSDictionary *args  = [NSDictionary dictionaryWithObjectsAndKeys:doc, @"document", exportContext, @"pageContext", _vpbSetup, @"vpbSetup", nil];
-    rIndexPage = [(id)doc renderScriptletsInHTMLString:rIndexPage withJSTalk:jstalk usingVariables:args];
-    
-    NSData *indexPageData = [rIndexPage dataUsingEncoding:NSUTF8StringEncoding];
-    NSURL *outURL         = [baseOutputURL URLByAppendingPathComponent:@"index.html"];
-    
-    if (![indexPageData writeToURL:outURL options:NSDataWritingAtomic error:&writeError]) {
-        NSLog(@"Could not write to %@", outURL);
-        NSLog(@"%@", writeError);
+    // write the index page!
+    {
+        NSString *rIndexPage   = [pageTemplate stringByReplacingOccurrencesOfString:@"$page$" withString:_indexPage];
+        NSDictionary *args  = [NSDictionary dictionaryWithObjectsAndKeys:doc, @"document", exportContext, @"pageContext", _vpbSetup, @"vpbSetup", nil];
+        rIndexPage = [(id)doc renderScriptletsInHTMLString:rIndexPage withJSTalk:jstalk usingVariables:args];
+        
+        NSData *indexPageData = [rIndexPage dataUsingEncoding:NSUTF8StringEncoding];
+        NSURL *outURL         = [baseOutputURL URLByAppendingPathComponent:@"index.html"];
+        
+        if (![indexPageData writeToURL:outURL options:NSDataWritingAtomic error:&writeError]) {
+            NSLog(@"Could not write to %@", outURL);
+            NSLog(@"%@", writeError);
+        }
     }
+    
+    
+    
+    // write the archive page!
+    {
+        // close the opening div we've got going on.
+        [archivePage appendString:@"</div>\n"];
+        
+        NSString *rArchivePage   = [pageTemplate stringByReplacingOccurrencesOfString:@"$page$" withString:archivePage];
+        NSDictionary *args  = [NSDictionary dictionaryWithObjectsAndKeys:doc, @"document", exportContext, @"pageContext", _vpbSetup, @"vpbSetup", nil];
+        rArchivePage = [(id)doc renderScriptletsInHTMLString:rArchivePage withJSTalk:jstalk usingVariables:args];
+
+        NSData *archivePageData = [rArchivePage dataUsingEncoding:NSUTF8StringEncoding];
+        NSURL *archiveOutURL    = [baseOutputURL URLByAppendingPathComponent:@"archive.html"];
+        
+        if (![archivePageData writeToURL:archiveOutURL options:NSDataWritingAtomic error:&writeError]) {
+            NSLog(@"Could not write to %@", archiveOutURL);
+            NSLog(@"%@", writeError);
+        }
+    }
+    
+    
+    
+    
+    
     
     if ([[jstalk jsController] hasFunction:@"blogExportDidEnd"]) {
         [jstalk callFunctionNamed:@"blogExportDidEnd" withArguments:[NSArray arrayWithObjects:doc, exportContext, nil]];
     }
     
     if ([[_vpbSetup objectForKey:@"viewLocalWhenFinished"] boolValue]) {
-        [[NSWorkspace sharedWorkspace] openURL:outURL];
+        [[NSWorkspace sharedWorkspace] openURL:[baseOutputURL URLByAppendingPathComponent:@"index.html"]];
     }
     
 }
