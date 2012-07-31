@@ -1,0 +1,18 @@
+/*
+VPScriptMenuTitle = Current Word
+VPScriptSuperMenuTitle = Select
+VPShortcutKey = e
+VPShortcutMask = command control
+*/
+
+function main(windowController, document) {
+    var textView = [windowController textView];
+    
+    var range = [textView selectedRange];
+    
+    var wordRange = [textView selectionRangeForProposedRange:range granularity:NSSelectByWord];
+    
+    [textView setSelectedRange:wordRange];
+}
+
+
