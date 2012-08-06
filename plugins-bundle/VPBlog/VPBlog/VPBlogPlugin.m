@@ -75,7 +75,7 @@
             [jstalk executeString:[scriptPage stringData]];
         }
         
-        if ([[jstalk jsController] hasFunction:@"blogSetupConfiguration"]) {
+        if ([jstalk hasFunctionNamed:@"blogSetupConfiguration"]) {
             [jstalk callFunctionNamed:@"blogSetupConfiguration" withArguments:[NSArray arrayWithObjects:[VPBlogPlugin currentDocument], d, nil]];
         }
     }];

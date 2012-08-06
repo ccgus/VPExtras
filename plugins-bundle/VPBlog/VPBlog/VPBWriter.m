@@ -67,7 +67,7 @@
 - (NSString*)askForArchivePathForItem:(id<VPData>)item fileName:(NSString*)fn document:(id<VPPluginDocument>)doc baseOutputURL:(NSURL*)baseOutputURL context:(NSMutableDictionary*)exportContext jstalk:(JSTalk*)jstalk {
     
     
-    if ([[jstalk jsController] hasFunction:@"blogExportArchivePathForItem"]) {
+    if ([jstalk hasFunctionNamed:@"blogExportArchivePathForItem"]) {
         
         NSString *newPath = [jstalk callFunctionNamed:@"blogExportArchivePathForItem" withArguments:[NSArray arrayWithObjects:doc, item, fn, exportContext, nil]];
         
@@ -153,17 +153,17 @@
         [jstalk executeString:[scriptPage stringData]];
     }
     
-    if ([[jstalk jsController] hasFunction:@"blogSetupConfiguration"]) {
+    if ([jstalk hasFunctionNamed:@"blogSetupConfiguration"]) {
         [jstalk callFunctionNamed:@"blogSetupConfiguration" withArguments:[NSArray arrayWithObjects:doc, _vpbSetup, nil]];
     }
     
-    if ([[jstalk jsController] hasFunction:@"blogExportWillBegin"]) {
+    if ([jstalk hasFunctionNamed:@"blogExportWillBegin"]) {
         [jstalk callFunctionNamed:@"blogExportWillBegin" withArguments:[NSArray arrayWithObjects:doc, exportContext, nil]];
     }
     
     NSString *entryPageTemplate = [[doc pageForKey:@"VPBlogPageEntryTemplate"] stringData];
     if (!entryPageTemplate) {
-        entryPageTemplate = @"<%= context.pageEntry %>";
+        entryPageTemplate = @"<%= pageContext.pageEntry %>";
     }
     
     NSString *pageTemplate = [[doc pageForKey:@"VPWebExportPageTemplate"] stringData];
@@ -222,7 +222,7 @@
             NSDictionary *d = [webExportController renderItem:item options:renderOptions];
             NSString *unwrappedOutput = [d objectForKey:@"output"];
             
-            if ([[jstalk jsController] hasFunction:@"blogExportWillAppendItemToFrontPage"]) {
+            if ([jstalk hasFunctionNamed:@"blogExportWillAppendItemToFrontPage"]) {
                 [jstalk callFunctionNamed:@"blogExportWillAppendItemToFrontPage" withArguments:[NSArray arrayWithObjects:doc, item, _indexPage, exportContext, nil]];
             }
             
@@ -240,7 +240,7 @@
             
             [self appendRSSEntry:entry archiveURL:outRelativePath toItem:item];
             
-            if ([[jstalk jsController] hasFunction:@"blogExportDidAppendItemToFrontPage"]) {
+            if ([jstalk hasFunctionNamed:@"blogExportDidAppendItemToFrontPage"]) {
                 [jstalk callFunctionNamed:@"blogExportDidAppendItemToFrontPage" withArguments:[NSArray arrayWithObjects:doc, item, _indexPage, exportContext, nil]];
             }
             
@@ -306,7 +306,7 @@
     
     
     
-    if ([[jstalk jsController] hasFunction:@"blogExportDidEnd"]) {
+    if ([jstalk hasFunctionNamed:@"blogExportDidEnd"]) {
         [jstalk callFunctionNamed:@"blogExportDidEnd" withArguments:[NSArray arrayWithObjects:doc, exportContext, nil]];
     }
     
