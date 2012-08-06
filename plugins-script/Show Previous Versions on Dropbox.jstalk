@@ -1,0 +1,32 @@
+/*
+VPScriptMenuTitle = Show Previous Versions on Dropbox
+*/
+
+/*
+    # Install Notes:
+    Place this file in your ~/Library/Application Support/VoodooPad/Script PlugIns/ folder, and restart VoodooPad
+    It will then show up under the Plugin menu.
+*/
+
+function main(windowController, document) {
+    
+    var itemUUID = [[windowController visibleItem] uuid];
+    var pageFolder = [itemUUID substringWithRange:NSMakeRange(0, 1)];
+    var docFolder = [[document fileURL] path];
+    var fullPath  = docFolder + "/pages/" + pageFolder + "/" + itemUUID;
+    var dropboxFolder = [@"~/Dropbox" stringByExpandingTildeInPath];
+    
+    fullPath = [NSString stringWithString:fullPath];
+    
+    if ([fullPath hasPrefix:dropboxFolder]) {
+        
+        var dbPath = [fullPath substringFromIndex:[dropboxFolder length]];
+        
+        var dbURL = "https://www.dropbox.com/revisions" + dbPath;
+        
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:dbURL]];
+    }
+    else {
+        print("This document doesn't seem to be in your Dropbox folder.")
+    }
+}
