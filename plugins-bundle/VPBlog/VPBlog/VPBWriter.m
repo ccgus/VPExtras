@@ -166,6 +166,12 @@
         entryPageTemplate = @"<%= pageContext.pageEntry %>";
     }
     
+    
+    NSString *rssEntryTemplate = [[doc pageForKey:@"VPBlogRSSEntryTemplate"] stringData];
+    if (!rssEntryTemplate) {
+        rssEntryTemplate = @"<%= pageContext.pageEntry %>";
+    }
+    
     NSString *pageTemplate = [[doc pageForKey:@"VPWebExportPageTemplate"] stringData];
     if (!pageTemplate) {
         pageTemplate = @"$page$";
@@ -231,6 +237,7 @@
             
             NSDictionary *args  = [NSDictionary dictionaryWithObjectsAndKeys:doc, @"document", item, @"page", exportContext, @"pageContext", _vpbSetup, @"vpbSetup", nil];
             NSString *entry     = [(id)doc renderScriptletsInHTMLString:entryPageTemplate withJSTalk:jstalk usingVariables:args];
+            NSString *rssentry  = [(id)doc renderScriptletsInHTMLString:rssEntryTemplate withJSTalk:jstalk usingVariables:args];
             
             NSString *archivePage = [pageTemplate stringByReplacingOccurrencesOfString:@"$page$" withString:entry];
             archivePage           = [(id)doc renderScriptletsInHTMLString:archivePage withJSTalk:jstalk usingVariables:args];
@@ -238,7 +245,8 @@
             
             [_indexPage appendString:entry];
             
-            [self appendRSSEntry:entry archiveURL:outRelativePath toItem:item];
+            //debug(@"entry: %@", entry);
+            [self appendRSSEntry:rssentry archiveURL:outRelativePath toItem:item];
             
             if ([jstalk hasFunctionNamed:@"blogExportDidAppendItemToFrontPage"]) {
                 [jstalk callFunctionNamed:@"blogExportDidAppendItemToFrontPage" withArguments:[NSArray arrayWithObjects:doc, item, _indexPage, exportContext, nil]];
