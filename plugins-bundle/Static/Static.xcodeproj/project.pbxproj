@@ -8,40 +8,42 @@
 
 /* Begin PBXBuildFile section */
 		CC0F5556152A4D5900824A57 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC0F5555152A4D5900824A57 /* Cocoa.framework */; };
-		CC0F5560152A4D5900824A57 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CC0F555E152A4D5900824A57 /* InfoPlist.strings */; };
-		CC0F556E152A4F8E00824A57 /* VPBlogPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = CC0F556D152A4F8E00824A57 /* VPBlogPlugin.m */; };
-		CC0F5575152A511100824A57 /* VPBPaletteController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC0F5573152A511100824A57 /* VPBPaletteController.m */; };
-		CC0F5576152A511100824A57 /* VPBPaletteController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CC0F5574152A511100824A57 /* VPBPaletteController.xib */; };
 		CC0F5582152A5A8F00824A57 /* VPPlugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC0F5581152A5A8F00824A57 /* VPPlugin.framework */; };
-		CCAE9356152E449400CA10DE /* VPBlogExportScript.jstalk in Resources */ = {isa = PBXBuildFile; fileRef = CCAE9355152E449400CA10DE /* VPBlogExportScript.jstalk */; };
-		CCEEA1A3152E3FC4008374AD /* VPBWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = CCEEA1A2152E3FC4008374AD /* VPBWriter.m */; };
-		CCF348CD152F81E300D7E329 /* VPBlogHelp.rtfd in Resources */ = {isa = PBXBuildFile; fileRef = CCF348CC152F81E300D7E329 /* VPBlogHelp.rtfd */; };
-		CCFD083E152E47FF004EEB62 /* VPWebExportPageTemplate.html in Resources */ = {isa = PBXBuildFile; fileRef = CCFD083D152E47FF004EEB62 /* VPWebExportPageTemplate.html */; };
-		CCFD0841152E492E004EEB62 /* VPBlogPageEntryTemplate.html in Resources */ = {isa = PBXBuildFile; fileRef = CCFD0840152E492E004EEB62 /* VPBlogPageEntryTemplate.html */; };
+		CCE9FABD15D465AE0053528A /* VPBlogHelp.rtfd in Resources */ = {isa = PBXBuildFile; fileRef = CCE9FABC15D465AE0053528A /* VPBlogHelp.rtfd */; };
+		CCE9FAC415D465CD0053528A /* VPBlog-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CCE9FABF15D465CD0053528A /* VPBlog-Info.plist */; };
+		CCE9FAC515D465CD0053528A /* VPBlogExportScript.jstalk in Resources */ = {isa = PBXBuildFile; fileRef = CCE9FAC015D465CD0053528A /* VPBlogExportScript.jstalk */; };
+		CCE9FAC615D465CD0053528A /* VPBlogPageEntryTemplate.html in Resources */ = {isa = PBXBuildFile; fileRef = CCE9FAC115D465CD0053528A /* VPBlogPageEntryTemplate.html */; };
+		CCE9FAC715D465CD0053528A /* VPBPaletteController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CCE9FAC215D465CD0053528A /* VPBPaletteController.xib */; };
+		CCE9FAC815D465CD0053528A /* VPWebExportPageTemplate.html in Resources */ = {isa = PBXBuildFile; fileRef = CCE9FAC315D465CD0053528A /* VPWebExportPageTemplate.html */; };
+		CCE9FAC915D465CD0053528A /* VPBlogHelp.rtfd in Resources */ = {isa = PBXBuildFile; fileRef = CCE9FABC15D465AE0053528A /* VPBlogHelp.rtfd */; };
+		CCE9FAD115D465EB0053528A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CCE9FACF15D465EB0053528A /* InfoPlist.strings */; };
+		CCE9FADA15D466070053528A /* VPBlogPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE9FAD415D466070053528A /* VPBlogPlugin.m */; };
+		CCE9FADB15D466070053528A /* VPBPaletteController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE9FAD615D466070053528A /* VPBPaletteController.m */; };
+		CCE9FADC15D466070053528A /* VPBWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE9FAD815D466070053528A /* VPBWriter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		CC0F5552152A4D5900824A57 /* VPBlog.vpplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VPBlog.vpplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC0F5552152A4D5900824A57 /* Static.vpplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Static.vpplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC0F5555152A4D5900824A57 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		CC0F5558152A4D5900824A57 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		CC0F5559152A4D5900824A57 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		CC0F555A152A4D5900824A57 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		CC0F555D152A4D5900824A57 /* VPBlog-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "VPBlog-Info.plist"; sourceTree = "<group>"; };
-		CC0F555F152A4D5900824A57 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		CC0F5561152A4D5900824A57 /* VPBlog-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VPBlog-Prefix.pch"; sourceTree = "<group>"; };
-		CC0F556C152A4F8E00824A57 /* VPBlogPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPBlogPlugin.h; sourceTree = "<group>"; };
-		CC0F556D152A4F8E00824A57 /* VPBlogPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VPBlogPlugin.m; sourceTree = "<group>"; };
-		CC0F5572152A511100824A57 /* VPBPaletteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPBPaletteController.h; sourceTree = "<group>"; };
-		CC0F5573152A511100824A57 /* VPBPaletteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VPBPaletteController.m; sourceTree = "<group>"; };
-		CC0F5574152A511100824A57 /* VPBPaletteController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VPBPaletteController.xib; sourceTree = "<group>"; };
 		CC0F5581152A5A8F00824A57 /* VPPlugin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VPPlugin.framework; path = ../VPPlugin.framework; sourceTree = "<group>"; };
-		CCAE9355152E449400CA10DE /* VPBlogExportScript.jstalk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VPBlogExportScript.jstalk; sourceTree = "<group>"; };
-		CCEEA1A1152E3FC4008374AD /* VPBWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPBWriter.h; sourceTree = "<group>"; };
-		CCEEA1A2152E3FC4008374AD /* VPBWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VPBWriter.m; sourceTree = "<group>"; };
-		CCEEA1A4152E3FE6008374AD /* VPPrivateStuff.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VPPrivateStuff.h; sourceTree = "<group>"; };
-		CCF348CC152F81E300D7E329 /* VPBlogHelp.rtfd */ = {isa = PBXFileReference; lastKnownFileType = wrapper.rtfd; path = VPBlogHelp.rtfd; sourceTree = "<group>"; };
-		CCFD083D152E47FF004EEB62 /* VPWebExportPageTemplate.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = VPWebExportPageTemplate.html; sourceTree = "<group>"; };
-		CCFD0840152E492E004EEB62 /* VPBlogPageEntryTemplate.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = VPBlogPageEntryTemplate.html; sourceTree = "<group>"; };
+		CCE9FABC15D465AE0053528A /* VPBlogHelp.rtfd */ = {isa = PBXFileReference; lastKnownFileType = wrapper.rtfd; name = VPBlogHelp.rtfd; path = Static/VPBlogHelp.rtfd; sourceTree = SOURCE_ROOT; };
+		CCE9FABF15D465CD0053528A /* VPBlog-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "VPBlog-Info.plist"; path = "Static/VPBlog-Info.plist"; sourceTree = SOURCE_ROOT; };
+		CCE9FAC015D465CD0053528A /* VPBlogExportScript.jstalk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = VPBlogExportScript.jstalk; path = Static/VPBlogExportScript.jstalk; sourceTree = SOURCE_ROOT; };
+		CCE9FAC115D465CD0053528A /* VPBlogPageEntryTemplate.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = VPBlogPageEntryTemplate.html; path = Static/VPBlogPageEntryTemplate.html; sourceTree = SOURCE_ROOT; };
+		CCE9FAC215D465CD0053528A /* VPBPaletteController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VPBPaletteController.xib; path = Static/VPBPaletteController.xib; sourceTree = SOURCE_ROOT; };
+		CCE9FAC315D465CD0053528A /* VPWebExportPageTemplate.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = VPWebExportPageTemplate.html; path = Static/VPWebExportPageTemplate.html; sourceTree = SOURCE_ROOT; };
+		CCE9FAD015D465EB0053528A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Static/en.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
+		CCE9FAD215D466070053528A /* VPBlog-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "VPBlog-Prefix.pch"; path = "Static/VPBlog-Prefix.pch"; sourceTree = SOURCE_ROOT; };
+		CCE9FAD315D466070053528A /* VPBlogPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VPBlogPlugin.h; path = Static/VPBlogPlugin.h; sourceTree = SOURCE_ROOT; };
+		CCE9FAD415D466070053528A /* VPBlogPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VPBlogPlugin.m; path = Static/VPBlogPlugin.m; sourceTree = SOURCE_ROOT; };
+		CCE9FAD515D466070053528A /* VPBPaletteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VPBPaletteController.h; path = Static/VPBPaletteController.h; sourceTree = SOURCE_ROOT; };
+		CCE9FAD615D466070053528A /* VPBPaletteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VPBPaletteController.m; path = Static/VPBPaletteController.m; sourceTree = SOURCE_ROOT; };
+		CCE9FAD715D466070053528A /* VPBWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VPBWriter.h; path = Static/VPBWriter.h; sourceTree = SOURCE_ROOT; };
+		CCE9FAD815D466070053528A /* VPBWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VPBWriter.m; path = Static/VPBWriter.m; sourceTree = SOURCE_ROOT; };
+		CCE9FAD915D466070053528A /* VPPrivateStuff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VPPrivateStuff.h; path = Static/VPPrivateStuff.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,7 +71,7 @@
 		CC0F5553152A4D5900824A57 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CC0F5552152A4D5900824A57 /* VPBlog.vpplugin */,
+				CC0F5552152A4D5900824A57 /* Static.vpplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -98,14 +100,14 @@
 			isa = PBXGroup;
 			children = (
 				CC0F555C152A4D5900824A57 /* Resources */,
-				CC0F556C152A4F8E00824A57 /* VPBlogPlugin.h */,
-				CC0F556D152A4F8E00824A57 /* VPBlogPlugin.m */,
-				CC0F5572152A511100824A57 /* VPBPaletteController.h */,
-				CC0F5573152A511100824A57 /* VPBPaletteController.m */,
-				CC0F5561152A4D5900824A57 /* VPBlog-Prefix.pch */,
-				CCEEA1A1152E3FC4008374AD /* VPBWriter.h */,
-				CCEEA1A2152E3FC4008374AD /* VPBWriter.m */,
-				CCEEA1A4152E3FE6008374AD /* VPPrivateStuff.h */,
+				CCE9FAD215D466070053528A /* VPBlog-Prefix.pch */,
+				CCE9FAD315D466070053528A /* VPBlogPlugin.h */,
+				CCE9FAD415D466070053528A /* VPBlogPlugin.m */,
+				CCE9FAD515D466070053528A /* VPBPaletteController.h */,
+				CCE9FAD615D466070053528A /* VPBPaletteController.m */,
+				CCE9FAD715D466070053528A /* VPBWriter.h */,
+				CCE9FAD815D466070053528A /* VPBWriter.m */,
+				CCE9FAD915D466070053528A /* VPPrivateStuff.h */,
 			);
 			path = VPBlog;
 			sourceTree = "<group>";
@@ -113,13 +115,13 @@
 		CC0F555C152A4D5900824A57 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				CCF348CC152F81E300D7E329 /* VPBlogHelp.rtfd */,
-				CCAE9355152E449400CA10DE /* VPBlogExportScript.jstalk */,
-				CCFD083D152E47FF004EEB62 /* VPWebExportPageTemplate.html */,
-				CCFD0840152E492E004EEB62 /* VPBlogPageEntryTemplate.html */,
-				CC0F5574152A511100824A57 /* VPBPaletteController.xib */,
-				CC0F555D152A4D5900824A57 /* VPBlog-Info.plist */,
-				CC0F555E152A4D5900824A57 /* InfoPlist.strings */,
+				CCE9FABF15D465CD0053528A /* VPBlog-Info.plist */,
+				CCE9FAC015D465CD0053528A /* VPBlogExportScript.jstalk */,
+				CCE9FAC115D465CD0053528A /* VPBlogPageEntryTemplate.html */,
+				CCE9FAC215D465CD0053528A /* VPBPaletteController.xib */,
+				CCE9FAC315D465CD0053528A /* VPWebExportPageTemplate.html */,
+				CCE9FABC15D465AE0053528A /* VPBlogHelp.rtfd */,
+				CCE9FACF15D465EB0053528A /* InfoPlist.strings */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -141,7 +143,7 @@
 			);
 			name = VPBlog;
 			productName = VPBlog;
-			productReference = CC0F5552152A4D5900824A57 /* VPBlog.vpplugin */;
+			productReference = CC0F5552152A4D5900824A57 /* Static.vpplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -153,7 +155,7 @@
 				LastUpgradeCheck = 0430;
 				ORGANIZATIONNAME = "Flying Meat";
 			};
-			buildConfigurationList = CC0F554C152A4D5900824A57 /* Build configuration list for PBXProject "VPBlog" */;
+			buildConfigurationList = CC0F554C152A4D5900824A57 /* Build configuration list for PBXProject "Static" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -175,12 +177,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC0F5560152A4D5900824A57 /* InfoPlist.strings in Resources */,
-				CC0F5576152A511100824A57 /* VPBPaletteController.xib in Resources */,
-				CCAE9356152E449400CA10DE /* VPBlogExportScript.jstalk in Resources */,
-				CCFD083E152E47FF004EEB62 /* VPWebExportPageTemplate.html in Resources */,
-				CCFD0841152E492E004EEB62 /* VPBlogPageEntryTemplate.html in Resources */,
-				CCF348CD152F81E300D7E329 /* VPBlogHelp.rtfd in Resources */,
+				CCE9FABD15D465AE0053528A /* VPBlogHelp.rtfd in Resources */,
+				CCE9FAC415D465CD0053528A /* VPBlog-Info.plist in Resources */,
+				CCE9FAC515D465CD0053528A /* VPBlogExportScript.jstalk in Resources */,
+				CCE9FAC615D465CD0053528A /* VPBlogPageEntryTemplate.html in Resources */,
+				CCE9FAC715D465CD0053528A /* VPBPaletteController.xib in Resources */,
+				CCE9FAC815D465CD0053528A /* VPWebExportPageTemplate.html in Resources */,
+				CCE9FAC915D465CD0053528A /* VPBlogHelp.rtfd in Resources */,
+				CCE9FAD115D465EB0053528A /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,19 +195,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC0F556E152A4F8E00824A57 /* VPBlogPlugin.m in Sources */,
-				CC0F5575152A511100824A57 /* VPBPaletteController.m in Sources */,
-				CCEEA1A3152E3FC4008374AD /* VPBWriter.m in Sources */,
+				CCE9FADA15D466070053528A /* VPBlogPlugin.m in Sources */,
+				CCE9FADB15D466070053528A /* VPBPaletteController.m in Sources */,
+				CCE9FADC15D466070053528A /* VPBWriter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		CC0F555E152A4D5900824A57 /* InfoPlist.strings */ = {
+		CCE9FACF15D465EB0053528A /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				CC0F555F152A4D5900824A57 /* en */,
+				CCE9FAD015D465EB0053528A /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -233,7 +237,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.7;
 			};
 			name = Debug;
 		};
@@ -252,7 +256,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.7;
 			};
 			name = Release;
 		};
@@ -264,10 +268,10 @@
 					"\"$(SRCROOT)/..\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "VPBlog/VPBlog-Prefix.pch";
-				INFOPLIST_FILE = "VPBlog/VPBlog-Info.plist";
+				GCC_PREFIX_HEADER = "Static/VPBlog-Prefix.pch";
+				INFOPLIST_FILE = "Static/VPBlog-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Static;
 				WRAPPER_EXTENSION = vpplugin;
 			};
 			name = Debug;
@@ -280,10 +284,10 @@
 					"\"$(SRCROOT)/..\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "VPBlog/VPBlog-Prefix.pch";
-				INFOPLIST_FILE = "VPBlog/VPBlog-Info.plist";
+				GCC_PREFIX_HEADER = "Static/VPBlog-Prefix.pch";
+				INFOPLIST_FILE = "Static/VPBlog-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Static;
 				WRAPPER_EXTENSION = vpplugin;
 			};
 			name = Release;
@@ -291,7 +295,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CC0F554C152A4D5900824A57 /* Build configuration list for PBXProject "VPBlog" */ = {
+		CC0F554C152A4D5900824A57 /* Build configuration list for PBXProject "Static" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CC0F5562152A4D5900824A57 /* Debug */,

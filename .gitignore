@@ -1,2 +1,6 @@
 cache-*
 templates/RSSWebExportEventSample.vpdoc/store.vpsqlite
+plugins-bundle/Static/Static.xcodeproj/project.xcworkspace/contents.xcworkspacedata
+plugins-bundle/Static/Static.xcodeproj/project.xcworkspace/xcuserdata/gus.xcuserdatad/UserInterfaceState.xcuserstate
+plugins-bundle/Static/Static.xcodeproj/xcuserdata/gus.xcuserdatad/xcschemes/VPBlog.xcscheme
+plugins-bundle/Static/Static.xcodeproj/xcuserdata/gus.xcuserdatad/xcschemes/xcschememanagement.plist

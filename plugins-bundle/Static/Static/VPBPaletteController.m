@@ -38,7 +38,7 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
 }
 
 - (NSString*)displayName {
-    return @"VPBlog";
+    return @"Static";
 }
 
 - (NSURL*)defaultOutputFolderURL {
