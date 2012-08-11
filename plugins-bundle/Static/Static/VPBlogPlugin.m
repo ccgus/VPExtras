@@ -67,16 +67,16 @@
         
         NSMutableDictionary *d = [NSMutableDictionary dictionary];
         
-        [jstalk pushObject:d withName:@"vpbSetup"];
+        [jstalk pushObject:d withName:@"staticSetup"];
         
-        id <VPData>scriptPage = [[VPBlogPlugin currentDocument] pageForKey:@"vpblogexportscript"];
+        id <VPData>scriptPage = [[VPBlogPlugin currentDocument] pageForKey:"@vpstaticexportscript"];
         
         if (scriptPage) {
             [jstalk executeString:[scriptPage stringData]];
         }
         
-        if ([jstalk hasFunctionNamed:@"blogSetupConfiguration"]) {
-            [jstalk callFunctionNamed:@"blogSetupConfiguration" withArguments:[NSArray arrayWithObjects:[VPBlogPlugin currentDocument], d, nil]];
+        if ([jstalk hasFunctionNamed:@"staticSetupConfiguration"]) {
+            [jstalk callFunctionNamed:@"staticSetupConfiguration" withArguments:[NSArray arrayWithObjects:[VPBlogPlugin currentDocument], d, nil]];
         }
     }];
     

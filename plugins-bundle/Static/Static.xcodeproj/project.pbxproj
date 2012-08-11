@@ -9,13 +9,13 @@
 /* Begin PBXBuildFile section */
 		CC0F5556152A4D5900824A57 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC0F5555152A4D5900824A57 /* Cocoa.framework */; };
 		CC0F5582152A5A8F00824A57 /* VPPlugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC0F5581152A5A8F00824A57 /* VPPlugin.framework */; };
-		CCE9FABD15D465AE0053528A /* VPBlogHelp.rtfd in Resources */ = {isa = PBXBuildFile; fileRef = CCE9FABC15D465AE0053528A /* VPBlogHelp.rtfd */; };
+		CCE9FABD15D465AE0053528A /* VPStaticHelp.rtfd in Resources */ = {isa = PBXBuildFile; fileRef = CCE9FABC15D465AE0053528A /* VPStaticHelp.rtfd */; };
 		CCE9FAC415D465CD0053528A /* VPBlog-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CCE9FABF15D465CD0053528A /* VPBlog-Info.plist */; };
-		CCE9FAC515D465CD0053528A /* VPBlogExportScript.jstalk in Resources */ = {isa = PBXBuildFile; fileRef = CCE9FAC015D465CD0053528A /* VPBlogExportScript.jstalk */; };
-		CCE9FAC615D465CD0053528A /* VPBlogPageEntryTemplate.html in Resources */ = {isa = PBXBuildFile; fileRef = CCE9FAC115D465CD0053528A /* VPBlogPageEntryTemplate.html */; };
+		CCE9FAC515D465CD0053528A /* VPStaticExportScript.jstalk in Resources */ = {isa = PBXBuildFile; fileRef = CCE9FAC015D465CD0053528A /* VPStaticExportScript.jstalk */; };
+		CCE9FAC615D465CD0053528A /* VPStaticPageEntryTemplate.html in Resources */ = {isa = PBXBuildFile; fileRef = CCE9FAC115D465CD0053528A /* VPStaticPageEntryTemplate.html */; };
 		CCE9FAC715D465CD0053528A /* VPBPaletteController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CCE9FAC215D465CD0053528A /* VPBPaletteController.xib */; };
 		CCE9FAC815D465CD0053528A /* VPWebExportPageTemplate.html in Resources */ = {isa = PBXBuildFile; fileRef = CCE9FAC315D465CD0053528A /* VPWebExportPageTemplate.html */; };
-		CCE9FAC915D465CD0053528A /* VPBlogHelp.rtfd in Resources */ = {isa = PBXBuildFile; fileRef = CCE9FABC15D465AE0053528A /* VPBlogHelp.rtfd */; };
+		CCE9FAC915D465CD0053528A /* VPStaticHelp.rtfd in Resources */ = {isa = PBXBuildFile; fileRef = CCE9FABC15D465AE0053528A /* VPStaticHelp.rtfd */; };
 		CCE9FAD115D465EB0053528A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CCE9FACF15D465EB0053528A /* InfoPlist.strings */; };
 		CCE9FADA15D466070053528A /* VPBlogPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE9FAD415D466070053528A /* VPBlogPlugin.m */; };
 		CCE9FADB15D466070053528A /* VPBPaletteController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE9FAD615D466070053528A /* VPBPaletteController.m */; };
@@ -29,10 +29,10 @@
 		CC0F5559152A4D5900824A57 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		CC0F555A152A4D5900824A57 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CC0F5581152A5A8F00824A57 /* VPPlugin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VPPlugin.framework; path = ../VPPlugin.framework; sourceTree = "<group>"; };
-		CCE9FABC15D465AE0053528A /* VPBlogHelp.rtfd */ = {isa = PBXFileReference; lastKnownFileType = wrapper.rtfd; name = VPBlogHelp.rtfd; path = Static/VPBlogHelp.rtfd; sourceTree = SOURCE_ROOT; };
+		CCE9FABC15D465AE0053528A /* VPStaticHelp.rtfd */ = {isa = PBXFileReference; lastKnownFileType = wrapper.rtfd; name = VPStaticHelp.rtfd; path = Static/VPStaticHelp.rtfd; sourceTree = SOURCE_ROOT; };
 		CCE9FABF15D465CD0053528A /* VPBlog-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "VPBlog-Info.plist"; path = "Static/VPBlog-Info.plist"; sourceTree = SOURCE_ROOT; };
-		CCE9FAC015D465CD0053528A /* VPBlogExportScript.jstalk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = VPBlogExportScript.jstalk; path = Static/VPBlogExportScript.jstalk; sourceTree = SOURCE_ROOT; };
-		CCE9FAC115D465CD0053528A /* VPBlogPageEntryTemplate.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = VPBlogPageEntryTemplate.html; path = Static/VPBlogPageEntryTemplate.html; sourceTree = SOURCE_ROOT; };
+		CCE9FAC015D465CD0053528A /* VPStaticExportScript.jstalk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = VPStaticExportScript.jstalk; path = Static/VPStaticExportScript.jstalk; sourceTree = SOURCE_ROOT; };
+		CCE9FAC115D465CD0053528A /* VPStaticPageEntryTemplate.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = VPStaticPageEntryTemplate.html; path = Static/VPStaticPageEntryTemplate.html; sourceTree = SOURCE_ROOT; };
 		CCE9FAC215D465CD0053528A /* VPBPaletteController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VPBPaletteController.xib; path = Static/VPBPaletteController.xib; sourceTree = SOURCE_ROOT; };
 		CCE9FAC315D465CD0053528A /* VPWebExportPageTemplate.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = VPWebExportPageTemplate.html; path = Static/VPWebExportPageTemplate.html; sourceTree = SOURCE_ROOT; };
 		CCE9FAD015D465EB0053528A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Static/en.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
@@ -116,11 +116,11 @@
 			isa = PBXGroup;
 			children = (
 				CCE9FABF15D465CD0053528A /* VPBlog-Info.plist */,
-				CCE9FAC015D465CD0053528A /* VPBlogExportScript.jstalk */,
-				CCE9FAC115D465CD0053528A /* VPBlogPageEntryTemplate.html */,
+				CCE9FAC015D465CD0053528A /* VPStaticExportScript.jstalk */,
+				CCE9FAC115D465CD0053528A /* VPStaticPageEntryTemplate.html */,
 				CCE9FAC215D465CD0053528A /* VPBPaletteController.xib */,
 				CCE9FAC315D465CD0053528A /* VPWebExportPageTemplate.html */,
-				CCE9FABC15D465AE0053528A /* VPBlogHelp.rtfd */,
+				CCE9FABC15D465AE0053528A /* VPStaticHelp.rtfd */,
 				CCE9FACF15D465EB0053528A /* InfoPlist.strings */,
 			);
 			name = Resources;
@@ -177,13 +177,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CCE9FABD15D465AE0053528A /* VPBlogHelp.rtfd in Resources */,
+				CCE9FABD15D465AE0053528A /* VPStaticHelp.rtfd in Resources */,
 				CCE9FAC415D465CD0053528A /* VPBlog-Info.plist in Resources */,
-				CCE9FAC515D465CD0053528A /* VPBlogExportScript.jstalk in Resources */,
-				CCE9FAC615D465CD0053528A /* VPBlogPageEntryTemplate.html in Resources */,
+				CCE9FAC515D465CD0053528A /* VPStaticExportScript.jstalk in Resources */,
+				CCE9FAC615D465CD0053528A /* VPStaticPageEntryTemplate.html in Resources */,
 				CCE9FAC715D465CD0053528A /* VPBPaletteController.xib in Resources */,
 				CCE9FAC815D465CD0053528A /* VPWebExportPageTemplate.html in Resources */,
-				CCE9FAC915D465CD0053528A /* VPBlogHelp.rtfd in Resources */,
+				CCE9FAC915D465CD0053528A /* VPStaticHelp.rtfd in Resources */,
 				CCE9FAD115D465EB0053528A /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

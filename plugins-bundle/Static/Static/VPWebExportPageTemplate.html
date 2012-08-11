@@ -1,5 +1,5 @@
 <% 
-    var title = vpbSetup.siteName; 
+    var title = staticSetup.siteName;
     
     if (typeof page != "undefined") {
         title = title + ": " + page.displayName();
@@ -108,7 +108,7 @@
         
         <div class="main">
             
-            <div class="header"><a href="/" style="text-decoration: none;"><%= vpbSetup.siteName %></a><br/>
+            <div class="header"><a href="/" style="text-decoration: none;"><%= staticSetup.siteName %></a><br/>
                 <span class="headerFoot">Put your catchy phrase here</span>
             </div>
             
@@ -116,7 +116,7 @@
             
             <div id="copyright">
                 <center>
-                    &copy; <%= vpbSetup.copyright %>.
+                    &copy; <%= staticSetup.copyright %>.
                 </center>
             </div>
             

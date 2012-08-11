@@ -64,7 +64,7 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
     [_ibPagePublishCheckbox setEnabled:doc != nil];
     [_ibChooseOutputFolderButton setEnabled:doc != nil];
     
-    NSString *outputPath = [doc extraObjectForKey:@"vpblog.outputPath"];
+    NSString *outputPath = [doc extraObjectForKey:@"vpstatic.outputPath"];
     
     if (outputPath) {
         
@@ -91,7 +91,7 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
     [_ibPagePublishCheckbox setEnabled:item != nil];
     
     
-    NSString *pubState = [item metaValueForKey:@"vpblog.publish"];
+    NSString *pubState = [item metaValueForKey:@"vpstatic.publish"];
     [_ibPagePublishCheckbox setState:[pubState boolValue]];
     
 }
@@ -125,7 +125,7 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
     
     NSString *publish = [_ibPagePublishCheckbox state] == NSOnState ? @"1" : @"0";
     
-    [item setMetaValue:publish forKey:@"vpblog.publish"];
+    [item setMetaValue:publish forKey:@"vpstatic.publish"];
     
     [[item store] setAttributesForItem:item];
     
@@ -147,7 +147,7 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
     [op setCanChooseDirectories:YES];
     [op setCanChooseFiles:NO];
     
-    NSString *outputPath = [doc extraObjectForKey:@"vpblog.outputPath"];
+    NSString *outputPath = [doc extraObjectForKey:@"vpstatic.outputPath"];
     if (outputPath && [[NSFileManager defaultManager] fileExistsAtPath:outputPath]) {
         [op setDirectoryURL:[NSURL fileURLWithPath:outputPath]];
     }
@@ -164,7 +164,7 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
         
         NSString *path = [u path];
         
-        [doc setExtraObject:path forKey:@"vpblog.outputPath"];
+        [doc setExtraObject:path forKey:@"vpstatic.outputPath"];
         
         // lazy update
         [self documentDidChange];
@@ -283,19 +283,21 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
 
 - (void)initDocumentAction:(id)sender {
     
-    if (![[VPBlogPlugin currentDocument] pageForKey:@"VPBlogExportScript"]) {
-        [self loadResourceAsPage:@"VPBlogExportScript" uti:VPBPUTTypeJSTalkSource];
+    if (![[VPBlogPlugin currentDocument] pageForKey:@"VPStaticExportScript"]) {
+        [self loadResourceAsPage:@"VPStaticExportScript" uti:VPBPUTTypeJSTalkSource];
     }
     
     if (![[VPBlogPlugin currentDocument] pageForKey:@"VPWebExportPageTemplate"]) {
         [self loadResourceAsPage:@"VPWebExportPageTemplate" uti:(id)kUTTypeUTF8PlainText];
     }
     
-    if (![[VPBlogPlugin currentDocument] pageForKey:@"VPBlogPageEntryTemplate"]) {
-        [self loadResourceAsPage:@"VPBlogPageEntryTemplate" uti:(id)kUTTypeUTF8PlainText];
+    if (![[VPBlogPlugin currentDocument] pageForKey:@"VPStaticPageEntryTemplate"]) {
+        [self loadResourceAsPage:@"VPStaticPageEntryTemplate" uti:(id)kUTTypeUTF8PlainText];
     }
     
     [(id)[VPBlogPlugin currentDocument] setDefaultNewPageUTI:VPBPUTTypeMarkdownSource];
+    
+    [self openHelpAction:sender];
 }
 
 
@@ -304,11 +306,11 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
 
 - (IBAction)openHelpAction:(id)sender {
     
-    if (![[VPBlogPlugin currentDocument] pageForKey:@"VPBlogHelp"]) {
-        [self loadResourceAsPage:@"VPBlogHelp" uti:(id)kUTTypeFlatRTFD];
+    if (![[VPBlogPlugin currentDocument] pageForKey:@"VPStaticHelp"]) {
+        [self loadResourceAsPage:@"VPStaticHelp" uti:(id)kUTTypeFlatRTFD];
     }
     
-    [[VPBlogPlugin currentDocument] openPageWithTitle:@"VPBlogHelp"];
+    [[VPBlogPlugin currentDocument] openPageWithTitle:@"VPStaticHelp"];
 }
 
 - (IBAction)openSiteTemplateAction:(id)sender {
@@ -323,14 +325,14 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
     
     [self initDocumentAction:nil];
     
-    [[VPBlogPlugin currentDocument] openPageWithTitle:@"VPBlogPageEntryTemplate"];
+    [[VPBlogPlugin currentDocument] openPageWithTitle:@"VPStaticPageEntryTemplate"];
 }
 
 - (IBAction)openEventScriptAction:(id)sender {
     
     [self initDocumentAction:nil];
     
-    [[VPBlogPlugin currentDocument] openPageWithTitle:@"VPBlogExportScript"];
+    [[VPBlogPlugin currentDocument] openPageWithTitle:@"VPStaticExportScript"];
 }
 
 @end

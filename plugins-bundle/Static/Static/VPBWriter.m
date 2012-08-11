@@ -13,7 +13,7 @@
 @interface VPBWriter ()
 @property (strong) NSMutableString *rssFeed;
 @property (strong) NSMutableString *indexPage;
-@property (strong) NSMutableDictionary *vpbSetup;
+@property (strong) NSMutableDictionary *staticSetup;
 @property (strong) NSString *currentArchiveMonth;
 @end
 
@@ -21,7 +21,7 @@
 
 @synthesize rssFeed=_rssFeed;
 @synthesize indexPage=_indexPage;
-@synthesize vpbSetup=_vpbSetup;
+@synthesize staticSetup=_staticSetup;
 @synthesize currentArchiveMonth=_currentArchiveMonth;
 
 - (id)init
@@ -30,12 +30,12 @@
     if (self) {
         [self setRssFeed:[NSMutableString string]];
         [self setIndexPage:[NSMutableString string]];
-        [self setVpbSetup:[NSMutableDictionary dictionary]];
+        [self setStaticSetup:[NSMutableDictionary dictionary]];
         
-        [_vpbSetup setObject:@"" forKey:@"siteName"];
-        [_vpbSetup setObject:@"" forKey:@"copyright"];
-        [_vpbSetup setObject:@"10" forKey:@"frontPageCount"];
-        [_vpbSetup setObject:@"siteURL" forKey:@"http://example.com/wherever/"];
+        [_staticSetup setObject:@"" forKey:@"siteName"];
+        [_staticSetup setObject:@"" forKey:@"copyright"];
+        [_staticSetup setObject:@"10" forKey:@"frontPageCount"];
+        [_staticSetup setObject:@"siteURL" forKey:@"http://example.com/wherever/"];
         
     }
     return self;
@@ -44,7 +44,7 @@
 - (void)dealloc {
     [_rssFeed release];
     [_indexPage release];
-    [_vpbSetup release];
+    [_staticSetup release];
     [_currentArchiveMonth release];
     
     [super dealloc];
@@ -67,9 +67,9 @@
 - (NSString*)askForArchivePathForItem:(id<VPData>)item fileName:(NSString*)fn document:(id<VPPluginDocument>)doc baseOutputURL:(NSURL*)baseOutputURL context:(NSMutableDictionary*)exportContext jstalk:(JSTalk*)jstalk {
     
     
-    if ([jstalk hasFunctionNamed:@"blogExportArchivePathForItem"]) {
+    if ([jstalk hasFunctionNamed:@"staticExportArchivePathForItem"]) {
         
-        NSString *newPath = [jstalk callFunctionNamed:@"blogExportArchivePathForItem" withArguments:[NSArray arrayWithObjects:doc, item, fn, exportContext, nil]];
+        NSString *newPath = [jstalk callFunctionNamed:@"staticExportArchivePathForItem" withArguments:[NSArray arrayWithObjects:doc, item, fn, exportContext, nil]];
         
         if (newPath) {
             
@@ -119,7 +119,7 @@
         return;
     }
     
-    NSString *outputPath = [doc extraObjectForKey:@"vpblog.outputPath"];
+    NSString *outputPath = [doc extraObjectForKey:@"vpstatic.outputPath"];
     if (!outputPath) {
         NSLog(@"No output folder set, or it doesn't exist");
         
@@ -145,29 +145,29 @@
     JSTalk *jstalk = [(id)doc jstalk];
     NSMutableDictionary *exportContext = [NSMutableDictionary dictionary];
     
-    [jstalk pushObject:_vpbSetup withName:@"vpbSetup"];
+    [jstalk pushObject:_staticSetup withName:@"staticSetup"];
     
-    id <VPData>scriptPage = [doc pageForKey:@"vpblogexportscript"];
+    id <VPData>scriptPage = [doc pageForKey:@"vpstaticexportscript"];
     
     if (scriptPage) {
         [jstalk executeString:[scriptPage stringData]];
     }
     
-    if ([jstalk hasFunctionNamed:@"blogSetupConfiguration"]) {
-        [jstalk callFunctionNamed:@"blogSetupConfiguration" withArguments:[NSArray arrayWithObjects:doc, _vpbSetup, nil]];
+    if ([jstalk hasFunctionNamed:@"staticSetupConfiguration"]) {
+        [jstalk callFunctionNamed:@"staticSetupConfiguration" withArguments:[NSArray arrayWithObjects:doc, _staticSetup, nil]];
     }
     
-    if ([jstalk hasFunctionNamed:@"blogExportWillBegin"]) {
-        [jstalk callFunctionNamed:@"blogExportWillBegin" withArguments:[NSArray arrayWithObjects:doc, exportContext, nil]];
+    if ([jstalk hasFunctionNamed:@"staticExportWillBegin"]) {
+        [jstalk callFunctionNamed:@"staticExportWillBegin" withArguments:[NSArray arrayWithObjects:doc, exportContext, nil]];
     }
     
-    NSString *entryPageTemplate = [[doc pageForKey:@"VPBlogPageEntryTemplate"] stringData];
+    NSString *entryPageTemplate = [[doc pageForKey:@"VPStaticPageEntryTemplate"] stringData];
     if (!entryPageTemplate) {
         entryPageTemplate = @"<%= pageContext.pageEntry %>";
     }
     
     
-    NSString *rssEntryTemplate = [[doc pageForKey:@"VPBlogRSSEntryTemplate"] stringData];
+    NSString *rssEntryTemplate = [[doc pageForKey:@"VPStaticRSSEntryTemplate"] stringData];
     if (!rssEntryTemplate) {
         rssEntryTemplate = @"<%= pageContext.pageEntry %>";
     }
@@ -180,7 +180,7 @@
     [self makeRSSHeader];
     
     NSInteger currentPageCount = 0;
-    NSInteger maxPageCount     = [[_vpbSetup objectForKey:@"frontPageCount"] integerValue];
+    NSInteger maxPageCount     = [[_staticSetup objectForKey:@"frontPageCount"] integerValue];
     
     
     NSMutableString *archivePage = [NSMutableString string];
@@ -199,7 +199,7 @@
                 continue;
             }
             
-            BOOL shouldPublish = [[item metaValueForKey:@"vpblog.publish"] boolValue];
+            BOOL shouldPublish = [[item metaValueForKey:@"vpstatic.publish"] boolValue];
             if (!shouldPublish) {
                 continue;
             }
@@ -228,14 +228,14 @@
             NSDictionary *d = [webExportController renderItem:item options:renderOptions];
             NSString *unwrappedOutput = [d objectForKey:@"output"];
             
-            if ([jstalk hasFunctionNamed:@"blogExportWillAppendItemToFrontPage"]) {
-                [jstalk callFunctionNamed:@"blogExportWillAppendItemToFrontPage" withArguments:[NSArray arrayWithObjects:doc, item, _indexPage, exportContext, nil]];
+            if ([jstalk hasFunctionNamed:@"staticExportWillAppendItemToFrontPage"]) {
+                [jstalk callFunctionNamed:@"staticExportWillAppendItemToFrontPage" withArguments:[NSArray arrayWithObjects:doc, item, _indexPage, exportContext, nil]];
             }
             
             [exportContext setObject:outRelativePath forKey:@"pageArchivePath"];
             [exportContext setObject:unwrappedOutput forKey:@"pageEntry"];
             
-            NSDictionary *args  = [NSDictionary dictionaryWithObjectsAndKeys:doc, @"document", item, @"page", exportContext, @"pageContext", _vpbSetup, @"vpbSetup", nil];
+            NSDictionary *args  = [NSDictionary dictionaryWithObjectsAndKeys:doc, @"document", item, @"page", exportContext, @"pageContext", _staticSetup, @"staticSetup", nil];
             NSString *entry     = [(id)doc renderScriptletsInHTMLString:entryPageTemplate withJSTalk:jstalk usingVariables:args];
             NSString *rssentry  = [(id)doc renderScriptletsInHTMLString:rssEntryTemplate withJSTalk:jstalk usingVariables:args];
             
@@ -248,8 +248,8 @@
             //debug(@"entry: %@", entry);
             [self appendRSSEntry:rssentry archiveURL:outRelativePath toItem:item];
             
-            if ([jstalk hasFunctionNamed:@"blogExportDidAppendItemToFrontPage"]) {
-                [jstalk callFunctionNamed:@"blogExportDidAppendItemToFrontPage" withArguments:[NSArray arrayWithObjects:doc, item, _indexPage, exportContext, nil]];
+            if ([jstalk hasFunctionNamed:@"staticExportDidAppendItemToFrontPage"]) {
+                [jstalk callFunctionNamed:@"staticExportDidAppendItemToFrontPage" withArguments:[NSArray arrayWithObjects:doc, item, _indexPage, exportContext, nil]];
             }
             
             NSData *data = [archivePage dataUsingEncoding:NSUTF8StringEncoding];
@@ -277,7 +277,7 @@
     // write the index page!
     {
         NSString *rIndexPage   = [pageTemplate stringByReplacingOccurrencesOfString:@"$page$" withString:_indexPage];
-        NSDictionary *args  = [NSDictionary dictionaryWithObjectsAndKeys:doc, @"document", exportContext, @"pageContext", _vpbSetup, @"vpbSetup", nil];
+        NSDictionary *args  = [NSDictionary dictionaryWithObjectsAndKeys:doc, @"document", exportContext, @"pageContext", _staticSetup, @"staticSetup", nil];
         rIndexPage = [(id)doc renderScriptletsInHTMLString:rIndexPage withJSTalk:jstalk usingVariables:args];
         
         NSData *indexPageData = [rIndexPage dataUsingEncoding:NSUTF8StringEncoding];
@@ -297,7 +297,7 @@
         [archivePage appendString:@"</div>\n"];
         
         NSString *rArchivePage   = [pageTemplate stringByReplacingOccurrencesOfString:@"$page$" withString:archivePage];
-        NSDictionary *args  = [NSDictionary dictionaryWithObjectsAndKeys:doc, @"document", exportContext, @"pageContext", _vpbSetup, @"vpbSetup", nil];
+        NSDictionary *args  = [NSDictionary dictionaryWithObjectsAndKeys:doc, @"document", exportContext, @"pageContext", _staticSetup, @"staticSetup", nil];
         rArchivePage = [(id)doc renderScriptletsInHTMLString:rArchivePage withJSTalk:jstalk usingVariables:args];
 
         NSData *archivePageData = [rArchivePage dataUsingEncoding:NSUTF8StringEncoding];
@@ -314,11 +314,11 @@
     
     
     
-    if ([jstalk hasFunctionNamed:@"blogExportDidEnd"]) {
-        [jstalk callFunctionNamed:@"blogExportDidEnd" withArguments:[NSArray arrayWithObjects:doc, exportContext, nil]];
+    if ([jstalk hasFunctionNamed:@"staticExportDidEnd"]) {
+        [jstalk callFunctionNamed:@"staticExportDidEnd" withArguments:[NSArray arrayWithObjects:doc, exportContext, nil]];
     }
     
-    if ([[_vpbSetup objectForKey:@"viewLocalWhenFinished"] boolValue]) {
+    if ([[_staticSetup objectForKey:@"viewLocalWhenFinished"] boolValue]) {
         [[NSWorkspace sharedWorkspace] openURL:[baseOutputURL URLByAppendingPathComponent:@"index.html"]];
     }
     
@@ -342,9 +342,9 @@
 
 - (void)makeRSSHeader {
     
-    NSString *siteName = [self escapeForXML:[_vpbSetup objectForKey:@"siteName"]];
-    NSString *siteURL  = [self escapeForXML:[_vpbSetup objectForKey:@"siteURL"]];
-    NSString *siteDesc = [self escapeForXML:[_vpbSetup objectForKey:@"rssSiteDescription"]];
+    NSString *siteName = [self escapeForXML:[_staticSetup objectForKey:@"siteName"]];
+    NSString *siteURL  = [self escapeForXML:[_staticSetup objectForKey:@"siteURL"]];
+    NSString *siteDesc = [self escapeForXML:[_staticSetup objectForKey:@"rssSiteDescription"]];
     NSString *pubDate  = [self rssDateFromNSDate:[NSDate date]];
     
     
@@ -363,7 +363,7 @@
 - (void)appendRSSEntry:(NSString*)entry archiveURL:(NSString*)archiveURL toItem:(id<VPData>)item {
     
     NSString *title = [self escapeForXML:[item displayName]];
-    NSString *siteURL  = [self escapeForXML:[_vpbSetup objectForKey:@"siteURL"]];
+    NSString *siteURL  = [self escapeForXML:[_staticSetup objectForKey:@"siteURL"]];
     NSString *link = [siteURL stringByAppendingString:archiveURL];
     
     NSString *pubDate = [self rssDateFromNSDate:[item createdDate]];
