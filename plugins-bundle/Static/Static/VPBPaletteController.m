@@ -37,6 +37,10 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
     [super dealloc];
 }
 
+- (void)awakeFromNib {
+    [self documentDidChange];
+}
+
 - (NSString*)displayName {
     return @"Static";
 }
@@ -64,7 +68,12 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
     [_ibPagePublishCheckbox setEnabled:doc != nil];
     [_ibChooseOutputFolderButton setEnabled:doc != nil];
     
-    NSString *outputPath = [doc extraObjectForKey:@"vpstatic.outputPath"];
+    NSData *outputBookmark = [doc extraObjectForKey:@"vpstatic.outputURLBookmark"];
+    NSError *err;
+    BOOL dataIsStale = NO;
+    NSURL *exportURL = [NSURL URLByResolvingBookmarkData:outputBookmark options:0 relativeToURL:[(NSDocument*)doc fileURL] bookmarkDataIsStale:&dataIsStale error:&err];
+    NSString *outputPath = [exportURL path];
+
     
     if (outputPath) {
         
@@ -147,7 +156,12 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
     [op setCanChooseDirectories:YES];
     [op setCanChooseFiles:NO];
     
-    NSString *outputPath = [doc extraObjectForKey:@"vpstatic.outputPath"];
+    NSData *outputBookmark = [doc extraObjectForKey:@"vpstatic.outputURLBookmark"];
+    NSError *err;
+    BOOL dataIsStale = NO;
+    NSURL *exportURL = [NSURL URLByResolvingBookmarkData:outputBookmark options:0 relativeToURL:[(NSDocument*)doc fileURL] bookmarkDataIsStale:&dataIsStale error:&err];
+    NSString *outputPath = [exportURL path];
+    
     if (outputPath && [[NSFileManager defaultManager] fileExistsAtPath:outputPath]) {
         [op setDirectoryURL:[NSURL fileURLWithPath:outputPath]];
     }
@@ -158,22 +172,53 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
             return;
         }
         
-        NSURL *u = [op URL];
+        NSURL *url = [op URL];
         
-        #pragma message "FIXME: add some sandbox security scoped stuff here?"
+        NSError *outErr;
+        NSData *bookmarkData = [url bookmarkDataWithOptions:0 includingResourceValuesForKeys:0 relativeToURL:[(NSDocument*)[VPBlogPlugin currentDocument] fileURL] error:&outErr];
         
-        NSString *path = [u path];
-        
-        [doc setExtraObject:path forKey:@"vpstatic.outputPath"];
-        
-        // lazy update
-        [self documentDidChange];
+        if (bookmarkData) {
+            [[VPBlogPlugin currentDocument] setExtraObject:bookmarkData forKey:@"vpstatic.outputURLBookmark"];
+            
+            [self documentDidChange];
+        }
+        else {
+            NSLog(@"Error making bookmark data for folder");
+            NSLog(@"%@", outErr);
+        }
     }];
+}
+
+- (void)makeSurePublishFolderIsSet {
+    
+    NSString *outputPath = [[VPBlogPlugin currentDocument] extraObjectForKey:@"vpstatic.outputURLBookmark"];
+    if (!outputPath) {
+        
+        NSOpenPanel *op = [NSOpenPanel openPanel];
+        
+        [op setCanCreateDirectories:YES];
+        [op setCanChooseDirectories:YES];
+        [op setCanChooseFiles:NO];
+        [op setAllowedFileTypes:@[(id)kUTTypeFolder]];
+        
+        if ([op runModal]) {
+            
+            NSError *outErr;
+            NSURL *url = [op URL];
+            NSData *bookmarkData = [url bookmarkDataWithOptions:0 includingResourceValuesForKeys:0 relativeToURL:[(NSDocument*)[VPBlogPlugin currentDocument] fileURL] error:&outErr];
+            
+            [[VPBlogPlugin currentDocument] setExtraObject:bookmarkData forKey:@"vpstatic.outputURLBookmark"];
+            
+            [self documentDidChange];
+        }
+    }
 }
 
 - (IBAction)publishShortAction:(id)sender {
     
     VPBWriter *writer = [[[VPBWriter alloc] init] autorelease];
+    
+    [self makeSurePublishFolderIsSet];
     
     [writer exportAndLimitToCount:10];
 }
@@ -181,7 +226,48 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
 - (IBAction)publishAction:(id)sender {
     VPBWriter *writer = [[[VPBWriter alloc] init] autorelease];
     
+    [self makeSurePublishFolderIsSet];
+    
     [writer exportAndLimitToCount:-1];
+}
+
+
+- (IBAction)insertImageTagAction:(id)sender {
+    
+    NSTextView *tv = [self currentTextView];
+    
+    if (!tv) {
+        return;
+    }
+    
+    NSRange r = [tv selectedRange];
+    
+    [tv fmReplaceCharactersInRange:r withString:@"![<# alt text #>](<# /path/img.jpg #> \"<# Title #>\")"];
+    [tv selectNextTextPlaceholder:sender];
+}
+
+- (IBAction)insertScriptletTagAction:(id)sender {
+    
+    NSTextView *tv = [self currentTextView];
+    
+    if (!tv) {
+        return;
+    }
+    
+    NSRange r = [tv selectedRange];
+    
+    if (r.length == 0) {
+        
+        [tv fmReplaceCharactersInRange:r withString:@"<% <# #> %>"];
+        [tv setSelectedRange:r]; // move back so we grab the right placeholder.
+        [tv selectNextTextPlaceholder:sender];
+        return;
+    }
+    
+    NSString *s = [[[tv textStorage] mutableString] substringWithRange:r];
+    
+    NSString *replace = [NSString stringWithFormat:@"<%% %@ %%>", s];
+    [tv fmReplaceCharactersInRange:r withString:replace];
 }
 
 - (void)insertBlockquoteAction:(id)sender {

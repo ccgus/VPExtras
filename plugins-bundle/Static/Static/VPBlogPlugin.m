@@ -69,7 +69,7 @@
         
         [jstalk pushObject:d withName:@"staticSetup"];
         
-        id <VPData>scriptPage = [[VPBlogPlugin currentDocument] pageForKey:"@vpstaticexportscript"];
+        id <VPData>scriptPage = [[VPBlogPlugin currentDocument] pageForKey:@"vpstaticexportscript"];
         
         if (scriptPage) {
             [jstalk executeString:[scriptPage stringData]];

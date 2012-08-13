@@ -22,6 +22,8 @@
 - (IBAction)publishShortAction:(id)sender;
 - (IBAction)publishAction:(id)sender;
 - (IBAction)insertBlockquoteAction:(id)sender;
+- (IBAction)insertImageTagAction:(id)sender;
+- (IBAction)insertScriptletTagAction:(id)sender;
 - (IBAction)pasteHREFAction:(id)sender;
 - (IBAction)initDocumentAction:(id)sender;
 - (IBAction)openHelpAction:(id)sender;

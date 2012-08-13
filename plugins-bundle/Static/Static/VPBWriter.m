@@ -119,8 +119,13 @@
         return;
     }
     
-    NSString *outputPath = [doc extraObjectForKey:@"vpstatic.outputPath"];
-    if (!outputPath) {
+    NSData *outputBookmark = [doc extraObjectForKey:@"vpstatic.outputURLBookmark"];
+    
+    NSError *err;
+    BOOL dataIsStale = NO;
+    NSURL *baseOutputURL = [NSURL URLByResolvingBookmarkData:outputBookmark options:0 relativeToURL:[(NSDocument*)doc fileURL] bookmarkDataIsStale:&dataIsStale error:&err];
+    
+    if (!baseOutputURL) {
         NSLog(@"No output folder set, or it doesn't exist");
         
         NSAlert *alert = [NSAlert alertWithMessageText:@"No publish folder set" defaultButton:nil alternateButton:nil otherButton:nil informativeTextWithFormat:@"Make sure to select a folder to publish to."];
@@ -130,14 +135,15 @@
         return;
     }
     
-    NSURL *baseOutputURL = [NSURL fileURLWithPath:outputPath];
+    [baseOutputURL startAccessingSecurityScopedResource];
     
-    if (![[NSFileManager defaultManager] fileExistsAtPath:outputPath]) {
+    if (![[NSFileManager defaultManager] fileExistsAtPath:[baseOutputURL path]]) {
         NSError *err = nil;
         if (![[NSFileManager defaultManager] createDirectoryAtURL:baseOutputURL withIntermediateDirectories:YES attributes:nil error:&err]) {
             NSBeep();
-            NSLog(@"Could not make the directory %@", outputPath);
+            NSLog(@"Could not make the directory %@", baseOutputURL);
             NSLog(@"%@", err);
+            [baseOutputURL stopAccessingSecurityScopedResource];
             return;
         }
     }
@@ -310,10 +316,6 @@
     }
     
     
-    
-    
-    
-    
     if ([jstalk hasFunctionNamed:@"staticExportDidEnd"]) {
         [jstalk callFunctionNamed:@"staticExportDidEnd" withArguments:[NSArray arrayWithObjects:doc, exportContext, nil]];
     }
@@ -322,6 +324,7 @@
         [[NSWorkspace sharedWorkspace] openURL:[baseOutputURL URLByAppendingPathComponent:@"index.html"]];
     }
     
+    [baseOutputURL stopAccessingSecurityScopedResource];
 }
 
 - (NSString*)rssDateFromNSDate:(NSDate*)date {
