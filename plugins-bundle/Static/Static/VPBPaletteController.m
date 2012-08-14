@@ -45,6 +45,10 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
     return @"Static";
 }
 
++ (NSString*)displayName {
+    return @"Static";
+}
+
 - (NSURL*)defaultOutputFolderURL {
     
     NSDocument *doc = (id)[VPBlogPlugin currentDocument];
