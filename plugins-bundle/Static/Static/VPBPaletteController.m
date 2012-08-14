@@ -382,8 +382,6 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
     }
     
     [(id)[VPBlogPlugin currentDocument] setDefaultNewPageUTI:VPBPUTTypeMarkdownSource];
-    
-    [self openHelpAction:sender];
 }
 
 

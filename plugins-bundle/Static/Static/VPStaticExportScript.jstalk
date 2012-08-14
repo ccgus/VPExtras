@@ -33,7 +33,7 @@ function staticExportDidAppendItemToFrontPage(document, item, frontPageMutableSt
     
 }
 
-function staticgExportArchivePathForItem(document, item, fileName, staticSetup) {
+function staticExportArchivePathForItem(document, item, fileName, staticSetup) {
     
     var createDate = [item createdDate];
     
