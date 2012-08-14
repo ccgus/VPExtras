@@ -391,12 +391,7 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
 
 
 - (IBAction)openHelpAction:(id)sender {
-    
-    if (![[VPBlogPlugin currentDocument] pageForKey:@"VPStaticHelp"]) {
-        [self loadResourceAsPage:@"VPStaticHelp" uti:(id)kUTTypeFlatRTFD];
-    }
-    
-    [[VPBlogPlugin currentDocument] openPageWithTitle:@"VPStaticHelp"];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://flyingmeat.com/voodoopad/docs/static%20publishing.html"]];
 }
 
 - (IBAction)openSiteTemplateAction:(id)sender {

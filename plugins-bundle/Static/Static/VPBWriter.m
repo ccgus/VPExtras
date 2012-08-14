@@ -69,7 +69,7 @@
     
     if ([jstalk hasFunctionNamed:@"staticExportArchivePathForItem"]) {
         
-        NSString *newPath = [jstalk callFunctionNamed:@"staticExportArchivePathForItem" withArguments:[NSArray arrayWithObjects:doc, item, fn, exportContext, nil]];
+        NSString *newPath = [jstalk callFunctionNamed:@"staticExportArchivePathForItem" withArguments:[NSArray arrayWithObjects:doc, item, fn, _staticSetup, nil]];
         
         if (newPath) {
             
@@ -151,6 +151,8 @@
     JSTalk *jstalk = [(id)doc jstalk];
     NSMutableDictionary *exportContext = [NSMutableDictionary dictionary];
     
+    [_staticSetup setObject:[baseOutputURL path] forKey:@"outputFolderPath"];
+    
     [jstalk pushObject:_staticSetup withName:@"staticSetup"];
     
     id <VPData>scriptPage = [doc pageForKey:@"vpstaticexportscript"];
@@ -164,7 +166,7 @@
     }
     
     if ([jstalk hasFunctionNamed:@"staticExportWillBegin"]) {
-        [jstalk callFunctionNamed:@"staticExportWillBegin" withArguments:[NSArray arrayWithObjects:doc, exportContext, nil]];
+        [jstalk callFunctionNamed:@"staticExportWillBegin" withArguments:[NSArray arrayWithObjects:doc, _staticSetup, nil]];
     }
     
     NSString *entryPageTemplate = [[doc pageForKey:@"VPStaticPageEntryTemplate"] stringData];
@@ -235,7 +237,7 @@
             NSString *unwrappedOutput = [d objectForKey:@"output"];
             
             if ([jstalk hasFunctionNamed:@"staticExportWillAppendItemToFrontPage"]) {
-                [jstalk callFunctionNamed:@"staticExportWillAppendItemToFrontPage" withArguments:[NSArray arrayWithObjects:doc, item, _indexPage, exportContext, nil]];
+                [jstalk callFunctionNamed:@"staticExportWillAppendItemToFrontPage" withArguments:[NSArray arrayWithObjects:doc, item, _indexPage, _staticSetup, nil]];
             }
             
             [exportContext setObject:outRelativePath forKey:@"pageArchivePath"];
@@ -255,7 +257,7 @@
             [self appendRSSEntry:rssentry archiveURL:outRelativePath toItem:item];
             
             if ([jstalk hasFunctionNamed:@"staticExportDidAppendItemToFrontPage"]) {
-                [jstalk callFunctionNamed:@"staticExportDidAppendItemToFrontPage" withArguments:[NSArray arrayWithObjects:doc, item, _indexPage, exportContext, nil]];
+                [jstalk callFunctionNamed:@"staticExportDidAppendItemToFrontPage" withArguments:[NSArray arrayWithObjects:doc, item, _indexPage, _staticSetup, nil]];
             }
             
             NSData *data = [archivePage dataUsingEncoding:NSUTF8StringEncoding];
@@ -317,7 +319,7 @@
     
     
     if ([jstalk hasFunctionNamed:@"staticExportDidEnd"]) {
-        [jstalk callFunctionNamed:@"staticExportDidEnd" withArguments:[NSArray arrayWithObjects:doc, exportContext, nil]];
+        [jstalk callFunctionNamed:@"staticExportDidEnd" withArguments:[NSArray arrayWithObjects:doc, _staticSetup, nil]];
     }
     
     if ([[_staticSetup objectForKey:@"viewLocalWhenFinished"] boolValue]) {
