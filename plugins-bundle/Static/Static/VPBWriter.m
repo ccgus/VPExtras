@@ -318,6 +318,12 @@
     }
     
     
+    if ([jstalk hasFunctionNamed:@"staticSupportPages"]) {
+        NSArray *supportPagesList = [jstalk callFunctionNamed:@"staticSupportPages" withArguments:[NSArray arrayWithObjects:doc, _staticSetup, nil]];
+        debug(@"supportPagesList: %@", supportPagesList);
+    }
+    
+    
     if ([jstalk hasFunctionNamed:@"staticExportDidEnd"]) {
         [jstalk callFunctionNamed:@"staticExportDidEnd" withArguments:[NSArray arrayWithObjects:doc, _staticSetup, nil]];
     }
