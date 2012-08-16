@@ -320,7 +320,58 @@
     
     if ([jstalk hasFunctionNamed:@"staticSupportPages"]) {
         NSArray *supportPagesList = [jstalk callFunctionNamed:@"staticSupportPages" withArguments:[NSArray arrayWithObjects:doc, _staticSetup, nil]];
-        debug(@"supportPagesList: %@", supportPagesList);
+        
+        for (NSString *key in supportPagesList) @autoreleasepool {
+            key = [key vpkey];
+            
+            
+            debug(@"key '%@'", key);
+            
+            id <VPData>item = [doc pageForKey:key];
+            
+            if (!item) {
+                NSLog(@"The key support page '%@' does not exist in this document.", key);
+                continue;
+            }
+            
+            NSData *outData = nil;
+            NSString *fileName = nil;
+            
+            if (![item isText]) {
+                outData = [item data];
+                fileName = key;
+            }
+            else {
+                
+                NSDictionary *renderOptions = [NSDictionary dictionaryWithObjectsAndKeys:jstalk, @"jstalk", [NSNumber numberWithBool:YES], @"ignoreTemplateWrapping", nil];
+                
+                NSDictionary *d = [webExportController renderItem:item options:renderOptions];
+                NSString *unwrappedOutput = [d objectForKey:@"output"];
+
+                NSString *outPage    = [pageTemplate stringByReplacingOccurrencesOfString:@"$page$" withString:unwrappedOutput];
+                NSDictionary *args   = [NSDictionary dictionaryWithObjectsAndKeys:doc, @"document", exportContext, @"pageContext", _staticSetup, @"staticSetup", nil];
+                outPage = [(id)doc renderScriptletsInHTMLString:outPage withJSTalk:jstalk usingVariables:args];
+                
+                outData  = [outPage dataUsingEncoding:NSUTF8StringEncoding];
+                fileName = [key stringByAppendingPathExtension:@"html"];
+            }
+            
+            if (outData) {
+                NSURL *outURL = [baseOutputURL URLByAppendingPathComponent:fileName];
+                if (![outData writeToURL:outURL options:NSDataWritingAtomic error:&writeError]) {
+                    NSLog(@"Could not write to %@", outURL);
+                    NSLog(@"%@", writeError);
+                }
+            }
+            else {
+                debug(@"No outData for %@", key);
+            }
+            
+        }
+        
+        
+        
+        
     }
     
     

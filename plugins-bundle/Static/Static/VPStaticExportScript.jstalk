@@ -45,3 +45,11 @@ function staticExportArchivePathForItem(document, item, fileName, staticSetup) {
     return "archives/" + year + "/" + month + "/" + fileName;
 }
 
+
+/*
+ Use this function to return a list of pages (as an array) that you want written out at the root of the export directory.
+ */
+function staticSupportPages(document, staticSetup) {
+    //return ["about", "contact"]
+    return [];
+}
