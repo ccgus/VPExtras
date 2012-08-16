@@ -64,12 +64,13 @@
 }
 
 
-- (NSString*)askForArchivePathForItem:(id<VPData>)item fileName:(NSString*)fn document:(id<VPPluginDocument>)doc baseOutputURL:(NSURL*)baseOutputURL context:(NSMutableDictionary*)exportContext jstalk:(JSTalk*)jstalk {
+- (NSString*)askForArchivePathForItem:(id<VPData>)item fileName:(NSString*)fn document:(id<VPPluginDocument>)doc baseOutputURL:(NSURL*)baseOutputURL context:(NSMutableDictionary*)exportContext jstalk:(JSTalk*)jstalk isAsset:(BOOL)isAsset {
     
+    NSString *functionName = isAsset ? @"staticExportArchivePathForAssetItem" : @"staticExportArchivePathForItem";
     
-    if ([jstalk hasFunctionNamed:@"staticExportArchivePathForItem"]) {
+    if ([jstalk hasFunctionNamed:functionName]) {
         
-        NSString *newPath = [jstalk callFunctionNamed:@"staticExportArchivePathForItem" withArguments:[NSArray arrayWithObjects:doc, item, fn, _staticSetup, nil]];
+        NSString *newPath = [jstalk callFunctionNamed:functionName withArguments:[NSArray arrayWithObjects:doc, item, fn, _staticSetup, nil]];
         
         if (newPath) {
             
@@ -190,9 +191,8 @@
     NSInteger currentPageCount = 0;
     NSInteger maxPageCount     = [[_staticSetup objectForKey:@"frontPageCount"] integerValue];
     
-    
+    NSMutableArray *linkedAssetsToWriteOut = [NSMutableArray array];
     NSMutableString *archivePage = [NSMutableString string];
-    
     
     id webExportController = [(id)doc webExportController];
     NSArray *orderedByDate = [doc orderedPageKeysByCreateDate];
@@ -212,12 +212,10 @@
                 continue;
             }
             
-            
-            
             // let's find out where they want us to write the file:
             
             NSString *archiveFileName = [self escapeArchivePageName:[[item key] stringByAppendingPathExtension:@"html"]];
-            NSString *outRelativePath = [self askForArchivePathForItem:item fileName:archiveFileName document:doc baseOutputURL:baseOutputURL context:exportContext jstalk:jstalk];
+            NSString *outRelativePath = [self askForArchivePathForItem:item fileName:archiveFileName document:doc baseOutputURL:baseOutputURL context:exportContext jstalk:jstalk isAsset:NO];
             NSURL *outURL             = [baseOutputURL URLByAppendingPathComponent:outRelativePath];
             
             [self appendItem:item toArchiveString:archivePage usingRelativePath:outRelativePath];
@@ -229,12 +227,11 @@
             
             currentPageCount++;
             
-            
-            
             NSDictionary *renderOptions = [NSDictionary dictionaryWithObjectsAndKeys:jstalk, @"jstalk", [NSNumber numberWithBool:YES], @"ignoreTemplateWrapping", nil];
             
             NSDictionary *d = [webExportController renderItem:item options:renderOptions];
             NSString *unwrappedOutput = [d objectForKey:@"output"];
+            NSArray *linkedKeys = [d objectForKey:@"linkedItemKeys"];
             
             if ([jstalk hasFunctionNamed:@"staticExportWillAppendItemToFrontPage"]) {
                 [jstalk callFunctionNamed:@"staticExportWillAppendItemToFrontPage" withArguments:[NSArray arrayWithObjects:doc, item, _indexPage, _staticSetup, nil]];
@@ -266,6 +263,15 @@
             if (![data writeToURL:outURL options:NSDataWritingAtomic error:&writeError]) {
                 NSLog(@"Could not write to %@", outURL);
                 NSLog(@"%@", writeError);
+            }
+            
+            
+            
+            for (NSString *linkedKey in linkedKeys) {
+                
+                if ([linkedAssetsToWriteOut indexOfObject:linkedKey] == NSNotFound) {
+                    [linkedAssetsToWriteOut addObject:linkedKey];
+                }
             }
         }
     }
@@ -314,6 +320,30 @@
         if (![archivePageData writeToURL:archiveOutURL options:NSDataWritingAtomic error:&writeError]) {
             NSLog(@"Could not write to %@", archiveOutURL);
             NSLog(@"%@", writeError);
+        }
+    }
+    
+    
+    for (NSString *assetKey in linkedAssetsToWriteOut) @autoreleasepool {
+        
+        id <VPData>item = [doc pageForKey:assetKey];
+        
+        CFStringRef itemUTI = (CFStringRef)[item uti];
+        if (!itemUTI) {
+            continue;
+        }
+        
+        if (UTTypeConformsTo(itemUTI, kUTTypeImage) || UTTypeConformsTo(itemUTI, kUTTypeMovie) || UTTypeConformsTo(itemUTI, kUTTypeAudio)) {
+            
+            NSString *outRelativePath = [self askForArchivePathForItem:item fileName:[item key] document:doc baseOutputURL:baseOutputURL context:exportContext jstalk:jstalk isAsset:YES];
+            
+            debug(@"outRelativePath '%@'", outRelativePath);
+            
+            NSURL *outURL = [baseOutputURL URLByAppendingPathComponent:outRelativePath];
+            if (![[item data] writeToURL:outURL options:NSDataWritingAtomic error:&writeError]) {
+                NSLog(@"Could not write to %@", outURL);
+                NSLog(@"%@", writeError);
+            }
         }
     }
     
