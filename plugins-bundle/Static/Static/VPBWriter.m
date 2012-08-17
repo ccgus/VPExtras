@@ -139,7 +139,6 @@
     [baseOutputURL startAccessingSecurityScopedResource];
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:[baseOutputURL path]]) {
-        NSError *err = nil;
         if (![[NSFileManager defaultManager] createDirectoryAtURL:baseOutputURL withIntermediateDirectories:YES attributes:nil error:&err]) {
             NSBeep();
             NSLog(@"Could not make the directory %@", baseOutputURL);
@@ -191,7 +190,7 @@
     NSInteger currentPageCount = 0;
     NSInteger maxPageCount     = [[_staticSetup objectForKey:@"frontPageCount"] integerValue];
     
-    NSMutableArray *linkedAssetsToWriteOut = [NSMutableArray array];
+    NSMutableArray *linkedAssetsToWritenOut = [NSMutableArray array];
     NSMutableString *archivePage = [NSMutableString string];
     
     id webExportController = [(id)doc webExportController];
@@ -244,9 +243,60 @@
             NSString *entry     = [(id)doc renderScriptletsInHTMLString:entryPageTemplate withJSTalk:jstalk usingVariables:args];
             NSString *rssentry  = [(id)doc renderScriptletsInHTMLString:rssEntryTemplate withJSTalk:jstalk usingVariables:args];
             
-            NSString *archivePage = [pageTemplate stringByReplacingOccurrencesOfString:@"$page$" withString:entry];
-            archivePage           = [(id)doc renderScriptletsInHTMLString:archivePage withJSTalk:jstalk usingVariables:args];
+            NSString *itemArchivePage = [pageTemplate stringByReplacingOccurrencesOfString:@"$page$" withString:entry];
+            itemArchivePage           = [(id)doc renderScriptletsInHTMLString:itemArchivePage withJSTalk:jstalk usingVariables:args];
             
+            
+            
+            // OK, now we're going to modify those archive pages a little bit, so they point to linked assets in the correct way.
+            
+            for (NSString *linkedKey in linkedKeys) {
+                
+                if ([linkedAssetsToWritenOut indexOfObject:linkedKey] == NSNotFound) {
+                    
+                    // ok, write it out since we haven't already!  But first, add it to the list:
+                    [linkedAssetsToWritenOut addObject:linkedKey];
+                    
+                    id <VPData>assetItem = [doc pageForKey:linkedKey];
+                    
+                    CFStringRef itemUTI = (CFStringRef)[assetItem uti];
+                    if (!itemUTI) {
+                        continue;
+                    }
+                    
+                    if (UTTypeConformsTo(itemUTI, kUTTypeImage) || UTTypeConformsTo(itemUTI, kUTTypeMovie) || UTTypeConformsTo(itemUTI, kUTTypeAudio)) {
+                        
+                        // OK, we've got a good link.  Now we need to modify our archive image links for this sucker.
+                        
+                        NSString *assetOutRelativePath = [self askForArchivePathForItem:assetItem fileName:[assetItem key] document:doc baseOutputURL:baseOutputURL context:exportContext jstalk:jstalk isAsset:YES];
+                        
+                        NSString *searchingFor = [NSString stringWithFormat:@"src=\"%@\"", [assetItem key]];
+                        
+                        NSString *entryURL = [NSString stringWithFormat:@"src=\"%@\"", assetOutRelativePath];
+                        entry              = [entry stringByReplacingOccurrencesOfString:searchingFor withString:entryURL];
+                        rssentry           = [rssentry stringByReplacingOccurrencesOfString:searchingFor withString:entryURL];
+                        
+                        NSInteger backupCount = [[outRelativePath componentsSeparatedByString:@"/"] count] - 1;
+                        NSString *backups = @"";
+                        while (backupCount > 0) {
+                            backups = [backups stringByAppendingString:@"../"];
+                            backupCount--;
+                        }
+                        
+                        NSString *finalBackupAndBack = [NSString stringWithFormat:@"src=\"%@%@\"", backups, assetOutRelativePath];
+                        itemArchivePage = [itemArchivePage stringByReplacingOccurrencesOfString:searchingFor withString:finalBackupAndBack];
+                        
+                        
+                        
+                        NSError *assetWriteError;
+                        NSURL *assetOutURL = [baseOutputURL URLByAppendingPathComponent:assetOutRelativePath];
+                        if (![[assetItem data] writeToURL:assetOutURL options:NSDataWritingAtomic error:&assetWriteError]) {
+                            NSLog(@"Could not write to %@", assetOutURL);
+                            NSLog(@"%@", assetWriteError);
+                        }
+                    }
+                }
+            }
             
             [_indexPage appendString:entry];
             
@@ -257,7 +307,7 @@
                 [jstalk callFunctionNamed:@"staticExportDidAppendItemToFrontPage" withArguments:[NSArray arrayWithObjects:doc, item, _indexPage, _staticSetup, nil]];
             }
             
-            NSData *data = [archivePage dataUsingEncoding:NSUTF8StringEncoding];
+            NSData *data = [itemArchivePage dataUsingEncoding:NSUTF8StringEncoding];
             
             NSError *writeError = nil;
             if (![data writeToURL:outURL options:NSDataWritingAtomic error:&writeError]) {
@@ -266,13 +316,6 @@
             }
             
             
-            
-            for (NSString *linkedKey in linkedKeys) {
-                
-                if ([linkedAssetsToWriteOut indexOfObject:linkedKey] == NSNotFound) {
-                    [linkedAssetsToWriteOut addObject:linkedKey];
-                }
-            }
         }
     }
     
@@ -320,30 +363,6 @@
         if (![archivePageData writeToURL:archiveOutURL options:NSDataWritingAtomic error:&writeError]) {
             NSLog(@"Could not write to %@", archiveOutURL);
             NSLog(@"%@", writeError);
-        }
-    }
-    
-    
-    for (NSString *assetKey in linkedAssetsToWriteOut) @autoreleasepool {
-        
-        id <VPData>item = [doc pageForKey:assetKey];
-        
-        CFStringRef itemUTI = (CFStringRef)[item uti];
-        if (!itemUTI) {
-            continue;
-        }
-        
-        if (UTTypeConformsTo(itemUTI, kUTTypeImage) || UTTypeConformsTo(itemUTI, kUTTypeMovie) || UTTypeConformsTo(itemUTI, kUTTypeAudio)) {
-            
-            NSString *outRelativePath = [self askForArchivePathForItem:item fileName:[item key] document:doc baseOutputURL:baseOutputURL context:exportContext jstalk:jstalk isAsset:YES];
-            
-            debug(@"outRelativePath '%@'", outRelativePath);
-            
-            NSURL *outURL = [baseOutputURL URLByAppendingPathComponent:outRelativePath];
-            if (![[item data] writeToURL:outURL options:NSDataWritingAtomic error:&writeError]) {
-                NSLog(@"Could not write to %@", outURL);
-                NSLog(@"%@", writeError);
-            }
         }
     }
     

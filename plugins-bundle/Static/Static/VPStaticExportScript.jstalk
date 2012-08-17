@@ -45,6 +45,10 @@ function staticExportArchivePathForItem(document, item, fileName, staticSetup) {
     return "archives/" + year + "/" + month + "/" + fileName;
 }
 
+function staticExportArchivePathForAssetItem(document, item, fileName, staticSetup) {
+    return "assets/" + fileName;
+}
+
 
 /*
  Use this function to return a list of pages (as an array) that you want written out at the root of the export directory.
