@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		CC0F5556152A4D5900824A57 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC0F5555152A4D5900824A57 /* Cocoa.framework */; };
 		CC0F5582152A5A8F00824A57 /* VPPlugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC0F5581152A5A8F00824A57 /* VPPlugin.framework */; };
+		CCA3806A15E159F5004C1B47 /* Hello World.md in Resources */ = {isa = PBXBuildFile; fileRef = CCA3806915E159F5004C1B47 /* Hello World.md */; };
 		CCE9FAC515D465CD0053528A /* VPStaticExportScript.jstalk in Resources */ = {isa = PBXBuildFile; fileRef = CCE9FAC015D465CD0053528A /* VPStaticExportScript.jstalk */; };
 		CCE9FAC615D465CD0053528A /* VPStaticPageEntryTemplate.html in Resources */ = {isa = PBXBuildFile; fileRef = CCE9FAC115D465CD0053528A /* VPStaticPageEntryTemplate.html */; };
 		CCE9FAC715D465CD0053528A /* VPBPaletteController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CCE9FAC215D465CD0053528A /* VPBPaletteController.xib */; };
@@ -26,6 +27,7 @@
 		CC0F5559152A4D5900824A57 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		CC0F555A152A4D5900824A57 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CC0F5581152A5A8F00824A57 /* VPPlugin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VPPlugin.framework; path = ../VPPlugin.framework; sourceTree = "<group>"; };
+		CCA3806915E159F5004C1B47 /* Hello World.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Hello World.md"; path = "Static/Hello World.md"; sourceTree = SOURCE_ROOT; };
 		CCE9FABF15D465CD0053528A /* VPBlog-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "VPBlog-Info.plist"; path = "Static/VPBlog-Info.plist"; sourceTree = SOURCE_ROOT; };
 		CCE9FAC015D465CD0053528A /* VPStaticExportScript.jstalk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = VPStaticExportScript.jstalk; path = Static/VPStaticExportScript.jstalk; sourceTree = SOURCE_ROOT; };
 		CCE9FAC115D465CD0053528A /* VPStaticPageEntryTemplate.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = VPStaticPageEntryTemplate.html; path = Static/VPStaticPageEntryTemplate.html; sourceTree = SOURCE_ROOT; };
@@ -117,6 +119,7 @@
 				CCE9FAC215D465CD0053528A /* VPBPaletteController.xib */,
 				CCE9FAC315D465CD0053528A /* VPWebExportPageTemplate.html */,
 				CCE9FACF15D465EB0053528A /* InfoPlist.strings */,
+				CCA3806915E159F5004C1B47 /* Hello World.md */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -177,6 +180,7 @@
 				CCE9FAC715D465CD0053528A /* VPBPaletteController.xib in Resources */,
 				CCE9FAC815D465CD0053528A /* VPWebExportPageTemplate.html in Resources */,
 				CCE9FAD115D465EB0053528A /* InfoPlist.strings in Resources */,
+				CCA3806A15E159F5004C1B47 /* Hello World.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

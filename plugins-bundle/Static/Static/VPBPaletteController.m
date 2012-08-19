@@ -309,7 +309,7 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
     NSRange r = [tv selectedRange];
     
     if (r.length == 0) {
-        [tv fmReplaceCharactersInRange:r withString:@"[<# link text #>](<# Earl #>)"];
+        [tv fmReplaceCharactersInRange:r withString:@"[<# link text #>](<# URL #>)"];
         [tv setSelectedRange:r]; // move back so we grab the right placeholder.
         [tv selectNextTextPlaceholder:sender];
         return;
@@ -317,7 +317,7 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
     
     NSString *s = [[[tv textStorage] mutableString] substringWithRange:r];
     
-    NSString *replace = [NSString stringWithFormat:@"[%@](<# Earl #>)", s];
+    NSString *replace = [NSString stringWithFormat:@"[%@](<# URL #>)", s];
     [tv fmReplaceCharactersInRange:r withString:replace];
     
     r.length = 0;
@@ -333,6 +333,9 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
     }
     else if ([uti isEqualToString:(id)kUTTypeFlatRTFD]) {
         extension = @"rtfd";
+    }
+    else if ([uti isEqualToString:VPBPUTTypeMarkdownSource]) {
+        extension = @"md";
     }
     
     NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:name ofType:extension];
@@ -385,7 +388,22 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
         [self loadResourceAsPage:@"VPStaticPageEntryTemplate" uti:(id)kUTTypeUTF8PlainText];
     }
     
+    
+    if (![[VPBlogPlugin currentDocument] pageForKey:@"Hello World"]) {
+        [self loadResourceAsPage:@"Hello World" uti:VPBPUTTypeMarkdownSource];
+    }
+    
     [(id)[VPBlogPlugin currentDocument] setDefaultNewPageUTI:VPBPUTTypeMarkdownSource];
+    
+    
+    id item = [[VPBlogPlugin currentDocument] pageForKey:@"hello world"];
+    
+    [item setMetaValue:@"1" forKey:@"vpstatic.publish"];
+    
+    [[item store] setAttributesForItem:item];
+    
+    [[VPBlogPlugin currentDocument] openPageWithTitle:[item key]];
+    
 }
 
 

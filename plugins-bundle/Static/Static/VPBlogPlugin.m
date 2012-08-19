@@ -57,19 +57,20 @@
 
 - (void)setupPreviewListener {
     
-    
     // Yes, another bit of private VP stuff leaking out.
     // we want to be able to have the setup dictionary around for previews, and this will allow us to push it on there
     // if it isn't already around.
     id ob = [[NSNotificationCenter defaultCenter] addObserverForName:@"VPHTMLPreviewWillRenderPageWithJSTalk" object:0x00 queue:0x00 usingBlock:^(NSNotification *note) {
         
         JSTalk *jstalk = [note object];
+        id document = [jstalk executeString:@"document;"];
+        assert(document);
         
         NSMutableDictionary *d = [NSMutableDictionary dictionary];
         
         [jstalk pushObject:d withName:@"staticSetup"];
         
-        id <VPData>scriptPage = [[VPBlogPlugin currentDocument] pageForKey:@"vpstaticexportscript"];
+        id <VPData>scriptPage = [document pageForKey:@"vpstaticexportscript"];
         
         if (scriptPage) {
             [jstalk executeString:[scriptPage stringData]];
