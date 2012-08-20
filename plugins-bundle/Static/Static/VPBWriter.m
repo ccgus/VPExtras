@@ -273,8 +273,8 @@
                         NSString *searchingFor = [NSString stringWithFormat:@"src=\"%@\"", [assetItem key]];
                         
                         NSString *entryURL = [NSString stringWithFormat:@"src=\"%@\"", assetOutRelativePath];
-                        entry              = [entry stringByReplacingOccurrencesOfString:searchingFor withString:entryURL];
-                        rssentry           = [rssentry stringByReplacingOccurrencesOfString:searchingFor withString:entryURL];
+                        entry              = [entry stringByReplacingOccurrencesOfString:searchingFor withString:entryURL options:NSCaseInsensitiveSearch range:NSMakeRange(0, [entry length])];
+                        rssentry           = [rssentry stringByReplacingOccurrencesOfString:searchingFor withString:entryURL options:NSCaseInsensitiveSearch range:NSMakeRange(0, [rssentry length])];
                         
                         NSInteger backupCount = [[outRelativePath componentsSeparatedByString:@"/"] count] - 1;
                         NSString *backups = @"";
@@ -284,7 +284,7 @@
                         }
                         
                         NSString *finalBackupAndBack = [NSString stringWithFormat:@"src=\"%@%@\"", backups, assetOutRelativePath];
-                        itemArchivePage = [itemArchivePage stringByReplacingOccurrencesOfString:searchingFor withString:finalBackupAndBack];
+                        itemArchivePage = [itemArchivePage stringByReplacingOccurrencesOfString:searchingFor withString:finalBackupAndBack options:NSCaseInsensitiveSearch range:NSMakeRange(0, [itemArchivePage length])];
                         
                         
                         
