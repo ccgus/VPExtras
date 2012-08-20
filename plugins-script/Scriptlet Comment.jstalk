@@ -5,6 +5,13 @@ VPScriptSuperMenuTitle = Scriptlet
 
 function main(windowController, document) {
     var textView = [windowController textView];
-    [textView insertText:@"<%-- <# #> --%>"];
+    
+    var selection = [textView selectedRange];
+    var sub = "<# comment #>"
+    if (selection.length) {
+        sub = [[textView string] substringWithRange:selection];
+    }
+    
+    [textView insertText:"<%-- " + sub + " --%>"];
     [textView selectNextTextPlaceholder:null];
 }
