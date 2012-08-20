@@ -25,6 +25,21 @@ function staticExportItemWillBegin(document, item, staticSetup) {
     
 }
 
+function staticExportDidRenderHTMLForItem(document, item, renderedHTMLMutableString, staticSetup) {
+    
+    // We can create our own custom macros here:
+    var macros = {
+        '$vp$': '<a href="http://flyingmeat.com/voodoopad/">VoodooPad</a>',
+        '$fm$': '<a href="http://flyingmeat.com/">Flying Meat</a>',
+    }
+    
+    for (key in macros) {
+        var value = macros[key];
+        [renderedHTMLMutableString replaceOccurrencesOfString:key withString:value options:NSCaseInsensitiveSearch range:NSMakeRange(0, [renderedHTMLMutableString length])];
+    }
+}
+
+
 function staticExportWillAppendItemToFrontPage(document, item, frontPageMutableString, staticSetup) {
     
 }

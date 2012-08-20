@@ -232,6 +232,17 @@
             NSString *unwrappedOutput = [d objectForKey:@"output"];
             NSArray *linkedKeys = [d objectForKey:@"linkedItemKeys"];
             
+            if ([jstalk hasFunctionNamed:@"staticExportDidRenderHTMLForItem"]) {
+                
+                NSMutableString *junk = [[unwrappedOutput mutableCopy] autorelease];
+                
+                // document, item, renderedHTMLMutableString, staticSetup
+                [jstalk callFunctionNamed:@"staticExportDidRenderHTMLForItem" withArguments:[NSArray arrayWithObjects:doc, item, junk, _staticSetup, nil]];
+                
+                unwrappedOutput = junk;
+            }
+            
+            
             if ([jstalk hasFunctionNamed:@"staticExportWillAppendItemToFrontPage"]) {
                 [jstalk callFunctionNamed:@"staticExportWillAppendItemToFrontPage" withArguments:[NSArray arrayWithObjects:doc, item, _indexPage, _staticSetup, nil]];
             }
