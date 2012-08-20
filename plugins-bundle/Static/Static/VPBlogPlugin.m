@@ -60,10 +60,13 @@
     // Yes, another bit of private VP stuff leaking out.
     // we want to be able to have the setup dictionary around for previews, and this will allow us to push it on there
     // if it isn't already around.
-    id ob = [[NSNotificationCenter defaultCenter] addObserverForName:@"VPHTMLPreviewWillRenderPageWithJSTalk" object:0x00 queue:0x00 usingBlock:^(NSNotification *note) {
+    [_observers addObject:[[NSNotificationCenter defaultCenter] addObserverForName:@"VPHTMLPreviewWillRenderPageWithJSTalk" object:0x00 queue:0x00 usingBlock:^(NSNotification *note) {
         
         JSTalk *jstalk = [note object];
-        id document = [jstalk executeString:@"document;"];
+        
+        NSDictionary *userInfo = [note userInfo];
+        
+        id document = [userInfo objectForKey:@"document"];
         assert(document);
         
         NSMutableDictionary *d = [NSMutableDictionary dictionary];
@@ -79,9 +82,33 @@
         if ([jstalk hasFunctionNamed:@"staticSetupConfiguration"]) {
             [jstalk callFunctionNamed:@"staticSetupConfiguration" withArguments:[NSArray arrayWithObjects:[VPBlogPlugin currentDocument], d, nil]];
         }
-    }];
+        
+        
+    }]];
     
-    [_observers addObject:ob];
+    
+    [_observers addObject:[[NSNotificationCenter defaultCenter] addObserverForName:@"VPHTMLPreviewDidRenderPageWithJSTalk" object:0x00 queue:0x00 usingBlock:^(NSNotification *note) {
+        
+        JSTalk *jstalk = [note object];
+        
+        NSDictionary *userInfo = [note userInfo];
+        
+        id document = [userInfo objectForKey:@"document"];
+        assert(document);
+        
+        NSMutableString *output = [userInfo objectForKey:@"output"];
+        assert(output);
+        
+        id item = [userInfo objectForKey:@"item"];
+        assert(item);
+        
+        NSMutableDictionary *staticSetup = [jstalk executeString:@"staticSetup;"];
+        
+        if ([jstalk hasFunctionNamed:@"staticExportDidRenderHTMLForItem"]) {
+            [jstalk callFunctionNamed:@"staticExportDidRenderHTMLForItem" withArguments:[NSArray arrayWithObjects:document, item, output, staticSetup, nil]];
+        }
+        
+    }]];
     
 }
 
