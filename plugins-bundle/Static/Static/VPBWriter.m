@@ -249,11 +249,15 @@
             
             [exportContext setObject:outRelativePath forKey:@"pageArchivePath"];
             [exportContext setObject:unwrappedOutput forKey:@"pageEntry"];
+            [exportContext setObject:@"frontPage" forKey:@"renderLocation"];
             
             NSDictionary *args  = [NSDictionary dictionaryWithObjectsAndKeys:doc, @"document", item, @"page", exportContext, @"pageContext", _staticSetup, @"staticSetup", nil];
             NSString *entry     = [(id)doc renderScriptletsInHTMLString:entryPageTemplate withJSTalk:jstalk usingVariables:args];
+            
+            [exportContext setObject:@"rss" forKey:@"renderLocation"];
             NSString *rssentry  = [(id)doc renderScriptletsInHTMLString:rssEntryTemplate withJSTalk:jstalk usingVariables:args];
             
+            [exportContext setObject:@"archive" forKey:@"renderLocation"];
             NSString *itemArchivePage = [pageTemplate stringByReplacingOccurrencesOfString:@"$page$" withString:entry];
             itemArchivePage           = [(id)doc renderScriptletsInHTMLString:itemArchivePage withJSTalk:jstalk usingVariables:args];
             
@@ -344,6 +348,7 @@
     
     // write the index page!
     {
+        [exportContext setObject:@"frontPage" forKey:@"renderLocation"];
         NSString *rIndexPage   = [pageTemplate stringByReplacingOccurrencesOfString:@"$page$" withString:_indexPage];
         NSDictionary *args  = [NSDictionary dictionaryWithObjectsAndKeys:doc, @"document", exportContext, @"pageContext", _staticSetup, @"staticSetup", nil];
         rIndexPage = [(id)doc renderScriptletsInHTMLString:rIndexPage withJSTalk:jstalk usingVariables:args];
@@ -357,6 +362,7 @@
         }
     }
     
+    [exportContext removeObjectForKey:@"renderLocation"];
     
     
     // write the archive page!

@@ -83,7 +83,6 @@
             [jstalk callFunctionNamed:@"staticSetupConfiguration" withArguments:[NSArray arrayWithObjects:[VPBlogPlugin currentDocument], d, nil]];
         }
         
-        
     }]];
     
     
