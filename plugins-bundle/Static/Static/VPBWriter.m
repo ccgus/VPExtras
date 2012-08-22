@@ -226,7 +226,7 @@
             
             currentPageCount++;
             
-            NSDictionary *renderOptions = [NSDictionary dictionaryWithObjectsAndKeys:jstalk, @"jstalk", [NSNumber numberWithBool:YES], @"ignoreTemplateWrapping", nil];
+            NSDictionary *renderOptions = [NSDictionary dictionaryWithObjectsAndKeys:jstalk, @"jstalk", [NSNumber numberWithBool:YES], @"ignoreTemplateWrapping", [NSNumber numberWithBool:YES], @"ignoreAutoLinks", nil];
             
             NSDictionary *d = [webExportController renderItem:item options:renderOptions];
             NSString *unwrappedOutput = [d objectForKey:@"output"];

@@ -396,6 +396,9 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
     [(id)[VPBlogPlugin currentDocument] setDefaultNewPageUTI:VPBPUTTypeMarkdownSource];
     
     
+    
+    //[(id)[VPBlogPlugin currentDocument] setProperty:[NSNumber numberWithBool:1] forKey:@"hideWikiLinks"];
+    
     id item = [[VPBlogPlugin currentDocument] pageForKey:@"hello world"];
     
     [item setMetaValue:@"1" forKey:@"vpstatic.publish"];

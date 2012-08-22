@@ -1,4 +1,10 @@
-<% 
+<%
+    
+    if (typeof staticSetup == "undefined") {
+        // we're in PDF or maybe HTML export.  This guy wont' be around.
+        staticSetup = {}
+    }
+    
     var title = staticSetup.siteName;
     
     if (typeof page != "undefined") {

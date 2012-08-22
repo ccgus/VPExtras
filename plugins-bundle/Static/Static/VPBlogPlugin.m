@@ -73,6 +73,11 @@
         
         [jstalk pushObject:d withName:@"staticSetup"];
         
+        NSMutableDictionary *pageContext = [NSMutableDictionary dictionary];
+        [pageContext setObject:@"preview" forKey:@"renderLocation"];
+        [jstalk pushObject:pageContext withName:@"pageContext"];
+        
+        
         id <VPData>scriptPage = [document pageForKey:@"vpstaticexportscript"];
         
         if (scriptPage) {
