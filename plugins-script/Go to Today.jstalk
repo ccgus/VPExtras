@@ -1,0 +1,21 @@
+/*
+VPScriptMenuTitle = Go to Today
+VPShortcutMask = command control
+VPShortcutKey = 0
+*/
+
+// This plugin was inspired by Brett Terpstra's VoodooPad Log Navigation Plugins:
+// http://brettterpstra.com/voodoopad-log-navigation-plugins/
+
+function main(windowController, document) {
+   
+    // set dateFormat to match your journal/log page names
+    var dateFormat = "Y-M-d";
+    
+    var dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    [dateFormatter setDateFormat:dateFormat];
+    
+    var pageName = [dateFormatter stringFromDate:[NSDate date]];
+    
+    [document openPageWithTitle:pageName];
+}

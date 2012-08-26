@@ -1,0 +1,25 @@
+/*
+VPScriptMenuTitle = Go to Next Day
+VPShortcutMask = shift control
+VPShortcutKey = =
+*/
+
+// This plugin was inspired by Brett Terpstra's VoodooPad Log Navigation Plugins:
+// http://brettterpstra.com/voodoopad-log-navigation-plugins/
+
+function main(windowController, document) {
+   
+    // set dateFormat to match your journal/log page names
+    var dateFormat = "Y-M-d";
+    
+    var dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    [dateFormatter setDateFormat:dateFormat];
+    
+    var now = [NSDate date];
+    var tomorrow = [now dateByAddingTimeInterval:(60*60*24)]; // the number of seconds in a day.  This will probably break on days where Daylight Saving Time kicks in (or out)
+    
+    var pageName = [dateFormatter stringFromDate:tomorrow];
+    
+    [document openPageWithTitle:pageName];
+}
+
