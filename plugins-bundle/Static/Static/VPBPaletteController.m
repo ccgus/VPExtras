@@ -410,16 +410,15 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
 }
 
 
-
-
-
 - (IBAction)openHelpAction:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://flyingmeat.com/voodoopad/docs/static%20publishing.html"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://flyingmeat.com/voodoopad/docs-5/static%20publishing.html"]];
 }
 
 - (IBAction)openSiteTemplateAction:(id)sender {
     
-    [self initDocumentAction:nil];
+    if (![[VPBlogPlugin currentDocument] pageForKey:@"VPWebExportPageTemplate"]) {
+        [self loadResourceAsPage:@"VPWebExportPageTemplate" uti:(id)kUTTypeUTF8PlainText];
+    }
     
     [[VPBlogPlugin currentDocument] openPageWithTitle:@"VPWebExportPageTemplate"];
 
@@ -427,14 +426,18 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
 
 - (IBAction)openEntryTemplateAction:(id)sender {
     
-    [self initDocumentAction:nil];
+    if (![[VPBlogPlugin currentDocument] pageForKey:@"VPStaticPageEntryTemplate"]) {
+        [self loadResourceAsPage:@"VPStaticPageEntryTemplate" uti:(id)kUTTypeUTF8PlainText];
+    }
     
     [[VPBlogPlugin currentDocument] openPageWithTitle:@"VPStaticPageEntryTemplate"];
 }
 
 - (IBAction)openEventScriptAction:(id)sender {
     
-    [self initDocumentAction:nil];
+    if (![[VPBlogPlugin currentDocument] pageForKey:@"VPStaticExportScript"]) {
+        [self loadResourceAsPage:@"VPStaticExportScript" uti:VPBPUTTypeJSTalkSource];
+    }
     
     [[VPBlogPlugin currentDocument] openPageWithTitle:@"VPStaticExportScript"];
 }
