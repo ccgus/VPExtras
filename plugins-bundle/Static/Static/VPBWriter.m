@@ -226,6 +226,11 @@
             
             currentPageCount++;
             
+            
+            if ([jstalk hasFunctionNamed:@"staticExportItemWillBegin"]) {
+                [jstalk callFunctionNamed:@"staticExportItemWillBegin" withArguments:[NSArray arrayWithObjects:doc, item, _staticSetup, nil]];
+            }
+            
             NSDictionary *renderOptions = [NSDictionary dictionaryWithObjectsAndKeys:jstalk, @"jstalk", [NSNumber numberWithBool:YES], @"ignoreTemplateWrapping", [NSNumber numberWithBool:YES], @"ignoreAutoLinks", nil];
             
             NSDictionary *d = [webExportController renderItem:item options:renderOptions];
@@ -362,11 +367,10 @@
         }
     }
     
-    [exportContext removeObjectForKey:@"renderLocation"];
-    
-    
     // write the archive page!
     {
+        [exportContext setObject:@"archivePage" forKey:@"renderLocation"];
+        
         // close the opening div we've got going on.
         [archivePage appendString:@"</div>\n"];
         
@@ -385,6 +389,9 @@
     
     
     if ([jstalk hasFunctionNamed:@"staticSupportPages"]) {
+        
+        [exportContext setObject:@"archivePage" forKey:@"staticSupportPage"];
+        
         NSArray *supportPagesList = [jstalk callFunctionNamed:@"staticSupportPages" withArguments:[NSArray arrayWithObjects:doc, _staticSetup, nil]];
         
         for (NSString *key in supportPagesList) @autoreleasepool {
@@ -434,12 +441,9 @@
             }
             
         }
-        
-        
-        
-        
     }
     
+    [exportContext removeObjectForKey:@"renderLocation"];
     
     if ([jstalk hasFunctionNamed:@"staticExportDidEnd"]) {
         [jstalk callFunctionNamed:@"staticExportDidEnd" withArguments:[NSArray arrayWithObjects:doc, _staticSetup, nil]];
