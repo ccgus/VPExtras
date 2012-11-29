@@ -1,0 +1,28 @@
+/*
+VPScriptMenuTitle = New Notes for Today Page
+VPShortcutMask = command control
+VPShortcutKey = 9
+*/
+
+
+function main(windowController, document) {
+   
+    // set dateFormat to match your journal/log page names
+    var dateFormat = "Y-M-d";
+    
+    var dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    [dateFormatter setDateFormat:dateFormat];
+    
+    var pageName = "Notes for " + [dateFormatter stringFromDate:[NSDate date]];
+    
+    [document openPageWithTitle:pageName];
+    
+    var page = [windowController visibleItem];
+    
+    [page setDataAsString:"<# #>"];
+    
+    var textView = [windowController textView];
+    
+    [textView selectNextTextPlaceholder:null];
+    
+}
