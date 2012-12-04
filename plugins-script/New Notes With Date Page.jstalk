@@ -19,8 +19,6 @@ function main(windowController, document) {
     
     var page = [windowController visibleItem];
     
-    [page setDataAsString:"<# #>"];
-    
     var textView = [windowController textView];
     
     [textView selectNextTextPlaceholder:null];
