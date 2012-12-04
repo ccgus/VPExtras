@@ -13,14 +13,18 @@ function main(windowController, document) {
     var dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
     [dateFormatter setDateFormat:dateFormat];
     
-    var pageName = "Notes for " + [dateFormatter stringFromDate:[NSDate date]];
+    var pageName = [NSString stringWithString:"Notes for " + [dateFormatter stringFromDate:[NSDate date]]];
     
-    [document openPageWithTitle:pageName];
     
-    var page = [windowController visibleItem];
+    var currentPage = [windowController visibleItem];
     
-    var textView = [windowController textView];
-    
-    [textView selectNextTextPlaceholder:null];
-    
+    if ([[pageName vpkey] isEqualToString:[currentPage key]]) {
+        var textView = [windowController textView];
+        [textView insertText:"@bugfix: <# #>\n"]
+        [textView selectNextTextPlaceholder:null];
+        return;
+    }
+    else {
+        [document openPageWithTitle:pageName];
+    }
 }
