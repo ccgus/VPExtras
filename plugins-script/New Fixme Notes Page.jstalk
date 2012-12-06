@@ -15,13 +15,36 @@ function main(windowController, document) {
     
     var pageName = [NSString stringWithString:"Fixme Notes for " + [dateFormatter stringFromDate:[NSDate date]]];
     
-    
     var currentPage = [windowController visibleItem];
     
     if ([[pageName vpkey] isEqualToString:[currentPage key]]) {
         var textView = [windowController textView];
-        [textView insertText:"@fixme: <# #>\n"]
-        [textView selectNextTextPlaceholder:null];
+        
+        var r = [textView selectedRange];
+        var prange = [textView selectionRangeForProposedRange:r granularity:NSSelectByParagraph];
+        
+        var s = [[[textView textStorage] string] substringWithRange:prange];
+        
+        if ([s hasPrefix:@"@fixme: "]) {
+            
+            var crange = NSMakeRange(prange.location + 8, prange.length - 8);
+            var c = "@fixed: " + [[[textView textStorage] string] substringWithRange:crange];
+            
+            if ([textView shouldChangeTextInRange:prange replacementString:@""]) {
+                [[[textView textStorage] mutableString] replaceCharactersInRange:prange withString:@""];
+            }
+            
+            var insertRange = NSMakeRange([[textView textStorage] length], 0);
+            if ([textView shouldChangeTextInRange:insertRange replacementString:c]) {
+                [[[textView textStorage] mutableString] replaceCharactersInRange:insertRange withString:c];
+            }
+            
+        }
+        else {
+            [textView insertText:"@fixme: <# #>\n"]
+            [textView selectNextTextPlaceholder:null];
+        }
+        
         return;
     }
     else {
