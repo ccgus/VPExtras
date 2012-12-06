@@ -1,0 +1,30 @@
+/*
+VPScriptMenuTitle = Open Fixme Notes for Today
+VPShortcutMask = command control
+VPShortcutKey = 9
+*/
+
+
+function main(windowController, document) {
+   
+    // set dateFormat to match your journal/log page names
+    var dateFormat = "Y-M-d";
+    
+    var dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    [dateFormatter setDateFormat:dateFormat];
+    
+    var pageName = [NSString stringWithString:"Fixme Notes for " + [dateFormatter stringFromDate:[NSDate date]]];
+    
+    
+    var currentPage = [windowController visibleItem];
+    
+    if ([[pageName vpkey] isEqualToString:[currentPage key]]) {
+        var textView = [windowController textView];
+        [textView insertText:"@fixme: <# #>\n"]
+        [textView selectNextTextPlaceholder:null];
+        return;
+    }
+    else {
+        [document openPageWithTitle:pageName];
+    }
+}
