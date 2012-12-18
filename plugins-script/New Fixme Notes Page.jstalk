@@ -16,9 +16,9 @@ function main(windowController, document) {
     var pageName = [NSString stringWithString:"Fixme Notes for " + [dateFormatter stringFromDate:[NSDate date]]];
     
     var currentPage = [windowController visibleItem];
+    var textView    = [windowController textView];
     
     if ([[pageName vpkey] isEqualToString:[currentPage key]]) {
-        var textView = [windowController textView];
         
         var r = [textView selectedRange];
         var prange = [textView selectionRangeForProposedRange:r granularity:NSSelectByParagraph];
@@ -48,6 +48,22 @@ function main(windowController, document) {
         return;
     }
     else {
+        
+        var selectedRange = [textView selectedRange];
+        
+        var textToMove = null;
+        
+        if (selectedRange.length > 0) {
+            textToMove = [[[textView textStorage] string] substringWithRange:selectedRange];
+            
+            [textView fmReplaceCharactersInRange:selectedRange withString:""];
+        }
+        
         [document openPageWithTitle:pageName];
+        
+        if (textToMove) {
+            var newTextView = [windowController textView];
+            [[[newTextView textStorage] mutableString] setString:textToMove];
+        }
     }
 }
