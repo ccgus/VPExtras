@@ -120,6 +120,8 @@
         return;
     }
     
+    BOOL fullPublish = postCount < 0;
+    
     NSData *outputBookmark = [doc extraObjectForKey:@"vpstatic.outputURLBookmark"];
     
     NSError *err;
@@ -219,10 +221,7 @@
             
             [self appendItem:item toArchiveString:archivePage usingRelativePath:outRelativePath];
             
-            
-            if (currentPageCount >= maxPageCount) {
-                continue;
-            }
+            BOOL putOnFrontPage = (currentPageCount < maxPageCount);
             
             currentPageCount++;
             
@@ -248,7 +247,7 @@
             }
             
             
-            if ([jstalk hasFunctionNamed:@"staticExportWillAppendItemToFrontPage"]) {
+            if (putOnFrontPage && [jstalk hasFunctionNamed:@"staticExportWillAppendItemToFrontPage"]) {
                 [jstalk callFunctionNamed:@"staticExportWillAppendItemToFrontPage" withArguments:[NSArray arrayWithObjects:doc, item, _indexPage, _staticSetup, nil]];
             }
             
@@ -318,13 +317,16 @@
                 }
             }
             
-            [_indexPage appendString:entry];
-            
-            //debug(@"entry: %@", entry);
-            [self appendRSSEntry:rssentry archiveURL:outRelativePath toItem:item];
-            
-            if ([jstalk hasFunctionNamed:@"staticExportDidAppendItemToFrontPage"]) {
-                [jstalk callFunctionNamed:@"staticExportDidAppendItemToFrontPage" withArguments:[NSArray arrayWithObjects:doc, item, _indexPage, _staticSetup, nil]];
+            if (putOnFrontPage) {
+                
+                [_indexPage appendString:entry];
+                
+                [self appendRSSEntry:rssentry archiveURL:outRelativePath toItem:item];
+                 
+                if ([jstalk hasFunctionNamed:@"staticExportDidAppendItemToFrontPage"]) {
+                    [jstalk callFunctionNamed:@"staticExportDidAppendItemToFrontPage" withArguments:[NSArray arrayWithObjects:doc, item, _indexPage, _staticSetup, nil]];
+                }
+                    
             }
             
             NSData *data = [itemArchivePage dataUsingEncoding:NSUTF8StringEncoding];
