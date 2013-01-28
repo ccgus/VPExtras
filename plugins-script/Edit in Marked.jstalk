@@ -1,0 +1,28 @@
+/*
+VPScriptMenuTitle = Edit Page in Marked
+*/
+
+/*
+    # Install Notes:
+    Place this file in your ~/Library/Application Support/VoodooPad/Script PlugIns/ folder, and restart VoodooPad
+    It will then show up under the Plugin menu.
+*/
+
+function main(windowController, document) {
+    
+    // isPlainText is an SPI.  Gus will officially open it up in VP 5.2.
+    if (![[windowController visibleItem] isPlainText]) {
+        print("The current page needs to be plain text in order to edit it.")
+        return;
+    }
+    
+    var itemUUID = [[windowController visibleItem] uuid];
+    var pageFolder = [itemUUID substringWithRange:NSMakeRange(0, 1)];
+    var docFolder = [[document fileURL] path];
+    var fullPath  = docFolder + "/pages/" + pageFolder + "/" + itemUUID;
+   
+    if (![[NSWorkspace sharedWorkspace] openFile:fullPath withApplication:@"Marked"]) {
+        print("Couldn't open up " + fullPath);
+        print("Do you have Marked installed?");
+    }
+}
