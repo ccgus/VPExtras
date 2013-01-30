@@ -49,10 +49,26 @@ function staticExportDidAppendItemToFrontPage(document, item, frontPageMutableSt
 }
 
 function staticExportArchivePathForItem(document, item, fileName, staticSetup) {
+    var pubDate = null;
+
+    // if there is a pubdate set in the Page Meta, use it for the publish date
+    var pubDateStr = [item metaValueForKey:"pubdate"];
+    if (pubDateStr)
+    {
+        var parser = [[NSDateFormatter alloc] init];
+        [parser setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        pubDate = [parser dateFromString:pubDateStr];
+        // if the date couldn't be parsed, pubDate will remain null
+        [parser release];
+    }
+
+    // fall back to the item's createdDate
+    if (pubDate == null)
+    {
+        pubDate = [item createdDate];
+    }
     
-    var createDate = [item createdDate];
-    
-    var components = [[NSCalendar currentCalendar] components:NSMonthCalendarUnit | NSYearCalendarUnit fromDate:createDate];
+    var components = [[NSCalendar currentCalendar] components:NSMonthCalendarUnit | NSYearCalendarUnit fromDate:pubDate];
     
     var year  = [components year];
     var month = [components month];

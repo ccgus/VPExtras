@@ -15,6 +15,8 @@
 @property (strong) NSMutableString *indexPage;
 @property (strong) NSMutableDictionary *staticSetup;
 @property (strong) NSString *currentArchiveMonth;
+
+- (NSDate *)pubDateForItem:(id<VPData>)item;
 @end
 
 @implementation VPBWriter
@@ -97,7 +99,7 @@
     NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
     [formatter setDateFormat:@"MMMM yyyy"];
     
-    NSString *thisGuysMonth = [formatter stringFromDate:[item createdDate]]; 
+    NSString *thisGuysMonth = [formatter stringFromDate:[self pubDateForItem:item]]; 
     
     if (![thisGuysMonth isEqualToString:_currentArchiveMonth]) {
     
@@ -499,8 +501,8 @@
     NSString *title = [self escapeForXML:[item displayName]];
     NSString *siteURL  = [self escapeForXML:[_staticSetup objectForKey:@"siteURL"]];
     NSString *link = [siteURL stringByAppendingString:archiveURL];
-    
-    NSString *pubDate = [self rssDateFromNSDate:[item createdDate]];
+
+    NSString *pubDate = [self rssDateFromNSDate:[self pubDateForItem:item]];
     
     entry = [self escapeForXML:entry];
     
@@ -518,5 +520,28 @@
     [_rssFeed appendString:@"  </channel>\n</rss>"];
 }
 
+- (NSDate *)pubDateForItem:(id<VPData>)item
+{
+    NSDate *pubDate = nil;
+
+    // if there's a pubdate set in the Page Meta, use it for the publish date
+    NSString *pubDateMeta = [item metaValueForKey:@"pubdate"];
+    if (pubDateMeta)
+    {
+        NSDateFormatter *parser = [[NSDateFormatter alloc] init];
+        [parser setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        pubDate = [parser dateFromString:pubDateMeta];
+        // if the date couldn't be parsed, pubDate will remain nil
+        [parser release];
+    }
+    
+    // fall back to the item's createdDate
+    if (!pubDate)
+    {
+        pubDate = [item createdDate];
+    }
+
+    return pubDate;
+}
 
 @end
