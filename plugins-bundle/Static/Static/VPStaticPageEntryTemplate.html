@@ -4,30 +4,10 @@
         "page" - this var represents the given entry, it's a VPData object.
         "pageContext" - this is a dictionary, which currently has the keys pageArchivePath (relative path for this file) and pageEntry (the rendered HTML for the page)
     */
-    
-    var pubDate = null;
-
-    // if there is a pubdate set in the Page Meta, use it for the publish date
-    var pubDateStr = [page metaValueForKey:"pubdate"];
-    if (pubDateStr)
-    {
-        var parser = [[NSDateFormatter alloc] init];
-        [parser setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-        pubDate = [parser dateFromString:pubDateStr];
-        // if the date couldn't be parsed, pubDate will remain null
-        [parser release];
-    }
-
-    // fall back to the page's createdDate
-    if (pubDate == null)
-    {
-        pubDate = [page createdDate];
-    }
-
     // setup some fancy formatting for this guy's publish date.
     var formatter = [[[NSDateFormatter alloc] init] autorelease];
     [formatter setDateStyle:NSDateFormatterMediumStyle];
-    var displayDate = [formatter stringFromDate:pubDate];
+    var displayDate = [formatter stringFromDate:pubDateForItem(page)];
 %>
 
 <div class="post">
