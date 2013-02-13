@@ -1,0 +1,21 @@
+function main(windowController, document) {
+    
+    var copyFromPageName = "index";
+    
+    var copyFromPage = [document pageForKey:copyFromPageName]
+    var currentPage = [windowController visibleItem];
+    
+    var metaValues = [copyFromPage metaValues];
+    
+    var currentMetaValues = [[currentPage metaValues] mutableCopy];
+    
+    
+    [currentMetaValues addEntriesFromDictionary:metaValues];
+    
+    
+    // OK, the following lines are kind of private.  It's possible to add meta values via AppleScript, but I have yet to open it up to JavaScript… so this is the workaround till then.  IT WILL PROBABLY BLOW UP IN A FUTURE RELEASE (yay!);
+    [currentPage setMetaValues:currentMetaValues];
+    [currentPage storeAttributes];
+    [[NSNotificationCenter defaultCenter] postNotificationName:"VPItemMetaRefreshNotification" object:currentPage];
+    
+}
