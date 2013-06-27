@@ -1,0 +1,29 @@
+/*
+    To install this script, choose the Help ▸ Open VoodooPad's App Support Folder menu item, and then when the folder opens up in the Finder, place this script in the "Script Plugins" folder.  Restart VoodooPad and look for this script in the Plugin menu.
+
+*/
+
+// WARNING: This script will change the font on all your pages, and is not undoable.  Make a backup of your document first before using this.
+
+function main(windowController, document) {
+    var uuids = document.pageUUIDs();
+    
+    var font = NSFont.fontWithName_size_("Monaco", 11);
+    
+    for (idx = 0; idx < uuids.length(); idx++) {
+        var pageUUID = uuids[idx];
+        
+        var page = document.pageForUUID(pageUUID);
+        if (page.isText()) {
+            
+            var attString = page.dataAsAttributedString();
+            
+            var stringLen = attString.length();
+            
+            attString.addAttribute_value_range_(NSFontAttributeName, font, NSMakeRange(0, stringLen));
+            
+            page.setDataWithAttributedString(attString);
+            
+        }
+    }
+}
