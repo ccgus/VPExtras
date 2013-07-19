@@ -1,0 +1,7 @@
+/*
+    Note: This script uses a SPI to rebuild the search engine, and should only be used with VoodooPad 5.
+*/
+
+function main(windowController, document) {
+    document.refreshSKIndex();
+}
