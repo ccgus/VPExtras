@@ -1,5 +1,8 @@
 /*
     Note: This script uses a SPI to rebuild the search engine, and should only be used with VoodooPad 5.
+    
+    To install this script, choose the Help ▸ Open VoodooPad's App Support Folder menu item, and then when the folder opens up in the Finder, place this script in the "Script Plugins" folder.  Restart VoodooPad and look for this script in the Plugin menu.
+
 */
 
 function main(windowController, document) {
