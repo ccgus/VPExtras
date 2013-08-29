@@ -1,0 +1,39 @@
+/*
+VPScriptMenuTitle = Paste and Remove Newlines
+*/
+
+/*
+    # Install Notes:
+    Choose the Help ▸ Open VoodooPad's App Support Folder menu item, and then place this script in the PlugIns folder.
+    Restart VoodooPad.
+    It will then show up under the Plugin menu.
+*/
+
+
+function main(windowController, document) {
+    
+    // get the clipboard
+    var pb = [NSPasteboard generalPasteboard];
+    
+    var s = [pb stringForType:NSStringPboardType];
+    
+    if (!s) {
+        // We don't have a string on the clipboard
+        NSBeep();
+        return;
+    }
+    
+    // We handle three different types of newlines here.
+    s = [s stringByReplacingOccurrencesOfString:"\r\n" withString:""];
+    s = [s stringByReplacingOccurrencesOfString:"\r" withString:""];
+    s = [s stringByReplacingOccurrencesOfString:"\n" withString:""];
+    
+    var textView = [windowController textView];
+    var sr       = [textView selectedRange];
+    
+    // ask the text view if it's cool with us replacing text.
+    if ([textView shouldChangeTextInRange:sr replacementString:s]) {
+        // Then replace the text through the textStorage.
+        [[[textView textStorage] mutableString] replaceCharactersInRange:sr withString:s];
+    }
+}
