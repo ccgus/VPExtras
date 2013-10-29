@@ -1,0 +1,47 @@
+
+function isMarkdown(uti) {
+    return uti == "public.plain-text" || uti == "net.daringfireball.markdown";
+}
+
+function documentPathForUUIDInDocument(itemUUID, document) {
+    
+    var pageFolder = [itemUUID substringWithRange:NSMakeRange(0, 1)];
+    var docFolder = [[document fileURL] path];
+    var fullPath  = docFolder + "/pages/" + pageFolder + "/" + itemUUID;
+    
+    return fullPath;
+}
+
+function main(windowController, document) {
+    
+    var ws = [NSWorkspace sharedWorkspace];
+    var fm = [NSFileManager defaultManager];
+    
+    var mirrorFolder = @"/tmp/foo/"
+    
+    [fm createDirectoryAtPath:mirrorFolder withIntermediateDirectories:true attributes:nil error:nil];
+    
+    var uuids = [document pageUUIDs];
+    
+    for (idx = 0; idx < uuids.length(); idx++) {
+        var uuid = uuids[idx];
+        
+        var page = [document pageForUUID:uuid];
+        
+        var name = [page displayName]
+        
+        
+        var uti = [page uti];
+        
+        if (isMarkdown(uti)) {
+            var sympath = [mirrorFolder stringByAppendingPathComponent:[name stringByAppendingPathExtension:"md"]];
+            var dataPath = documentPathForUUIDInDocument(uuid, document);
+            
+            
+            [fm createSymbolicLinkAtPath:sympath withDestinationPath:dataPath error:nil]
+            
+        }
+    }
+    
+    [ws openFile:mirrorFolder];
+}
