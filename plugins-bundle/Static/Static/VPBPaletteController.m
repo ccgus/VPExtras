@@ -345,6 +345,7 @@ NSString *VPBPUTTypeJSTalkSource = @"org.jstalk.jstalk-source";
     if ([uti isEqualToString:(id)kUTTypeFlatRTFD]) {
         NSAttributedString *as = [[NSAttributedString alloc] initWithPath:path documentAttributes:nil];
         pageData = [as RTFDFromRange:NSMakeRange(0, [as length]) documentAttributes:nil];
+        [as release];
     }
     else {
         

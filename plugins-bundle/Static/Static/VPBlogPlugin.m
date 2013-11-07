@@ -32,7 +32,7 @@
     [(id)[self pluginManager] registerPaletteViewController:[VPBPaletteController class]];
     
     
-    _observers = [NSMutableArray array];
+    _observers = [[NSMutableArray array] retain];
     [self setupPreviewListener];
     
 }

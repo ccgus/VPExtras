@@ -122,7 +122,7 @@
         return;
     }
     
-    BOOL fullPublish = postCount < 0;
+    // BOOL fullPublish = postCount < 0;
     
     NSData *outputBookmark = [doc extraObjectForKey:@"vpstatic.outputURLBookmark"];
     
