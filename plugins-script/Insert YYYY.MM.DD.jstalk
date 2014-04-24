@@ -1,0 +1,18 @@
+function main(windowController, document) {
+   
+    var dateFormat = "YYYY.MM.dd";
+    
+    var dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    [dateFormatter setDateFormat:dateFormat];
+    
+    var t = [dateFormatter stringFromDate:[NSDate date]]);
+    
+    var textView = [windowController textView];
+    var r = [textView selectedRange];
+    
+    if ([textView shouldChangeTextInRange:r replacementString:t]) {
+        [[[textView textStorage] mutableString] replaceCharactersInRange:r withString:t];
+    }
+    
+    
+}
